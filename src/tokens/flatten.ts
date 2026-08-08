@@ -49,6 +49,20 @@ export function flattenTokens(
   });
 }
 
+export type ReferencePath = {
+  path: string;
+  type: string;
+};
+
+// The set of `{...}`-referenceable paths for a single resolved tree (i.e.
+// one theme x brand permutation) — used to drive reference autofill.
+export function referencePaths(tree: TokenGroup): ReferencePath[] {
+  return flattenTokens(tree).map(({ path, type }) => ({
+    path: path.join("."),
+    type,
+  }));
+}
+
 export function mergeTokenTrees(...trees: TokenGroup[]): TokenGroup {
   const result: TokenGroup = {};
 
