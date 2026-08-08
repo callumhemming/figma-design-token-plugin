@@ -1,0 +1,52 @@
+{
+  "name": "Learning-Plugin",
+  "version": "1.0.0",
+  "description": "Your Figma Plugin",
+  "main": "dist/code.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.ui.json --noEmit",
+    "build:main": "vite build --config vite.config.main.ts",
+    "build:ui": "vite build --config vite.config.ui.mts",
+    "build": "npm run clean && npm run typecheck && npm run build:main && npm run build:ui",
+    "watch:main": "vite build --config vite.config.main.ts --watch",
+    "watch:ui": "vite build --config vite.config.ui.mts --watch",
+    "watch": "concurrently -n main,ui -c blue,green \"npm:watch:main\" \"npm:watch:ui\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@figma/eslint-plugin-figma-plugins": "*",
+    "@figma/plugin-typings": "*",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^5.2.0",
+    "concurrently": "^10.0.4",
+    "eslint": "^9.39.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.1",
+    "vite": "^6.4.3",
+    "vite-plugin-singlefile": "^2.3.3",
+    "storybook": "^10.5.5",
+    "@storybook/react-vite": "^10.5.5",
+    "@chromatic-com/storybook": "^5.2.1",
+    "@storybook/addon-vitest": "^10.5.5",
+    "@storybook/addon-a11y": "^10.5.5",
+    "@storybook/addon-docs": "^10.5.5",
+    "@storybook/addon-mcp": "^0.7.0",
+    "eslint-plugin-storybook": "^10.5.5",
+    "vitest": "^4.1.10",
+    "playwright": "^1.62.1",
+    "@vitest/browser-playwright": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.10"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}

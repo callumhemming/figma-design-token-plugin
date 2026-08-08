@@ -1,0 +1,18 @@
+{
+  "color": {
+    "background": {
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.brand.200}",
+        "$description": "Placeholder — reuses brand.200 (black) as a dark background. Replace with a real dark-mode primitive."
+      }
+    },
+    "text": {
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.grey.500}",
+        "$description": "Placeholder — reuses grey.500 for dark-mode text. A dark palette usually wants a lighter grey than the light-mode one; consider adding a dedicated dark grey primitive."
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "typography": {
+    "body": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{fontFamily.sans}",
+        "fontSize": "{fontSize.200}",
+        "fontWeight": "{fontWeight.regular}",
+        "lineHeight": "{lineHeight.100}"
+      }
+    },
+    "heading": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{fontFamily.sans}",
+        "fontSize": "{fontSize.300}",
+        "fontWeight": "{fontWeight.bold}",
+        "lineHeight": "{lineHeight.100}"
+      }
+    }
+  }
+}

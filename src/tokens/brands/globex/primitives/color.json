@@ -1,0 +1,39 @@
+{
+  "color": {
+    "brand": {
+      "100": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [20, 90, 50],
+          "hex": "#f2590d"
+        }
+      },
+      "200": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [0, 0, 0],
+          "hex": "#000000"
+        }
+      },
+      "300": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [280, 60, 40],
+          "hex": "#7a29a3"
+        }
+      },
+      "500": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [0, 0, 88],
+          "alpha": 0.8,
+          "hex": "#e0e0e0"
+        }
+      }
+    }
+  }
+}

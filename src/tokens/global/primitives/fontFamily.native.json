@@ -1,0 +1,5 @@
+{
+  "fontFamily": {
+    "sans": { "$type": "fontFamily", "$value": ["SF Pro", "Roboto", "sans-serif"] }
+  }
+}

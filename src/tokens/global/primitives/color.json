@@ -1,0 +1,94 @@
+{
+  "color": {
+    "grey": {
+      "50": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [0, 0, 98],
+          "hex": "#fafafa"
+        }
+      },
+      "100": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 4.8, 95.9],
+          "hex": "#f4f4f5"
+        }
+      },
+      "200": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 5.9, 90],
+          "hex": "#e4e4e7"
+        }
+      },
+      "300": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 4.9, 83.9],
+          "hex": "#d4d4d8"
+        }
+      },
+      "400": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 5, 64.9],
+          "hex": "#a1a1aa"
+        }
+      },
+      "500": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 3.8, 46.1],
+          "hex": "#71717a"
+        }
+      },
+      "600": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 5.2, 33.9],
+          "hex": "#52525b"
+        }
+      },
+      "700": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 5.3, 26.1],
+          "hex": "#3f3f46"
+        }
+      },
+      "800": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 3.7, 15.9],
+          "hex": "#27272a"
+        }
+      },
+      "900": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 5.9, 10],
+          "hex": "#18181b"
+        }
+      },
+      "950": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "hsl",
+          "components": [240, 10, 3.9],
+          "hex": "#09090b"
+        }
+      }
+    }
+  }
+}

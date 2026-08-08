@@ -1,0 +1,16 @@
+{
+  "color": {
+    "background": {
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.brand.100}"
+      }
+    },
+    "text": {
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.brand.500}"
+      }
+    }
+  }
+}

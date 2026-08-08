@@ -1,0 +1,5 @@
+{
+  "fontFamily": {
+    "sans": { "$type": "fontFamily", "$value": ["Inter", "system-ui", "sans-serif"] }
+  }
+}

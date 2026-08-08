@@ -1,0 +1,50 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
+  "version": "2025.10",
+  "sets": {
+    "foundation": {
+      "sources": [{ "$ref": "global/primitives/color.json" }]
+    },
+    "brandSemantic": {
+      "description": "Brand-agnostic — every value here is a {color.brand.*} alias, so it works unchanged regardless of which brand's primitives the `brand` modifier selects.",
+      "sources": [{ "$ref": "brands/semantic/color.json" }]
+    },
+    "typography": {
+      "sources": [
+        { "$ref": "global/primitives/typography.json" },
+        { "$ref": "global/semantic/typography.json" }
+      ]
+    }
+  },
+  "modifiers": {
+    "theme": {
+      "contexts": {
+        "light": [{ "$ref": "global/semantic/color.light.json" }],
+        "dark": [{ "$ref": "global/semantic/color.dark.json" }]
+      },
+      "default": "light"
+    },
+    "platform": {
+      "contexts": {
+        "web": [{ "$ref": "global/primitives/fontFamily.web.json" }],
+        "native": [{ "$ref": "global/primitives/fontFamily.native.json" }]
+      },
+      "default": "web"
+    },
+    "brand": {
+      "contexts": {
+        "acme": [{ "$ref": "brands/acme/primitives/color.json" }],
+        "globex": [{ "$ref": "brands/globex/primitives/color.json" }]
+      },
+      "default": "acme"
+    }
+  },
+  "resolutionOrder": [
+    { "$ref": "#/sets/foundation" },
+    { "$ref": "#/modifiers/theme" },
+    { "$ref": "#/modifiers/brand" },
+    { "$ref": "#/sets/brandSemantic" },
+    { "$ref": "#/sets/typography" },
+    { "$ref": "#/modifiers/platform" }
+  ]
+}
