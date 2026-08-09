@@ -1,10 +1,14 @@
 .tokenList {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .tokenWindowContainer {
   display: flex;
   gap: 24px;
+}
+
+.tokenWindow {
+  flex: 1 1 clamp(400px, 20%, 500px);
 }
