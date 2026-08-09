@@ -1,0 +1,21 @@
+.root {
+  display: grid;
+  grid-template-areas:
+    "side-bar topbar topbar"
+    "side-bar main main";
+}
+
+.main {
+  grid-area: main;
+}
+.topBar {
+  grid-area: topbar;
+}
+.navRoot {
+  display: flex;
+}
+
+.sideBarRoot {
+  grid-area: side-bar;
+  background-color: grey;
+}
