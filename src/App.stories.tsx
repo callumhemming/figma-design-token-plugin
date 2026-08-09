@@ -1,9 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { App } from "./App";
+import { TokensContextProvider } from "./components/context/Tokens/TokensContextProvider";
 
 const meta = {
   title: "App",
   component: App,
+  decorators: [
+    (Story) => (
+      <TokensContextProvider>
+        <Story />
+      </TokensContextProvider>
+    ),
+  ],
 } satisfies Meta<typeof App>;
 
 export default meta;

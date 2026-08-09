@@ -5,11 +5,8 @@
     "strict": true,
     "allowJs": true,
     "noEmit": true,
-    "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/@figma"
-    ],
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
     "types": ["plugin-typings"]
   },
-  "include": ["src/code.ts"]
+  "include": ["src/code.ts", "scss-modules.d.ts"]
 }

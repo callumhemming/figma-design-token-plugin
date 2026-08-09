@@ -1,16 +1,5 @@
+import { flattenTokens, mergeTokenTrees, TokenGroup } from "./flatten";
 import resolverDocJson from "./resolver.json";
-import { mergeTokenTrees, TokenGroup } from "./flatten";
-
-import globalPrimitivesColor from "./global/primitives/color.json";
-import globalSemanticColorLight from "./global/semantic/color.light.json";
-import globalSemanticColorDark from "./global/semantic/color.dark.json";
-import brandsAcmePrimitivesColor from "./brands/acme/primitives/color.json";
-import brandsGlobexPrimitivesColor from "./brands/globex/primitives/color.json";
-import brandsSemanticColor from "./brands/semantic/color.json";
-import globalPrimitivesTypography from "./global/primitives/typography.json";
-import globalSemanticTypography from "./global/semantic/typography.json";
-import globalPrimitivesFontFamilyWeb from "./global/primitives/fontFamily.web.json";
-import globalPrimitivesFontFamilyNative from "./global/primitives/fontFamily.native.json";
 
 type SourceRef = { $ref: string };
 
@@ -29,22 +18,6 @@ type ResolverDocument = {
 };
 
 const resolverDoc: ResolverDocument = resolverDocJson;
-
-// Vite bundles the plugin UI as a single file (Figma's iframe can't fetch
-// anything at runtime), so resolver.json's $ref paths can't be read from
-// disk — every file it might point at has to already be a static import.
-const registry: Record<string, TokenGroup> = {
-  "global/primitives/color.json": globalPrimitivesColor,
-  "global/semantic/color.light.json": globalSemanticColorLight,
-  "global/semantic/color.dark.json": globalSemanticColorDark,
-  "brands/acme/primitives/color.json": brandsAcmePrimitivesColor,
-  "brands/globex/primitives/color.json": brandsGlobexPrimitivesColor,
-  "brands/semantic/color.json": brandsSemanticColor,
-  "global/primitives/typography.json": globalPrimitivesTypography,
-  "global/semantic/typography.json": globalSemanticTypography,
-  "global/primitives/fontFamily.web.json": globalPrimitivesFontFamilyWeb,
-  "global/primitives/fontFamily.native.json": globalPrimitivesFontFamilyNative,
-};
 
 function sourcesFor(ref: string, input: Record<string, string>): SourceRef[] {
   const [, kind, name] = ref.split("/");
@@ -75,7 +48,10 @@ function sourcesFor(ref: string, input: Record<string, string>): SourceRef[] {
   return sources;
 }
 
-export function resolveTokens(input: Record<string, string> = {}): TokenGroup {
+export function resolveTokens(
+  input: Record<string, string> = {},
+  registry: Record<string, TokenGroup>,
+): TokenGroup {
   const trees = resolverDoc.resolutionOrder.flatMap((entry) =>
     sourcesFor(entry.$ref, input).map(({ $ref }) => {
       const tree = registry[$ref];
@@ -89,6 +65,33 @@ export function resolveTokens(input: Record<string, string> = {}): TokenGroup {
   return mergeTokenTrees(...trees);
 }
 
+// For a given theme x brand context, which registry entry (e.g.
+// "brands/acme/primitives/color.json") actually won each leaf's value.
+// Mirrors resolveTokens' merge order exactly — later entries in
+// resolutionOrder overwrite earlier ones for the same path — so editing a
+// token can look up exactly which registry entry to mutate, rather than
+// only knowing its position in the already-merged tree.
+export function resolveTokenSources(
+  input: Record<string, string> = {},
+  registry: Record<string, TokenGroup>,
+): Record<string, string> {
+  const sources: Record<string, string> = {};
+
+  for (const entry of resolverDoc.resolutionOrder) {
+    for (const { $ref } of sourcesFor(entry.$ref, input)) {
+      const tree = registry[$ref];
+      if (!tree) {
+        throw new Error(`No registered token file for $ref: "${$ref}"`);
+      }
+      for (const { path } of flattenTokens(tree)) {
+        sources[path.join(".")] = $ref;
+      }
+    }
+  }
+
+  return sources;
+}
+
 export const THEMES = ["light", "dark"] as const;
 export type Theme = (typeof THEMES)[number];
 
@@ -100,16 +103,18 @@ export type Brand = (typeof BRANDS)[number];
 // and it means switching either in the UI is just indexing into this, not
 // re-merging. Both axes are independently toggleable, so this is the full
 // cross product (2 x 2 today), not two separate single-axis lookups.
-export function resolveAllPermutations(): Record<
-  Theme,
-  Record<Brand, TokenGroup>
-> {
+export function resolveAllPermutations(
+  registry: Record<string, TokenGroup>,
+): Record<Brand, Record<Theme, TokenGroup>> {
   return Object.fromEntries(
-    THEMES.map((theme) => [
-      theme,
+    BRANDS.map((brand) => [
+      brand,
       Object.fromEntries(
-        BRANDS.map((brand) => [brand, resolveTokens({ theme, brand })]),
+        THEMES.map((theme) => [
+          theme,
+          resolveTokens({ theme, brand }, registry),
+        ]),
       ),
     ]),
-  ) as Record<Theme, Record<Brand, TokenGroup>>;
+  ) as Record<Brand, Record<Theme, TokenGroup>>;
 }

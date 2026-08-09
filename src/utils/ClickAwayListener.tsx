@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useRef } from "react";
+import styles from "./ClickAwayListener.module.scss";
 
 interface ClickAwayListenerProps {
   onClickAway: (event: MouseEvent | TouchEvent) => void;
@@ -25,7 +26,7 @@ function ClickAwayListener({ onClickAway, children }: ClickAwayListenerProps) {
   }, [onClickAway]);
 
   return (
-    <div ref={ref} style={{ display: "contents" }}>
+    <div ref={ref} className={styles.wrapper}>
       {children}
     </div>
   );

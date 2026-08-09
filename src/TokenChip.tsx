@@ -1,7 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { KeyboardEvent, useState } from "react";
+import { KeyboardEvent, RefObject, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import styles from "./TokenChip.module.scss";
+import { useTokensContext } from "./components/context/Tokens/useTokensContext";
 import {
   FlatToken,
   isReference,
@@ -15,88 +17,118 @@ import ClickAwayListener from "./utils/ClickAwayListener";
 
 type TokenChipProps = {
   name: FlatToken["name"];
+  path: string;
   value: FlatToken["value"];
   combinedTokens: TokenGroup;
 };
 
-export function TokenChip({ name, value, combinedTokens }: TokenChipProps) {
+export function TokenChip({
+  name,
+  path,
+  value,
+  combinedTokens,
+}: TokenChipProps) {
   const cssColor = toCssColor(resolveValue(value, combinedTokens));
 
   const [isEditing, setIsEditing] = useState(false);
+  // Holds react-hook-form's validated submit callback so click-away can
+  // trigger the exact same commit path as pressing Enter — calling it
+  // directly as a function, rather than going through the DOM's
+  // form.requestSubmit(), which isn't reliably available in every
+  // embedded-webview context Figma plugin UIs can run in.
+  const submitRef = useRef<() => void>(() => {});
 
   if (isEditing) {
-    const availableReferencePaths = referencePaths(combinedTokens);
+    const availableReferencePaths = referencePaths(combinedTokens).map(
+      ({ path, ...rest }) => ({ path: `{${path}}`, ...rest }),
+    );
 
     return (
-      <ClickAwayListener onClickAway={() => setIsEditing(false)}>
+      <ClickAwayListener onClickAway={() => submitRef.current()}>
         <TokenChipForm
-          ref={isReference(value) ? value : String(value)}
+          submitRef={submitRef}
+          path={path}
+          // Primitives store a literal (e.g. a ColorValue object), not a
+          // string, so defaulting to the resolved hex here is what makes
+          // this field editable at all for them — String(value) on a
+          // literal would just show "[object Object]".
+          ref={isReference(value) ? value : cssColor}
           label={name}
           hex={cssColor}
           referencePaths={availableReferencePaths}
+          onCommitted={() => setIsEditing(false)}
         />
       </ClickAwayListener>
     );
   }
   return (
     <div
+      className={styles.chip}
       onClick={() => {
         setIsEditing(true);
       }}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 8,
-        padding: "4px 8px",
-        borderRadius: 6,
-        border: "1px solid rgba(0,0,0,0.1)",
-        width: "fit-content",
-      }}
     >
-      <span
-        style={{
-          width: 16,
-          height: 16,
-          borderRadius: 4,
-          background: cssColor,
-          border: "1px solid rgba(0,0,0,0.15)",
-          flexShrink: 0,
-        }}
-      />
+      <span className={styles.swatch} style={{ background: cssColor }} />
 
-      <span style={{ fontSize: 12, fontFamily: "monospace" }}>{cssColor}</span>
-      {isReference(value) ? (
-        <span style={{ fontSize: 12, fontFamily: "monospace" }}>{value}</span>
-      ) : null}
-      <span style={{ fontSize: 12, fontFamily: "monospace" }}>{name}</span>
+      <span className={styles.mono}>{cssColor}</span>
+      {isReference(value) ? <span className={styles.mono}>{value}</span> : null}
+      <span className={styles.mono}>{name}</span>
     </div>
   );
 }
+
+const HEX_PATTERN = /^#[0-9a-f]{3,8}$/i;
 
 const TokenChipForm = ({
   hex,
   ref,
   label,
+  path,
   referencePaths,
+  onCommitted,
+  submitRef,
 }: {
   hex: string;
   ref: string;
   label: string;
+  path: string;
   referencePaths: ReferencePath[];
+  onCommitted: () => void;
+  submitRef: RefObject<() => void>;
 }) => {
+  const { setTokenValue } = useTokensContext();
+
   const schema = z.object({
     hex: z.string(),
-    ref: z.string(),
+    ref: z
+      .string()
+      .refine(
+        (value) =>
+          HEX_PATTERN.test(value) ||
+          referencePaths.some((option) => option.path === value),
+        { message: "Must be a hex color or a valid {token.path} reference" },
+      ),
     label: z.string(),
   });
-  const { register, watch, setValue } = useForm({
+  const { register, watch, setValue, handleSubmit } = useForm({
     defaultValues: { hex, ref, label },
     resolver: zodResolver(schema),
   });
 
+  function onSubmit(data: { ref: string }) {
+    setTokenValue(path, data.ref);
+    onCommitted();
+  }
+
+  submitRef.current = handleSubmit(onSubmit);
+
   const refInputValue = watch("ref");
   const [isRefOpen, setIsRefOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  // -1 means "nothing highlighted" — the dropdown opens on focus alone, so
+  // defaulting this to 0 made the very first Enter press silently select
+  // whatever happened to be first in the list instead of submitting the
+  // form (the actual, intended behavior of an untouched Enter press).
+  const [activeIndex, setActiveIndex] = useState(-1);
 
   const filteredReferencePaths = referencePaths.filter(({ path }) =>
     path.toLowerCase().includes(refInputValue.toLowerCase()),
@@ -118,9 +150,12 @@ const TokenChipForm = ({
       setActiveIndex((i) => Math.min(i + 1, filteredReferencePaths.length - 1));
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
-      setActiveIndex((i) => Math.max(i - 1, 0));
+      setActiveIndex((i) => Math.max(i - 1, -1));
     } else if (event.key === "Enter") {
-      const active = filteredReferencePaths[clampedActiveIndex];
+      const active =
+        clampedActiveIndex >= 0
+          ? filteredReferencePaths[clampedActiveIndex]
+          : undefined;
       if (active) {
         event.preventDefault();
         selectReferencePath(active.path);
@@ -133,49 +168,23 @@ const TokenChipForm = ({
   const { onChange: onRefChange, ...refField } = register("ref");
 
   return (
-    <form
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 8,
-        padding: "4px 8px",
-        borderRadius: 6,
-        border: "1px solid rgba(0,0,0,0.1)",
-        width: "fit-content",
-      }}
-    >
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <input {...register("hex")}></input>
 
-      <div style={{ position: "relative" }}>
+      <div className={styles.comboboxWrapper}>
         <input
           {...refField}
           autoComplete="off"
           onChange={(event) => {
             onRefChange(event);
-            setActiveIndex(0);
+            setActiveIndex(-1);
             setIsRefOpen(true);
           }}
           onFocus={() => setIsRefOpen(true)}
           onKeyDown={handleRefKeyDown}
         />
         {isRefOpen && filteredReferencePaths.length > 0 ? (
-          <ul
-            style={{
-              position: "absolute",
-              top: "100%",
-              left: 0,
-              zIndex: 1,
-              margin: "4px 0 0",
-              padding: 4,
-              listStyle: "none",
-              background: "white",
-              border: "1px solid rgba(0,0,0,0.1)",
-              borderRadius: 6,
-              maxHeight: 160,
-              overflowY: "auto",
-              minWidth: 160,
-            }}
-          >
+          <ul className={styles.dropdown}>
             {filteredReferencePaths.map(({ path, type }, index) => (
               <li
                 key={path}
@@ -189,23 +198,14 @@ const TokenChipForm = ({
                 // click, closing the whole form.
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => selectReferencePath(path)}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 8,
-                  padding: "4px 6px",
-                  borderRadius: 4,
-                  fontSize: 12,
-                  fontFamily: "monospace",
-                  cursor: "pointer",
-                  background:
-                    index === clampedActiveIndex
-                      ? "rgba(0,0,0,0.08)"
-                      : "transparent",
-                }}
+                className={
+                  index === clampedActiveIndex
+                    ? `${styles.option} ${styles.optionActive}`
+                    : styles.option
+                }
               >
                 <span>{path}</span>
-                <span style={{ opacity: 0.5 }}>{type}</span>
+                <span className={styles.optionType}>{type}</span>
               </li>
             ))}
           </ul>
