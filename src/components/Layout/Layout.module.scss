@@ -1,8 +1,9 @@
 .root {
   display: grid;
   grid-template-areas:
-    "side-bar topbar topbar"
-    "side-bar main main";
+    "side-bar topbar topbar topbar"
+    "side-bar . main main";
+  grid-template-columns: auto 24px repeat(2, auto);
 }
 
 .main {
@@ -10,6 +11,8 @@
 }
 .topBar {
   grid-area: topbar;
+  background-color: grey;
+  padding: 12px;
 }
 .navRoot {
   display: flex;

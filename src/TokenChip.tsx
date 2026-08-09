@@ -31,11 +31,7 @@ export function TokenChip({
   const cssColor = toCssColor(resolveValue(value, combinedTokens));
 
   const [isEditing, setIsEditing] = useState(false);
-  // Holds react-hook-form's validated submit callback so click-away can
-  // trigger the exact same commit path as pressing Enter — calling it
-  // directly as a function, rather than going through the DOM's
-  // form.requestSubmit(), which isn't reliably available in every
-  // embedded-webview context Figma plugin UIs can run in.
+
   const submitRef = useRef<() => void>(() => {});
 
   if (isEditing) {
@@ -48,10 +44,6 @@ export function TokenChip({
         <TokenChipForm
           submitRef={submitRef}
           path={path}
-          // Primitives store a literal (e.g. a ColorValue object), not a
-          // string, so defaulting to the resolved hex here is what makes
-          // this field editable at all for them — String(value) on a
-          // literal would just show "[object Object]".
           ref={isReference(value) ? value : cssColor}
           label={name}
           hex={cssColor}
@@ -68,7 +60,11 @@ export function TokenChip({
         setIsEditing(true);
       }}
     >
-      <span className={styles.swatch} style={{ background: cssColor }} />
+      <span
+        className={styles.swatch}
+        style={{ background: cssColor }}
+        title={value}
+      />
 
       <span className={styles.mono}>{cssColor}</span>
       {isReference(value) ? <span className={styles.mono}>{value}</span> : null}

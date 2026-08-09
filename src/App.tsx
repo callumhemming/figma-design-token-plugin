@@ -49,7 +49,7 @@ const TokenWindow = ({
   combinedTokens: TokenGroup;
 }) => {
   return (
-    <div>
+    <div className={styles.tokenWindow}>
       <h1>{title}</h1>
       <div className={styles.tokenList}>
         {tokens.map((token) => (
