@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
 
+import styles from "./App.module.scss";
 import { TokenChip } from "./TokenChip";
-import { flattenTokens, isReference } from "./tokens/flatten";
-import { Brand, resolveAllPermutations, Theme } from "./tokens/resolve";
-
-// Resolved once per theme x brand combination at module load, not on every
-// toggle — cheap given how little JSON this is, and it turns switching
-// either into a plain lookup instead of re-merging on each click.
-const resolved = resolveAllPermutations();
+import { useTokensContext } from "./components/context/Tokens/useTokensContext";
+import { isReference } from "./tokens/flatten";
 
 type PluginMessage = { type: string };
 
 export function App() {
   const [status, setStatus] = useState("idle");
-  const [theme, setTheme] = useState<Theme>("light");
-  const [brand, setBrand] = useState<Brand>("acme");
+  const { theme, setTheme, brand, setBrand, combinedTokens, tokens } =
+    useTokensContext();
 
   useEffect(() => {
     const onMessage = (
@@ -25,12 +21,6 @@ export function App() {
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
-
-  const combinedTokens = resolved[theme][brand];
-
-  const tokens = flattenTokens(combinedTokens).sort((a, b) =>
-    a.name.localeCompare(b.name),
-  );
 
   // TokenChip only knows how to render color values, so this is scoped to
   // type === "color" for now. Split primitive vs semantic by whether the
@@ -53,23 +43,25 @@ export function App() {
         Brand: {brand}
       </button>
       <h1>Primitive Colors</h1>
-      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <div className={styles.tokenList}>
         {primitiveColorTokens.map((token) => (
           <TokenChip
             combinedTokens={combinedTokens}
             key={token.name}
             name={token.name}
+            path={token.path.join(".")}
             value={token.value}
           />
         ))}
       </div>
       <h1>Semantic Colors</h1>
-      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <div className={styles.tokenList}>
         {semanticColorTokens.map((token) => (
           <TokenChip
             combinedTokens={combinedTokens}
             key={token.name}
             name={token.name}
+            path={token.path.join(".")}
             value={token.value}
           />
         ))}

@@ -49,6 +49,49 @@ export function flattenTokens(
   });
 }
 
+export type ReferencePath = {
+  path: string;
+  type: string;
+};
+
+// The set of `{...}`-referenceable paths for a single resolved tree (i.e.
+// one theme x brand permutation) — used to drive reference autofill.
+export function referencePaths(tree: TokenGroup): ReferencePath[] {
+  return flattenTokens(tree).map(({ path, type }) => ({
+    path: path.join("."),
+    type,
+  }));
+}
+
+// Immutable leaf replacement: returns a new tree with $value at `path`
+// swapped for `value`, leaving every other node (including unrelated
+// siblings) untouched — a caller doing setRegistry(prev => ...) can safely
+// replace just the one registry entry the leaf lives in.
+export function setLeafValue(
+  tree: TokenGroup,
+  path: string[],
+  value: unknown,
+): TokenGroup {
+  const [key, ...rest] = path;
+  const node = tree[key];
+  if (!node) {
+    throw new Error(`No token at path: "${path.join(".")}"`);
+  }
+
+  if (rest.length === 0) {
+    if (!isLeaf(node)) {
+      throw new Error(`Path does not point to a leaf: "${path.join(".")}"`);
+    }
+    return { ...tree, [key]: { ...node, $value: value } };
+  }
+
+  if (isLeaf(node)) {
+    throw new Error(`Path does not point to a leaf: "${path.join(".")}"`);
+  }
+
+  return { ...tree, [key]: setLeafValue(node, rest, value) };
+}
+
 export function mergeTokenTrees(...trees: TokenGroup[]): TokenGroup {
   const result: TokenGroup = {};
 

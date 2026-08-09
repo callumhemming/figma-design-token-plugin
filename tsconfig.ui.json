@@ -8,5 +8,5 @@
     "typeRoots": ["./node_modules/@types"],
     "types": ["react", "react-dom"]
   },
-  "include": ["src/ui.tsx", "src/App.tsx"]
+  "include": ["src/ui.tsx", "src/App.tsx", "scss-modules.d.ts"]
 }
