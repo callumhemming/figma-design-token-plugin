@@ -48,33 +48,24 @@ function sourcesFor(ref: string, input: Record<string, string>): SourceRef[] {
   return sources;
 }
 
+export type ResolvedTokens = {
+  tokens: TokenGroup;
+  // Dot-path -> which registry entry (e.g. "brands/acme/primitives/color.json")
+  // won that leaf's value. Built in the same merge pass as `tokens`, in
+  // resolutionOrder — later entries overwrite earlier ones for the same
+  // path — so an edit can look up exactly which registry entry to mutate
+  // instead of only knowing a path in the already-merged tree.
+  sources: Record<string, string>;
+};
+
+// Resolves a single theme x brand context: walks resolutionOrder once,
+// merging each source tree into the result and recording which $ref won
+// each leaf as it goes.
 export function resolveTokens(
   input: Record<string, string> = {},
   registry: Record<string, TokenGroup>,
-): TokenGroup {
-  const trees = resolverDoc.resolutionOrder.flatMap((entry) =>
-    sourcesFor(entry.$ref, input).map(({ $ref }) => {
-      const tree = registry[$ref];
-      if (!tree) {
-        throw new Error(`No registered token file for $ref: "${$ref}"`);
-      }
-      return tree;
-    }),
-  );
-
-  return mergeTokenTrees(...trees);
-}
-
-// For a given theme x brand context, which registry entry (e.g.
-// "brands/acme/primitives/color.json") actually won each leaf's value.
-// Mirrors resolveTokens' merge order exactly — later entries in
-// resolutionOrder overwrite earlier ones for the same path — so editing a
-// token can look up exactly which registry entry to mutate, rather than
-// only knowing its position in the already-merged tree.
-export function resolveTokenSources(
-  input: Record<string, string> = {},
-  registry: Record<string, TokenGroup>,
-): Record<string, string> {
+): ResolvedTokens {
+  let tokens: TokenGroup = {};
   const sources: Record<string, string> = {};
 
   for (const entry of resolverDoc.resolutionOrder) {
@@ -83,13 +74,14 @@ export function resolveTokenSources(
       if (!tree) {
         throw new Error(`No registered token file for $ref: "${$ref}"`);
       }
+      tokens = mergeTokenTrees(tokens, tree);
       for (const { path } of flattenTokens(tree)) {
         sources[path.join(".")] = $ref;
       }
     }
   }
 
-  return sources;
+  return { tokens, sources };
 }
 
 export const THEMES = ["light", "dark"] as const;
@@ -97,24 +89,3 @@ export type Theme = (typeof THEMES)[number];
 
 export const BRANDS = ["acme", "globex"] as const;
 export type Brand = (typeof BRANDS)[number];
-
-// One resolveTokens() call per theme x brand combination, done once up
-// front rather than on every toggle — cheap given how little JSON this is,
-// and it means switching either in the UI is just indexing into this, not
-// re-merging. Both axes are independently toggleable, so this is the full
-// cross product (2 x 2 today), not two separate single-axis lookups.
-export function resolveAllPermutations(
-  registry: Record<string, TokenGroup>,
-): Record<Brand, Record<Theme, TokenGroup>> {
-  return Object.fromEntries(
-    BRANDS.map((brand) => [
-      brand,
-      Object.fromEntries(
-        THEMES.map((theme) => [
-          theme,
-          resolveTokens({ theme, brand }, registry),
-        ]),
-      ),
-    ]),
-  ) as Record<Brand, Record<Theme, TokenGroup>>;
-}

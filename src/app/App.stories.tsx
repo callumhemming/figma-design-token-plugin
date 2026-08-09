@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { App } from "./App";
-import { TokensContextProvider } from "./components/context/Tokens/TokensContextProvider";
+import { TokensContextProvider } from "../features/tokens/context/TokensContextProvider";
 
 const meta = {
   title: "App",

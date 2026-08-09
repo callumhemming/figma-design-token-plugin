@@ -16,12 +16,7 @@ import globalPrimitivesTypography from "../../../tokens/global/primitives/typogr
 import globalSemanticColorDark from "../../../tokens/global/semantic/color.dark.json";
 import globalSemanticColorLight from "../../../tokens/global/semantic/color.light.json";
 import globalSemanticTypography from "../../../tokens/global/semantic/typography.json";
-import {
-  Brand,
-  resolveAllPermutations,
-  resolveTokenSources,
-  Theme,
-} from "../../../tokens/resolve";
+import { Brand, resolveTokens, Theme } from "../../../tokens/resolve";
 
 type TokensContextValue = {
   theme: Theme;
@@ -63,22 +58,19 @@ export const TokensContextProvider = ({
     "global/primitives/fontFamily.native.json":
       globalPrimitivesFontFamilyNative,
   });
-  console.log({ registry });
-  // Resolved once per theme x brand combination at module load, not on every
-  // toggle — cheap given how little JSON this is, and it turns switching
-  // either into a plain lookup instead of re-merging on each click.
-  const resolved = resolveAllPermutations(registry);
-  console.log(resolved);
   const [theme, setTheme] = useState<Theme>("light");
   const [brand, setBrand] = useState<Brand>("acme");
 
-  const combinedTokens = resolved[brand][theme];
+  // Resolved for the active theme x brand only, on every render — not the
+  // full brand x theme cross product.
+  const { tokens: combinedTokens, sources: tokenSources } = resolveTokens(
+    { theme, brand },
+    registry,
+  );
 
   const tokens = flattenTokens(combinedTokens).sort((a, b) =>
     a.name.localeCompare(b.name),
   );
-
-  const tokenSources = resolveTokenSources({ theme, brand }, registry);
 
   function setTokenValue(path: string, value: unknown) {
     const sourceFile = tokenSources[path];

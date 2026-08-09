@@ -6,7 +6,7 @@ import {
   useContext,
   useState,
 } from "react";
-import { useTokensContext } from "../context/Tokens/useTokensContext";
+import { useTokensContext } from "../features/tokens/hooks/useTokensContext";
 import styles from "./Layout.module.scss";
 
 export const Layout = ({ children }: { children: ReactNode }) => {
