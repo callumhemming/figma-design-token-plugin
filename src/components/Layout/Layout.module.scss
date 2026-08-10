@@ -1,9 +1,10 @@
 .root {
   display: grid;
   grid-template-areas:
-    "side-bar topbar topbar topbar"
+    "side-bar . topbar topbar"
     "side-bar . main main";
   grid-template-columns: auto 24px repeat(2, auto);
+  grid-template-rows: 100px auto auto;
 }
 
 .main {

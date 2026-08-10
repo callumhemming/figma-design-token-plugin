@@ -6,11 +6,11 @@ import {
   useContext,
   useState,
 } from "react";
-import { useTokensContext } from "../../features/tokens/hooks/useTokensContext";
+import { useTokensContext } from "../features/tokens/hooks/useTokensContext";
 import {
   COMPOSITE_TOKEN_TYPES,
   PRIMITIVE_TOKEN_TYPES,
-} from "../../features/tokens/utils/flatten";
+} from "../features/tokens/utils/flatten";
 import styles from "./Layout.module.scss";
 
 export const Layout = ({ children }: { children: ReactNode }) => {

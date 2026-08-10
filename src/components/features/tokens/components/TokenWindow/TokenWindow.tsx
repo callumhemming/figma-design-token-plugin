@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import styles from "./TokenWindow.module.scss";
-import { TokenChip } from "../TokenChip/TokenChip";
 import { FlatToken, TokenGroup } from "../../utils/flatten";
+import { TokenChip } from "../TokenChip/TokenChip";
+import styles from "./TokenWindow.module.scss";
 
 export const TokenWindowContainer = ({ children }: { children: ReactNode }) => {
   return <div className={styles.tokenWindowContainer}>{children}</div>;
