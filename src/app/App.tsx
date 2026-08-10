@@ -1,33 +1,38 @@
-import { Layout } from "../Layout/Layout";
+import { Layout } from "../components/Layout/Layout";
 import { useTokensContext } from "../features/tokens/hooks/useTokensContext";
 import {
   TokenWindow,
   TokenWindowContainer,
 } from "../features/tokens/components/TokenWindow/TokenWindow";
-import { isReference } from "../tokens/flatten";
 
 export function App() {
-  const { combinedTokens, tokens } = useTokensContext();
+  const { combinedTokens, tokens, tokenSources, activeType } =
+    useTokensContext();
 
-  const colorTokens = tokens.filter((token) => token.type === "color");
-  const primitiveColorTokens = colorTokens.filter(
-    (token) => !isReference(token.value),
+  const activeTypeTokens = tokens.filter((token) => token.type === activeType);
+  // Split by which registry entry defined the leaf — every source lives
+  // under a "/primitives/" or "/semantic/" segment by convention — rather
+  // than by whether the value happens to be a reference, so this works
+  // uniformly for composites too (e.g. border.default is a literal object,
+  // not a `{ref}` string, but it's still a semantic token).
+  const primitiveTokens = activeTypeTokens.filter((token) =>
+    tokenSources[token.path.join(".")]?.includes("/primitives/"),
   );
-  const semanticColorTokens = colorTokens.filter((token) =>
-    isReference(token.value),
+  const semanticTokens = activeTypeTokens.filter((token) =>
+    tokenSources[token.path.join(".")]?.includes("/semantic/"),
   );
 
   return (
     <Layout>
       <TokenWindowContainer>
         <TokenWindow
-          title={"Primitive colors"}
-          tokens={primitiveColorTokens}
+          title={`Primitive ${activeType}`}
+          tokens={primitiveTokens}
           combinedTokens={combinedTokens}
         />
         <TokenWindow
-          title={"Semantic colors"}
-          tokens={semanticColorTokens}
+          title={`Semantic ${activeType}`}
+          tokens={semanticTokens}
           combinedTokens={combinedTokens}
         />
       </TokenWindowContainer>

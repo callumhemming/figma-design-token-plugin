@@ -21,4 +21,20 @@
 .sideBarRoot {
   grid-area: side-bar;
   background-color: grey;
+  padding: 24px 12px;
+}
+
+.sideBarColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sideBarButton {
+  text-align: left;
+}
+
+.sideBarButtonActive {
+  font-weight: bold;
+  text-decoration: underline;
 }

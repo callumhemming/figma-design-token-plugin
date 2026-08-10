@@ -1,0 +1,7 @@
+{
+  "duration": {
+    "fast": { "$type": "duration", "$value": { "value": 100, "unit": "ms" } },
+    "moderate": { "$type": "duration", "$value": { "value": 200, "unit": "ms" } },
+    "slow": { "$type": "duration", "$value": { "value": 320, "unit": "ms" } }
+  }
+}

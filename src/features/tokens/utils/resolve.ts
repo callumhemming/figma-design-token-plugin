@@ -1,5 +1,5 @@
 import { flattenTokens, mergeTokenTrees, TokenGroup } from "./flatten";
-import resolverDocJson from "./resolver.json";
+import resolverDocJson from "../../../tokens/resolver.json";
 
 type SourceRef = { $ref: string };
 
