@@ -14,8 +14,8 @@ import {
   toCssColor,
   TokenGroup,
 } from "../../utils/flatten";
-import ClickAwayListener from "../../../../components/patterns/ClickAwayListener/ClickAwayListener";
-import { Combobox } from "../../../../components/patterns/Combobox/Combobox";
+import ClickAwayListener from "../../../../patterns/ClickAwayListener/ClickAwayListener";
+import { Combobox } from "../../../../patterns/Combobox/Combobox";
 
 type TokenChipProps = {
   name: FlatToken["name"];

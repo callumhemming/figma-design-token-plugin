@@ -1,9 +1,9 @@
 import { Layout } from "../components/Layout/Layout";
-import { useTokensContext } from "../features/tokens/hooks/useTokensContext";
 import {
   TokenWindow,
   TokenWindowContainer,
-} from "../features/tokens/components/TokenWindow/TokenWindow";
+} from "../components/features/tokens/components/TokenWindow/TokenWindow";
+import { useTokensContext } from "../components/features/tokens/hooks/useTokensContext";
 
 export function App() {
   const { combinedTokens, tokens, tokenSources, activeType } =
@@ -30,6 +30,7 @@ export function App() {
           tokens={primitiveTokens}
           combinedTokens={combinedTokens}
         />
+
         <TokenWindow
           title={`Semantic ${activeType}`}
           tokens={semanticTokens}

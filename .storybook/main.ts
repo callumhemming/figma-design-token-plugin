@@ -14,6 +14,11 @@ const config: StorybookConfig = {
     "@storybook/addon-mcp"
   ],
   "framework": "@storybook/react-vite",
+  // Mocks tokens/ being delivered from a GitHub repo at runtime: serves
+  // src/tokens/ (the raw JSON + resolver.json, not the app code) at /tokens
+  // so TokensContextProvider's fetch() has something to hit. See
+  // TokensContextProvider.tsx's TOKENS_BASE_URL.
+  "staticDirs": [{ "from": "../src/tokens", "to": "/tokens" }],
   // Our project's own vite.config.* files are named for the plugin's dual
   // build (main.ts as an IIFE lib, ui.mts inlined into one HTML file), so
   // neither matches Vite's default config lookup and Storybook never picks
