@@ -1,0 +1,12 @@
+{
+  "border": {
+    "default": {
+      "$type": "border",
+      "$value": {
+        "color": "{color.action.primary}",
+        "width": "{borderWidth.thin}",
+        "style": "{strokeStyle.solid}"
+      }
+    }
+  }
+}

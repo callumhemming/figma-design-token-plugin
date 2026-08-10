@@ -5,15 +5,36 @@
     "foundation": {
       "sources": [{ "$ref": "global/primitives/color.json" }]
     },
-    "brandSemantic": {
-      "description": "Brand-agnostic — every value here is a {color.brand.*} alias, so it works unchanged regardless of which brand's primitives the `brand` modifier selects.",
-      "sources": [{ "$ref": "brands/semantic/color.json" }]
-    },
     "typography": {
       "sources": [
         { "$ref": "global/primitives/typography.json" },
         { "$ref": "global/semantic/typography.json" }
       ]
+    },
+    "strokeStyle": {
+      "sources": [{ "$ref": "global/primitives/strokeStyle.json" }]
+    },
+    "border": {
+      "sources": [
+        { "$ref": "global/primitives/border.json" },
+        { "$ref": "global/semantic/border.json" }
+      ]
+    },
+    "spacing": {
+      "sources": [{ "$ref": "global/primitives/dimension.json" }]
+    },
+    "motion": {
+      "sources": [
+        { "$ref": "global/primitives/duration.json" },
+        { "$ref": "global/primitives/cubicBezier.json" },
+        { "$ref": "global/semantic/transition.json" }
+      ]
+    },
+    "shadow": {
+      "sources": [{ "$ref": "global/semantic/shadow.json" }]
+    },
+    "gradient": {
+      "sources": [{ "$ref": "global/semantic/gradient.json" }]
     }
   },
   "modifiers": {
@@ -32,9 +53,16 @@
       "default": "web"
     },
     "brand": {
+      "description": "Each brand context loads its own primitives and semantic layer — semantic tokens are no longer shared across brands, so adding a token to one brand requires adding it to every other brand's semantic file too. Resolves after every global set (see resolutionOrder) so a brand can override or extend ANY token type, not just color — not just what it currently defines.",
       "contexts": {
-        "acme": [{ "$ref": "brands/acme/primitives/color.json" }],
-        "globex": [{ "$ref": "brands/globex/primitives/color.json" }]
+        "acme": [
+          { "$ref": "brands/acme/primitives/color.json" },
+          { "$ref": "brands/acme/semantic/color.json" }
+        ],
+        "globex": [
+          { "$ref": "brands/globex/primitives/color.json" },
+          { "$ref": "brands/globex/semantic/color.json" }
+        ]
       },
       "default": "acme"
     }
@@ -42,9 +70,14 @@
   "resolutionOrder": [
     { "$ref": "#/sets/foundation" },
     { "$ref": "#/modifiers/theme" },
-    { "$ref": "#/modifiers/brand" },
-    { "$ref": "#/sets/brandSemantic" },
     { "$ref": "#/sets/typography" },
+    { "$ref": "#/sets/strokeStyle" },
+    { "$ref": "#/sets/border" },
+    { "$ref": "#/sets/spacing" },
+    { "$ref": "#/sets/motion" },
+    { "$ref": "#/sets/shadow" },
+    { "$ref": "#/sets/gradient" },
+    { "$ref": "#/modifiers/brand" },
     { "$ref": "#/modifiers/platform" }
   ]
 }

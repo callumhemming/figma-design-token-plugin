@@ -6,7 +6,11 @@ import {
   useContext,
   useState,
 } from "react";
-import { useTokensContext } from "../features/tokens/hooks/useTokensContext";
+import { useTokensContext } from "../../features/tokens/hooks/useTokensContext";
+import {
+  COMPOSITE_TOKEN_TYPES,
+  PRIMITIVE_TOKEN_TYPES,
+} from "../../features/tokens/utils/flatten";
 import styles from "./Layout.module.scss";
 
 export const Layout = ({ children }: { children: ReactNode }) => {
@@ -33,9 +37,43 @@ export const SideBar = ({
   className,
   ...props
 }: ComponentPropsWithoutRef<"div">) => {
+  const { activeType, setActiveType } = useTokensContext();
+
   return (
     <div className={clsx(styles.sideBarRoot, className)} {...props}>
-      <button>Noop</button>
+      <div className={styles.sideBarColumn}>
+        <h2>Primitive</h2>
+        {PRIMITIVE_TOKEN_TYPES.map((type) => (
+          <button
+            key={type}
+            aria-pressed={activeType === type}
+            className={clsx(
+              styles.sideBarButton,
+              activeType === type && styles.sideBarButtonActive,
+            )}
+            onClick={() => setActiveType(type)}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+
+      <div className={styles.sideBarColumn}>
+        <h2>Composite</h2>
+        {COMPOSITE_TOKEN_TYPES.map((type) => (
+          <button
+            key={type}
+            aria-pressed={activeType === type}
+            className={clsx(
+              styles.sideBarButton,
+              activeType === type && styles.sideBarButtonActive,
+            )}
+            onClick={() => setActiveType(type)}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

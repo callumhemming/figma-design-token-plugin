@@ -6,19 +6,21 @@ import styles from "./TokenChip.module.scss";
 import { useTokensContext } from "../../hooks/useTokensContext";
 import {
   FlatToken,
+  formatResolvedValue,
   isReference,
   ReferencePath,
   referencePaths,
   resolveValue,
   toCssColor,
   TokenGroup,
-} from "../../../../tokens/flatten";
+} from "../../utils/flatten";
 import ClickAwayListener from "../../../../components/patterns/ClickAwayListener/ClickAwayListener";
 import { Combobox } from "../../../../components/patterns/Combobox/Combobox";
 
 type TokenChipProps = {
   name: FlatToken["name"];
   path: string;
+  type: FlatToken["type"];
   value: FlatToken["value"];
   combinedTokens: TokenGroup;
 };
@@ -26,14 +28,32 @@ type TokenChipProps = {
 export function TokenChip({
   name,
   path,
+  type,
   value,
   combinedTokens,
 }: TokenChipProps) {
-  const cssColor = toCssColor(resolveValue(value, combinedTokens));
+  const resolved = resolveValue(value, combinedTokens);
 
   const [isEditing, setIsEditing] = useState(false);
 
   const submitRef = useRef<() => void>(() => {});
+
+  // Editing is only built for color today — hex input, swatch preview, the
+  // whole TokenChipForm below assumes a color-shaped value. Every other
+  // $type renders read-only until a per-type editor exists.
+  if (type !== "color") {
+    return (
+      <div className={styles.chip}>
+        <span className={styles.mono}>{name}</span>
+        {isReference(value) ? (
+          <span className={styles.mono}>{value}</span>
+        ) : null}
+        <span className={styles.mono}>{formatResolvedValue(resolved)}</span>
+      </div>
+    );
+  }
+
+  const cssColor = toCssColor(resolved);
 
   if (isEditing) {
     const availableReferencePaths = referencePaths(combinedTokens).map(
@@ -64,7 +84,7 @@ export function TokenChip({
       <span
         className={styles.swatch}
         style={{ background: cssColor }}
-        title={value}
+        title={cssColor}
       />
 
       <span className={styles.mono}>{cssColor}</span>

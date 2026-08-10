@@ -1,0 +1,11 @@
+{
+  "gradient": {
+    "brandFade": {
+      "$type": "gradient",
+      "$value": [
+        { "color": "{color.brand.100}", "position": 0 },
+        { "color": "{color.brand.500}", "position": 1 }
+      ]
+    }
+  }
+}

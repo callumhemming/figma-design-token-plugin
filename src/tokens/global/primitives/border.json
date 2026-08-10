@@ -1,0 +1,6 @@
+{
+  "borderWidth": {
+    "thin": { "$type": "dimension", "$value": { "value": 1, "unit": "px" } },
+    "thick": { "$type": "dimension", "$value": { "value": 2, "unit": "px" } }
+  }
+}

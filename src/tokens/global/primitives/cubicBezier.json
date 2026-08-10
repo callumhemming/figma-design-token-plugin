@@ -1,0 +1,8 @@
+{
+  "cubicBezier": {
+    "linear": { "$type": "cubicBezier", "$value": [0, 0, 1, 1] },
+    "easeIn": { "$type": "cubicBezier", "$value": [0.4, 0, 1, 1] },
+    "easeOut": { "$type": "cubicBezier", "$value": [0, 0, 0.2, 1] },
+    "easeInOut": { "$type": "cubicBezier", "$value": [0.4, 0, 0.2, 1] }
+  }
+}

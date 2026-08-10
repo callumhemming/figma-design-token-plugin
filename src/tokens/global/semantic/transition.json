@@ -1,0 +1,12 @@
+{
+  "transition": {
+    "fast": {
+      "$type": "transition",
+      "$value": {
+        "duration": "{duration.fast}",
+        "delay": { "value": 0, "unit": "ms" },
+        "timingFunction": "{cubicBezier.easeOut}"
+      }
+    }
+  }
+}
