@@ -52,6 +52,7 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.85.0",
+    "style-dictionary": "^5.5.1",
     "zod": "^4.4.3"
   }
 }

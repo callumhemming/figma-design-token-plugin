@@ -1,17 +1,13 @@
 import clsx from "clsx";
-import {
-  ComponentPropsWithoutRef,
-  createContext,
-  ReactNode,
-  useContext,
-  useState,
-} from "react";
-import { useTokensContext } from "../features/tokens/hooks/useTokensContext";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
+import { Cog } from "../../ui/icons/cog";
+import { useTokensContext } from "../tokens/hooks/useTokensContext";
 import {
   COMPOSITE_TOKEN_TYPES,
   PRIMITIVE_TOKEN_TYPES,
-} from "../features/tokens/utils/flatten";
+} from "../tokens/utils/flatten";
 import styles from "./Layout.module.scss";
+import { useNavContext } from "./context/NavContext";
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   const { theme, setTheme, brand, setBrand } = useTokensContext();
@@ -37,7 +33,7 @@ export const SideBar = ({
   className,
   ...props
 }: ComponentPropsWithoutRef<"div">) => {
-  const { activeType, setActiveType } = useTokensContext();
+  const { slug, setSlug } = useNavContext();
 
   return (
     <div className={clsx(styles.sideBarRoot, className)} {...props}>
@@ -46,12 +42,12 @@ export const SideBar = ({
         {PRIMITIVE_TOKEN_TYPES.map((type) => (
           <button
             key={type}
-            aria-pressed={activeType === type}
+            aria-pressed={slug === type}
             className={clsx(
               styles.sideBarButton,
-              activeType === type && styles.sideBarButtonActive,
+              slug === type && styles.sideBarButtonActive,
             )}
-            onClick={() => setActiveType(type)}
+            onClick={() => setSlug(type)}
           >
             {type}
           </button>
@@ -63,40 +59,31 @@ export const SideBar = ({
         {COMPOSITE_TOKEN_TYPES.map((type) => (
           <button
             key={type}
-            aria-pressed={activeType === type}
+            aria-pressed={slug === type}
             className={clsx(
               styles.sideBarButton,
-              activeType === type && styles.sideBarButtonActive,
+              slug === type && styles.sideBarButtonActive,
             )}
-            onClick={() => setActiveType(type)}
+            onClick={() => setSlug(type)}
           >
             {type}
           </button>
         ))}
       </div>
+      <button onClick={() => setSlug("settings")}>
+        Settings
+        <Cog />
+      </button>
     </div>
   );
 };
 
-const NavContext = createContext({});
-
 const Nav = () => {
-  const [openTab, setOpenTab] = useState();
-
   return (
-    <NavContext.Provider value={{ openTab, setOpenTab }}>
-      <nav className={styles.navRoot}>
-        <button>Primitive</button>
+    <nav className={styles.navRoot}>
+      <button>Primitive</button>
 
-        <button>Semantic</button>
-      </nav>
-    </NavContext.Provider>
+      <button>Semantic</button>
+    </nav>
   );
-};
-
-export const useNavContext = () => {
-  const context = useContext(NavContext);
-  if (!context)
-    throw new Error("useNavContext used outside of NavContext.Provider");
-  return context;
 };
