@@ -2,7 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RefObject, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import styles from "./TokenChip.module.scss";
+import ClickAwayListener from "../../../../patterns/ClickAwayListener/ClickAwayListener";
+import { Combobox } from "../../../../patterns/Combobox/Combobox";
 import { useTokensContext } from "../../hooks/useTokensContext";
 import {
   FlatToken,
@@ -14,8 +15,7 @@ import {
   toCssColor,
   TokenGroup,
 } from "../../utils/flatten";
-import ClickAwayListener from "../../../../patterns/ClickAwayListener/ClickAwayListener";
-import { Combobox } from "../../../../patterns/Combobox/Combobox";
+import styles from "./TokenChip.module.scss";
 
 type TokenChipProps = {
   name: FlatToken["name"];

@@ -5,6 +5,7 @@
     "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "typeRoots": ["./node_modules/@types"],
     "types": ["react", "react-dom"]
   },

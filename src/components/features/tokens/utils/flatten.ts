@@ -1,17 +1,48 @@
+// The DTCG color module's supported interchange color spaces (Section 4.2).
+export const COLOR_SPACES = [
+  "srgb",
+  "srgb-linear",
+  "hsl",
+  "hwb",
+  "lab",
+  "lch",
+  "oklab",
+  "oklch",
+  "display-p3",
+  "a98-rgb",
+  "prophoto-rgb",
+  "rec2020",
+  "xyz-d65",
+  "xyz-d50",
+] as const;
+
+export type ColorSpace = (typeof COLOR_SPACES)[number];
+
 export type ColorValue = {
-  colorSpace: string;
+  colorSpace: ColorSpace;
   components: number[];
   alpha?: number;
   hex?: string;
 };
 
 export type TokenLeaf = {
-  $type: string;
+  // Optional: DTCG lets a group declare `$type` once and have every
+  // descendant leaf inherit it instead of repeating it — see `ownType`
+  // and the `inheritedType` param on flattenTokens below.
+  $type?: string;
   // Opaque here on purpose — a leaf's $value can be a string, number,
   // array, or composite object depending on $type (color, fontWeight,
   // typography, ...). Only the functions that actually need a specific
   // shape (resolveValue, toCssColor) narrow it.
   $value: unknown;
+  $description?: string;
+  $extensions?: Record<string, unknown>;
+  // Like $type, a group's $deprecated cascades to descendants unless a
+  // leaf overrides it (DTCG format spec, Section 6.3.1) — see
+  // `ownDeprecated` and the `inheritedDeprecated` param below.
+  // $description/$extensions don't cascade, so they're read straight off
+  // the leaf with no inheritance plumbing.
+  $deprecated?: boolean | string;
 };
 
 export type TokenGroup = {
@@ -21,8 +52,11 @@ export type TokenGroup = {
 export type FlatToken = {
   path: string[];
   name: string;
-  type: string;
+  type: TokenType;
   value: unknown;
+  description?: string;
+  extensions?: Record<string, unknown>;
+  deprecated?: boolean | string;
 };
 
 // The full DTCG $type taxonomy this repo has token files for — drives the
@@ -59,23 +93,70 @@ export function isLeaf(node: TokenLeaf | TokenGroup): node is TokenLeaf {
   return typeof (node as TokenLeaf).$value !== "undefined";
 }
 
+// Group-level metadata keys (see TokenLeaf above) — these sit as plain
+// values alongside a group's child keys, which TokenGroup's index
+// signature doesn't model (doing so would force every TokenGroup consumer
+// in the app to account for non-TokenLeaf/TokenGroup values), so they're
+// read via a narrow, local cast instead, and skipped wherever a group's
+// keys are iterated as if they were all children.
+const GROUP_METADATA_KEYS = new Set([
+  "$type",
+  "$deprecated",
+  "$description",
+  "$extensions",
+]);
+
+function ownType(tree: TokenGroup): string | undefined {
+  const value = (tree as Record<string, unknown>).$type;
+  return typeof value === "string" ? value : undefined;
+}
+
+function ownDeprecated(tree: TokenGroup): boolean | string | undefined {
+  const value = (tree as Record<string, unknown>).$deprecated;
+  return typeof value === "boolean" || typeof value === "string"
+    ? value
+    : undefined;
+}
+
 export function flattenTokens(
   tree: TokenGroup,
   path: string[] = [],
+  inheritedType?: string,
+  inheritedDeprecated?: boolean | string,
 ): FlatToken[] {
+  const groupType = ownType(tree) ?? inheritedType;
+  const groupDeprecated = ownDeprecated(tree) ?? inheritedDeprecated;
+
   return Object.entries(tree).flatMap(([key, node]) => {
+    // Metadata, not a child token/group — skip it rather than let it fall
+    // through to isLeaf/recursion below, which would treat this plain
+    // value as a node and (for a string) walk its characters as if they
+    // were keys.
+    if (GROUP_METADATA_KEYS.has(key)) {
+      return [];
+    }
+
     const nextPath = [...path, key];
     if (isLeaf(node)) {
+      const type = node.$type ?? groupType;
+      if (!type) {
+        throw new Error(
+          `Token at "${nextPath.join(".")}" has no $type, and none was inherited from an ancestor group`,
+        );
+      }
       return [
         {
           path: nextPath,
           name: nextPath.join("-"),
-          type: node.$type,
+          type: type as TokenType,
           value: node.$value,
+          description: node.$description,
+          extensions: node.$extensions,
+          deprecated: node.$deprecated ?? groupDeprecated,
         },
       ];
     }
-    return flattenTokens(node, nextPath);
+    return flattenTokens(node, nextPath, groupType, groupDeprecated);
   });
 }
 
@@ -88,7 +169,10 @@ export type ReferencePath = {
 // one theme x brand permutation) — used to drive reference autofill. Pass
 // `type` to narrow to paths of a single token type, e.g. so a composite
 // token's `color` sub-field only offers other `color` tokens as options.
-export function referencePaths(tree: TokenGroup, type?: string): ReferencePath[] {
+export function referencePaths(
+  tree: TokenGroup,
+  type?: string,
+): ReferencePath[] {
   return flattenTokens(tree)
     .filter((token) => type === undefined || token.type === type)
     .map(({ path, type }) => ({
@@ -172,6 +256,15 @@ export function mergeTokenTrees(...trees: TokenGroup[]): TokenGroup {
 
   for (const tree of trees) {
     for (const [key, node] of Object.entries(tree)) {
+      // Metadata, not a child token/group (see GROUP_METADATA_KEYS above)
+      // — always overwrite rather than let it reach the isLeaf checks
+      // below, which would (wrongly, since it's a plain value) treat it
+      // as mergeable and, for a string, recurse into its characters.
+      if (GROUP_METADATA_KEYS.has(key)) {
+        result[key] = node;
+        continue;
+      }
+
       const existing = result[key];
       if (existing && !isLeaf(existing) && !isLeaf(node)) {
         result[key] = mergeTokenTrees(existing, node); // both groups: recurse
@@ -196,9 +289,10 @@ export function resolveValue(value: unknown, root: TokenGroup): unknown {
 
     const node = match[1]
       .split(".")
-      .reduce<
-        TokenLeaf | TokenGroup | undefined
-      >((acc, key) => (acc && !isLeaf(acc) ? acc[key] : undefined), root);
+      .reduce<TokenLeaf | TokenGroup | undefined>(
+        (acc, key) => (acc && !isLeaf(acc) ? acc[key] : undefined),
+        root,
+      );
 
     if (!node || !isLeaf(node)) {
       throw new Error(`Unresolved token reference: ${match[1]}`);
@@ -215,7 +309,10 @@ export function resolveValue(value: unknown, root: TokenGroup): unknown {
   }
   if (value !== null && typeof value === "object") {
     return Object.fromEntries(
-      Object.entries(value).map(([key, item]) => [key, resolveValue(item, root)]),
+      Object.entries(value).map(([key, item]) => [
+        key,
+        resolveValue(item, root),
+      ]),
     );
   }
 
