@@ -2,12 +2,16 @@ import { useEffect } from "react";
 import StyleDictionary from "style-dictionary";
 import { useNavContext } from "../components/features/Layout/context/NavContext";
 import { Layout } from "../components/features/Layout/Layout";
+import { ResolverSettingsForm } from "../components/features/settings/ResolverSettingsForm";
 import {
   TokenWindow,
   TokenWindowContainer,
 } from "../components/features/tokens/components/TokenWindow/TokenWindow";
 import { useTokensContext } from "../components/features/tokens/hooks/useTokensContext";
-import { TOKEN_TYPES } from "../components/features/tokens/utils/flatten";
+import {
+  COMPOSITE_TOKEN_TYPES,
+  TOKEN_TYPES,
+} from "../components/features/tokens/utils/flatten";
 
 export function App() {
   const { slug } = useNavContext();
@@ -23,6 +27,7 @@ const SettingsView = () => {
   return (
     <div>
       <h1>Settings</h1>
+      <ResolverSettingsForm />
     </div>
   );
 };
@@ -76,11 +81,13 @@ const TokenView = () => {
   );
   return (
     <TokenWindowContainer>
-      <TokenWindow
-        title={`Primitive ${slug}`}
-        tokens={primitiveTokens}
-        combinedTokens={combinedTokens}
-      />
+      {COMPOSITE_TOKEN_TYPES.includes(slug) ? null : (
+        <TokenWindow
+          title={`Primitive ${slug}`}
+          tokens={primitiveTokens}
+          combinedTokens={combinedTokens}
+        />
+      )}
 
       <TokenWindow
         title={`Semantic ${slug}`}

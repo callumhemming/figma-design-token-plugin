@@ -47,6 +47,8 @@
     "vitest": "^4.1.10"
   },
   "dependencies": {
+    "@autoform/react": "^5.0.0",
+    "@autoform/zod": "^6.0.0",
     "@hookform/resolvers": "^5.7.1",
     "clsx": "^2.1.1",
     "react": "^19.2.8",
