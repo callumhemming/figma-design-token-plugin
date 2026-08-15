@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "strict": true,
+    "allowJs": true,
+    "noEmit": true,
+    "typeRoots": ["./node_modules/@types"]
+  }
+}

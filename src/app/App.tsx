@@ -68,11 +68,7 @@ const TokenView = () => {
   }, [combinedTokens]);
 
   const activeTypeTokens = tokens.filter((token) => token.type === slug);
-  // Split by which registry entry defined the leaf — every source lives
-  // under a "/primitives/" or "/semantic/" segment by convention — rather
-  // than by whether the value happens to be a reference, so this works
-  // uniformly for composites too (e.g. border.default is a literal object,
-  // not a `{ref}` string, but it's still a semantic token).
+
   const primitiveTokens = activeTypeTokens.filter((token) =>
     tokenSources[token.path.join(".")]?.includes("/primitives/"),
   );
@@ -82,18 +78,10 @@ const TokenView = () => {
   return (
     <TokenWindowContainer>
       {COMPOSITE_TOKEN_TYPES.includes(slug) ? null : (
-        <TokenWindow
-          title={`Primitive ${slug}`}
-          tokens={primitiveTokens}
-          combinedTokens={combinedTokens}
-        />
+        <TokenWindow title={`Primitive ${slug}`} tokens={primitiveTokens} />
       )}
 
-      <TokenWindow
-        title={`Semantic ${slug}`}
-        tokens={semanticTokens}
-        combinedTokens={combinedTokens}
-      />
+      <TokenWindow title={`Semantic ${slug}`} tokens={semanticTokens} />
     </TokenWindowContainer>
   );
 };

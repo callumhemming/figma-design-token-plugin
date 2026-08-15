@@ -21,7 +21,6 @@ export const Layout = ({ children }: { children: ReactNode }) => {
         <button onClick={() => setBrand(brand === "acme" ? "globex" : "acme")}>
           Brand: {brand}
         </button>
-        <Nav />
       </div>
 
       <main className={styles.main}>{children}</main>
@@ -75,15 +74,5 @@ export const SideBar = ({
         <Cog />
       </button>
     </div>
-  );
-};
-
-const Nav = () => {
-  return (
-    <nav className={styles.navRoot}>
-      <button>Primitive</button>
-
-      <button>Semantic</button>
-    </nav>
   );
 };
