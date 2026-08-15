@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
+    "types": ["plugin-typings"]
+  },
+  "include": ["src/code.ts", "scss-modules.d.ts"]
+}

@@ -10,11 +10,13 @@
 .main {
   grid-area: main;
 }
+
 .topBar {
   grid-area: topbar;
   background-color: grey;
   padding: 12px;
 }
+
 .navRoot {
   display: flex;
 }

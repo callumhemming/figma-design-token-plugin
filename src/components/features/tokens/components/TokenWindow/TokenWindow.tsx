@@ -1,6 +1,9 @@
 import { ReactNode, useRef } from "react";
-import { TokenEditModal } from "../../../token-edit-modal/TokenEditModal";
-import { FlatToken, TokenGroup } from "../../utils/flatten";
+import {
+  TokenEditModal,
+  TokenEditModalHandle,
+} from "../../../token-edit-modal/TokenEditModal";
+import { FlatToken } from "../../utils/flatten";
 import { TokenChip } from "../TokenChip/TokenChip";
 import styles from "./TokenWindow.module.scss";
 
@@ -11,13 +14,11 @@ export const TokenWindowContainer = ({ children }: { children: ReactNode }) => {
 export const TokenWindow = ({
   title,
   tokens,
-  combinedTokens,
 }: {
   title: string;
   tokens: FlatToken[];
-  combinedTokens: TokenGroup;
 }) => {
-  const modalRef = useRef();
+  const modalRef = useRef<TokenEditModalHandle>(null);
   return (
     <div className={styles.tokenWindow}>
       <h1>{title}</h1>
@@ -27,23 +28,16 @@ export const TokenWindow = ({
         ) : (
           tokens.map((token) => (
             <TokenChip
-              combinedTokens={combinedTokens}
               key={token.name}
-              name={token.name}
               path={token.path.join(".")}
-              type={token.type}
-              value={token.value}
+              onClick={() => {
+                modalRef.current?.open(token.path.join("."));
+              }}
             />
           ))
         )}
       </div>
-      <button
-        onClick={() => {
-          modalRef.current.open();
-        }}
-      >
-        Open Modal
-      </button>
+
       <TokenEditModal ref={modalRef} />
     </div>
   );
