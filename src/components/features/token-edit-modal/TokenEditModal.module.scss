@@ -13,6 +13,7 @@
 
 .twoColumn {
   display: flex;
+  gap: 42px;
 }
 
 .innerContainer {
@@ -42,4 +43,9 @@
     padding: 0;
     margin: 0;
   }
+}
+
+.tokenSlot {
+  padding: 24px;
+  border: grey 1px dotted;
 }

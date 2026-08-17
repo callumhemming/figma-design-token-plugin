@@ -4,7 +4,7 @@ import {
   TokenEditModalHandle,
 } from "../../../token-edit-modal/TokenEditModal";
 import { FlatToken } from "../../utils/flatten";
-import { TokenChip } from "../TokenChip/TokenChip";
+import { GenericTokenChip, TOKEN_CHIP_BY_TYPE } from "../TokenChip/TokenChip";
 import styles from "./TokenWindow.module.scss";
 
 export const TokenWindowContainer = ({ children }: { children: ReactNode }) => {
@@ -26,15 +26,18 @@ export const TokenWindow = ({
         {tokens.length === 0 ? (
           <p className={styles.empty}>No tokens of this type here.</p>
         ) : (
-          tokens.map((token) => (
-            <TokenChip
-              key={token.name}
-              path={token.path.join(".")}
-              onClick={() => {
-                modalRef.current?.open(token.path.join("."));
-              }}
-            />
-          ))
+          tokens.map((token) => {
+            const Chip = TOKEN_CHIP_BY_TYPE[token.type] ?? GenericTokenChip;
+            return (
+              <Chip
+                key={token.name}
+                path={token.path.join(".")}
+                onClick={() => {
+                  modalRef.current?.open(token.path.join("."));
+                }}
+              />
+            );
+          })
         )}
       </div>
 
