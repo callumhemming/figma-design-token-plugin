@@ -71,6 +71,7 @@ export const PRIMITIVE_TOKEN_TYPES = [
   "number",
   "duration",
   "cubicBezier",
+  "number",
 ] as const;
 
 export const COMPOSITE_TOKEN_TYPES = [

@@ -1,5 +1,8 @@
 import { useImperativeHandle, useRef, useState } from "react";
-import { TokenChip } from "../tokens/components/TokenChip/TokenChip";
+import {
+  GenericTokenChip,
+  TOKEN_CHIP_BY_TYPE,
+} from "../tokens/components/TokenChip/TokenChip";
 import { useTokensContext } from "../tokens/hooks/useTokensContext";
 import { PRIMITIVE_TOKEN_TYPES } from "../tokens/utils/flatten";
 import styles from "./TokenEditModal.module.scss";
@@ -35,23 +38,24 @@ export const TokenEditModal = ({
         <p className={styles.closeIcon}>+</p>
       </button>
       <div className={styles.innerContainer}>
-        <h1>Token edit modal</h1>
+        <h1>{`Token edit modal | ${selectedPath}`} </h1>
         <div className={styles.twoColumn}>
           <div>
             {PRIMITIVE_TOKEN_TYPES.map((type) => {
               const tokensByType = tokens.filter(
                 (token) => token.type === type,
               );
+              const Chip = TOKEN_CHIP_BY_TYPE[type] ?? GenericTokenChip;
 
               return (
                 <>
                   <h2>{type}</h2>
                   <div className={styles.tokenChipContainer}>
                     {tokensByType.map((token) => (
-                      <TokenChip
+                      <Chip
                         key={token.name}
                         path={token.path.join(".")}
-                        onClick={() => setSelectedPath(token.path.join("."))}
+                        onClick={() => {}}
                       />
                     ))}
                   </div>
@@ -61,11 +65,21 @@ export const TokenEditModal = ({
           </div>
           <div>
             <h2>Selected token</h2>
-            {selectedPath ? (
-              <TokenChip path={selectedPath} onClick={() => {}} />
-            ) : (
-              <p>No token selected.</p>
-            )}
+            <div className={styles.tokenSlot}>
+              {selectedPath ? (
+                (() => {
+                  const selectedType = tokens.find(
+                    (token) => token.path.join(".") === selectedPath,
+                  )?.type;
+                  const Chip =
+                    (selectedType && TOKEN_CHIP_BY_TYPE[selectedType]) ??
+                    GenericTokenChip;
+                  return <Chip path={selectedPath} onClick={() => {}} />;
+                })()
+              ) : (
+                <p>No token selected.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
