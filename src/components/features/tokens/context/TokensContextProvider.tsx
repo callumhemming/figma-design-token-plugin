@@ -81,7 +81,7 @@ export const TokensContextProvider = ({
     { theme, brand },
     registry,
   );
-  console.log({ combinedTokens });
+  // console.log({ combinedTokens });
 
   const tokens = flattenTokens(combinedTokens).sort((a, b) =>
     a.name.localeCompare(b.name),

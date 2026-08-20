@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.tokenTreeContainer {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  gap: 12px;
+}
+
+.slotPlaceholder {
+  border: 1px dotted black;
+  padding: 12px 8px;
+
+  &.selected {
+    border: 3px dotted black;
+  }
+}
+
+.output {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid black;
+}
