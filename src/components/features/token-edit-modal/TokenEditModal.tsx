@@ -6,6 +6,7 @@ import {
 import { useTokensContext } from "../tokens/hooks/useTokensContext";
 import { PRIMITIVE_TOKEN_TYPES } from "../tokens/utils/flatten";
 import styles from "./TokenEditModal.module.scss";
+import { TypographyEdit } from "./components/TypographyEdit/TypographyEdit";
 export type TokenEditModalHandle = {
   open: (path: string) => void;
   close: () => void;
@@ -71,6 +72,10 @@ export const TokenEditModal = ({
                   const selectedType = tokens.find(
                     (token) => token.path.join(".") === selectedPath,
                   )?.type;
+                  console.log({ selectedType });
+                  if (selectedType === "typography") {
+                    return <TypographyEdit />;
+                  }
                   const Chip =
                     (selectedType && TOKEN_CHIP_BY_TYPE[selectedType]) ??
                     GenericTokenChip;

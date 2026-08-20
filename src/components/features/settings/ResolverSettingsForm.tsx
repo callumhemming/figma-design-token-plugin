@@ -1,5 +1,3 @@
-import { ZodProvider } from "@autoform/zod";
-import { ComponentProps, ReactNode } from "react";
 import {
   ArrayElementWrapperProps,
   ArrayWrapperProps,
@@ -8,8 +6,10 @@ import {
   ObjectWrapperProps,
 } from "@autoform/react";
 import { AutoForm, useRegister } from "@autoform/react/react-hook-form";
-import styles from "./ResolverSettingsForm.module.scss";
+import { ZodProvider } from "@autoform/zod";
+import { ComponentProps, ReactNode } from "react";
 import { resolverSchema } from "../../../tokens/resolver.schema";
+import styles from "./ResolverSettingsForm.module.scss";
 
 // resolverSchema only produces "string", "object" and "array" field types
 // today (see resolver.schema.ts), so this is the full set of renderers
@@ -20,9 +20,7 @@ const schemaProvider = new ZodProvider(resolverSchema);
 
 const StringField = ({ path, id, inputProps }: AutoFormFieldProps) => {
   const field = useRegister(path.join("."));
-  return (
-    <input id={id} className={styles.input} {...field} {...inputProps} />
-  );
+  return <input id={id} className={styles.input} {...field} {...inputProps} />;
 };
 
 const Form = (props: ComponentProps<"form">) => (
@@ -84,7 +82,7 @@ export function ResolverSettingsForm() {
       onSubmit={(values) => {
         // Wiring this up to actually write resolver.json is still to come
         // — for now, submitting just proves the schema/form round-trips.
-        console.log("[ResolverSettingsForm] submitted", values);
+        // console.log("[ResolverSettingsForm] submitted", values);
       }}
       uiComponents={{
         Form,

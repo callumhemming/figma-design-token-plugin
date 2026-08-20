@@ -152,10 +152,10 @@ const TokenView = () => {
         const cssOutput = await sd.formatPlatform("css");
         const jsonOutput = await sd.formatPlatform("json");
 
-        console.log("[Style Dictionary] CSS output", cssOutput);
-        console.log("[Style Dictionary] JSON output", jsonOutput);
+        // console.log("[Style Dictionary] CSS output", cssOutput);
+        // console.log("[Style Dictionary] JSON output", jsonOutput);
       } catch (error) {
-        console.error("[Style Dictionary] Browser run failed", error);
+        // console.error("[Style Dictionary] Browser run failed", error);
       }
     }
 

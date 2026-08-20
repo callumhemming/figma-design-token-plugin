@@ -15,14 +15,14 @@ export type TokenChipProps = {
 
 function useResolvedTokenChip(path: string) {
   const { combinedTokens, tokens } = useTokensContext();
-  console.log(tokens);
+  // console.log(tokens);
 
   const token = tokens.find((candidate) => candidate.path.join(".") === path);
   if (!token) {
     throw new Error(`No token at path: "${path}"`);
   }
   const { name, value, type } = token;
-  console.log({ name, value, type, path });
+  // console.log({ name, value, type, path });
 
   return { name, value, type, resolved: resolveValue(value, combinedTokens) };
 }
@@ -181,7 +181,9 @@ export function NumberTokenChip({ path, onClick }: TokenChipProps) {
   return (
     <div className={styles.chip} onClick={onClick}>
       <span className={styles.sampleSwatch}>
-        <span className={styles.numberValue}>{formatResolvedValue(resolved)}</span>
+        <span className={styles.numberValue}>
+          {formatResolvedValue(resolved)}
+        </span>
       </span>
       <ChipFooter
         name={name}
