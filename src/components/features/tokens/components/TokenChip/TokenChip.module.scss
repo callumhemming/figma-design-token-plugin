@@ -39,19 +39,34 @@
   place-items: center;
 }
 
-// Wider stand-in for .swatch, for previews that need more than a 40x40
-// square (a bar, a moving dot, an SVG curve).
-.previewBox {
+%preview-box-base {
   width: 96px;
   height: 40px;
   border-radius: 4px;
-  border: 1px solid rgb(0 0 0 / 15%);
   flex-shrink: 0;
   display: flex;
   align-items: center;
+}
+
+// Wider stand-in for .swatch, for previews that need more than a 40x40
+// square (a bar, a moving dot, an SVG curve).
+.previewBox {
+  @extend %preview-box-base;
+
+  border: 1px solid rgb(0 0 0 / 15%);
   position: relative;
   overflow: hidden;
   background: rgb(0 0 0 / 3%);
+}
+
+// Same footprint as .previewBox but without the clip/border/background --
+// for a preview whose whole point is to render past its own box (a
+// box-shadow's blur/spread), which .previewBox's overflow: hidden would
+// otherwise cut off.
+.unclippedPreviewBox {
+  @extend %preview-box-base;
+
+  justify-content: center;
 }
 
 .dimensionBarFill {
@@ -91,6 +106,39 @@
   line-height: 1;
 }
 
+// Sample text for TypographyTokenChip's preview -- sits inside .previewBox,
+// which clips overflow, so a token whose own fontSize would blow past the
+// box just gets cut off with an ellipsis rather than breaking the layout.
+.typographySample {
+  max-width: 100%;
+  padding: 0 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// Row of CompositeSubTokenRow's badges -- deliberately slimmer than a full
+// TokenChip (no swatch, no multi-line footer) since these sit nested inside
+// a composite chip's own preview rather than standing alone.
+.compositeRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  max-width: 160px;
+}
+
+.compositeBadge {
+  font-family: monospace;
+  font-size: 10px;
+  line-height: 1.4;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 6%);
+  border: 1px solid rgb(0 0 0 / 10%);
+  white-space: nowrap;
+}
+
 .numberValue {
   font-size: 18px;
   font-family: monospace;
@@ -100,4 +148,47 @@
 .cubicBezierSvg {
   width: 100%;
   height: 100%;
+}
+
+// BorderTokenChip's preview: an actual box drawn with the token's own
+// resolved color/width/style -- margin: 0 auto centers it in .previewBox's
+// flex row (a flex item's auto margins absorb the row's leftover space).
+.borderSample {
+  width: 60px;
+  height: 28px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background: #fff;
+}
+
+// ShadowTokenChip's preview card, sitting inside .unclippedPreviewBox so the
+// box-shadow isn't clipped at the box edge.
+.shadowSample {
+  width: 32px;
+  height: 24px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+// TransitionTokenChip reuses .durationDot/duration-slide wholesale (see
+// TransitionTokenChip) with animation-duration/-delay/-timing-function
+// overridden inline from the token's own resolved values -- no separate
+// class needed here.
+
+// GradientTokenChip's preview: fills .previewBox edge-to-edge with the
+// resolved gradient, relying on the box's own border-radius/overflow:hidden
+// to clip it rather than restating those here.
+.gradientBarFill {
+  width: 100%;
+  height: 100%;
+}
+
+// StrokeStyleTokenChip's preview: a plain rule whose border-style is set
+// inline from the token's own resolved keyword (solid/dashed/dotted).
+.strokeStyleSample {
+  width: calc(100% - 16px);
+  margin: 0 auto;
+  border-top-width: 3px;
+  border-top-color: #3b82f6;
 }

@@ -2,11 +2,13 @@
   display: flex;
   gap: 24px;
   align-items: flex-start;
+  flex-direction: column;
 }
 
 .tokenTreeContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   width: fit-content;
   gap: 12px;
 }
@@ -17,6 +19,11 @@
 
   &.selected {
     border: 3px dotted black;
+  }
+
+  &.dragOver {
+    border: 3px dashed blue;
+    background: rgb(0 0 255 / 5%);
   }
 }
 

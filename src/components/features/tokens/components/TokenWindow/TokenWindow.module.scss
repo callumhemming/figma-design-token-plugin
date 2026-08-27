@@ -17,3 +17,18 @@
   color: rgb(0 0 0 / 50%);
   font-size: 12px;
 }
+
+.addTokenForm {
+  margin-bottom: 12px;
+}
+
+.addTokenRow {
+  display: flex;
+  gap: 8px;
+}
+
+.addTokenError {
+  margin: 4px 0 0;
+  color: #c0392b;
+  font-size: 12px;
+}

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 import { Providers } from "../../../../Providers/Providers";
 import {
+  BorderTokenChip,
   ColorTokenChip,
   CubicBezierTokenChip,
   DimensionTokenChip,
@@ -9,6 +10,11 @@ import {
   FontFamilyTokenChip,
   FontWeightTokenChip,
   GenericTokenChip,
+  GradientTokenChip,
+  ShadowTokenChip,
+  StrokeStyleTokenChip,
+  TransitionTokenChip,
+  TypographyTokenChip,
 } from "./TokenChip";
 
 // Real token paths from src/tokens, served at /tokens by Storybook's
@@ -68,9 +74,38 @@ export const CubicBezier: Story = {
   args: { path: "cubicBezier.easeOut" },
 };
 
-// number, and every composite type (typography, border, strokeStyle, shadow,
-// gradient, transition) fall back to this until they get dedicated chips --
-// see TODO.md "No per-type editors beyond color".
+export const Typography: Story = {
+  render: (args) => <TypographyTokenChip {...args} />,
+  args: { path: "typography.heading" },
+};
+
+export const Border: Story = {
+  render: (args) => <BorderTokenChip {...args} />,
+  args: { path: "border.default" },
+};
+
+export const Shadow: Story = {
+  render: (args) => <ShadowTokenChip {...args} />,
+  args: { path: "shadow.lg" },
+};
+
+export const Transition: Story = {
+  render: (args) => <TransitionTokenChip {...args} />,
+  args: { path: "transition.fast" },
+};
+
+export const Gradient: Story = {
+  render: (args) => <GradientTokenChip {...args} />,
+  args: { path: "gradient.brandFade" },
+};
+
+export const StrokeStyle: Story = {
+  render: (args) => <StrokeStyleTokenChip {...args} />,
+  args: { path: "strokeStyle.dashed" },
+};
+
+// number is the only type left with no dedicated preview -- see TODO.md
+// "No per-type editors beyond color".
 export const Generic: Story = {
   render: (args) => <GenericTokenChip {...args} />,
   args: { path: "lineHeight.100" },

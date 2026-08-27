@@ -1,6 +1,40 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { useState } from "react";
 import { Providers } from "../../../../../components/Providers/Providers";
+import { TokenType } from "../../../tokens/utils/flatten";
+import { TokenEditModalContext } from "../../hooks/useTokenEditModalContext";
 import { TypographyEdit } from "./TypographyEdit";
+
+const WithTokenEditModalContext = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [tokenTypeFilter, setTokenTypeFilter] = useState<TokenType | null>(
+    null,
+  );
+  const [draggedTokenType, setDraggedTokenType] = useState<TokenType | null>(
+    null,
+  );
+  const [draggedTokenPath, setDraggedTokenPath] = useState<string | null>(
+    null,
+  );
+
+  return (
+    <TokenEditModalContext.Provider
+      value={{
+        tokenTypeFilter,
+        setTokenTypeFilter,
+        draggedTokenType,
+        setDraggedTokenType,
+        draggedTokenPath,
+        setDraggedTokenPath,
+      }}
+    >
+      {children}
+    </TokenEditModalContext.Provider>
+  );
+};
 
 const meta = {
   title: "TypographyEdit",
@@ -8,7 +42,9 @@ const meta = {
   decorators: [
     (Story) => (
       <Providers>
-        <Story />
+        <WithTokenEditModalContext>
+          <Story />
+        </WithTokenEditModalContext>
       </Providers>
     ),
   ],

@@ -1,10 +1,13 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
 import {
+  deleteLeafValue,
   flattenTokens,
   FlatToken,
+  setLeafNode,
   setLeafValue,
   TokenGroup,
+  TokenLeaf,
 } from "../utils/flatten";
 import {
   Brand,
@@ -27,6 +30,11 @@ type TokensContextValue = {
   tokenSources: Record<string, string>;
 
   setTokenValue: (path: string, value: unknown) => void;
+  // Unlike setTokenValue, path doesn't exist yet -- there's no tokenSources
+  // entry to look up which file it belongs in, so the caller (who knows
+  // what kind of token it's creating) says so directly.
+  addToken: (sourceFile: string, path: string, leaf: TokenLeaf) => void;
+  removeToken: (path: string) => void;
 };
 
 export const TokensContext = createContext<TokensContextValue | undefined>(
@@ -104,6 +112,38 @@ export const TokensContextProvider = ({
     });
   }
 
+  function addToken(sourceFile: string, path: string, leaf: TokenLeaf) {
+    setRegistry((prev) => {
+      if (!prev) {
+        throw new Error("Cannot add a token before the registry has loaded");
+      }
+      if (!prev[sourceFile]) {
+        throw new Error(`Unknown source file: "${sourceFile}"`);
+      }
+      return {
+        ...prev,
+        [sourceFile]: setLeafNode(prev[sourceFile], path.split("."), leaf),
+      };
+    });
+  }
+
+  function removeToken(path: string) {
+    const sourceFile = tokenSources[path];
+    if (!sourceFile) {
+      throw new Error(`No known source file for token path: "${path}"`);
+    }
+
+    setRegistry((prev) => {
+      if (!prev) {
+        throw new Error("Cannot remove a token before the registry has loaded");
+      }
+      return {
+        ...prev,
+        [sourceFile]: deleteLeafValue(prev[sourceFile], path.split(".")),
+      };
+    });
+  }
+
   return (
     <TokensContext.Provider
       value={{
@@ -115,6 +155,8 @@ export const TokensContextProvider = ({
         tokens,
         tokenSources,
         setTokenValue,
+        addToken,
+        removeToken,
       }}
     >
       {children}

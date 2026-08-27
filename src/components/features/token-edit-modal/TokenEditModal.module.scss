@@ -27,6 +27,14 @@
   flex-wrap: wrap;
 }
 
+.draggableChip {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
 .closeButton {
   position: absolute;
   top: -24px;
@@ -48,4 +56,11 @@
 .tokenSlot {
   padding: 24px;
   border: grey 1px dotted;
+}
+
+.selectedTokenHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }

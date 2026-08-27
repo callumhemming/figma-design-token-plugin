@@ -176,7 +176,11 @@ const TokenView = () => {
         <TokenWindow title={`Primitive ${slug}`} tokens={primitiveTokens} />
       )}
 
-      <TokenWindow title={`Semantic ${slug}`} tokens={semanticTokens} />
+      <TokenWindow
+        title={`Semantic ${slug}`}
+        tokens={semanticTokens}
+        addableType={slug === "typography" ? "typography" : undefined}
+      />
     </TokenWindowContainer>
   );
 };

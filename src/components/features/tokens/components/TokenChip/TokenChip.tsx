@@ -1,11 +1,14 @@
 import { useTokensContext } from "../../hooks/useTokensContext";
 import {
+  CompositeTokenProperty,
+  COMPOSITE_TOKEN_SHAPES,
   formatResolvedValue,
   isReference,
   resolveValue,
   toCssColor,
   TokenType,
 } from "../../utils/flatten";
+import { typographyStyleFromResolved } from "../../utils/typographyStyle";
 import styles from "./TokenChip.module.scss";
 
 export type TokenChipProps = {
@@ -69,9 +72,10 @@ function ChipFooter({
   );
 }
 
-// Fallback for every $type without a dedicated preview yet: the six
-// composite types (typography, border, strokeStyle, shadow, gradient,
-// transition) -- see TODO.md's "No per-type editors beyond color".
+// Fallback for any $type without a dedicated preview -- every composite
+// type now has one below, so today this only covers whatever isn't in
+// TOKEN_CHIP_BY_TYPE at all (see TODO.md's "No per-type editors beyond
+// color" for the primitive side of that gap).
 export function GenericTokenChip({ path, onClick }: TokenChipProps) {
   const { name, value, resolved } = useResolvedTokenChip(path);
 
@@ -228,6 +232,247 @@ export function CubicBezierTokenChip({ path, onClick }: TokenChipProps) {
   );
 }
 
+// One badge per named sub-property of a composite $value (per
+// COMPOSITE_TOKEN_SHAPES), showing which token it's made up of -- the
+// referenced path when the sub-property is a `{...}` alias (the normal
+// case; see global/semantic/typography.json), or the literal value itself
+// otherwise. Generic over any composite shape, not just typography, so a
+// future border/shadow/... chip can reuse it as-is.
+function CompositeSubTokenRow({
+  shape,
+  rawValue,
+}: {
+  shape: CompositeTokenProperty[];
+  rawValue: Record<string, unknown>;
+}) {
+  return (
+    <div className={styles.compositeRow}>
+      {shape.map(({ property }) => {
+        const raw = rawValue[property];
+        if (raw === undefined) return null; // this token doesn't set that sub-property
+
+        const label = isReference(raw)
+          ? raw.slice(1, -1)
+          : formatResolvedValue(raw);
+
+        return (
+          <span
+            key={property}
+            className={styles.compositeBadge}
+            title={property}
+          >
+            {label}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+// A composite token's $value is an object of named sub-properties (color,
+// dimension, fontFamily, ...) rather than one scalar -- GenericTokenChip's
+// formatResolvedValue fallback renders that as raw JSON. This is the first
+// composite with a nicer preview: live styled sample text built from the
+// token's own resolved sub-properties, the same way the primitive chips
+// above preview their own value, plus a slim row naming each sub-token it's
+// made up of (CompositeSubTokenRow) instead of a JSON blob. The other
+// composites (border, shadow, gradient, transition, strokeStyle) still fall
+// back to GenericTokenChip -- see TODO.md.
+export function TypographyTokenChip({ path, onClick }: TokenChipProps) {
+  const { name, value, resolved } = useResolvedTokenChip(path);
+  const typography = resolved as {
+    fontFamily: unknown;
+    fontSize: unknown;
+    fontWeight: unknown;
+    lineHeight: unknown;
+    letterSpacing?: unknown;
+  };
+  const sampleStyle = typographyStyleFromResolved(typography);
+
+  return (
+    <div className={styles.chip} onClick={onClick}>
+      <div className={styles.previewBox}>
+        <span className={styles.typographySample} style={sampleStyle}>
+          Ag
+        </span>
+      </div>
+      <CompositeSubTokenRow
+        shape={COMPOSITE_TOKEN_SHAPES.typography}
+        rawValue={value as Record<string, unknown>}
+      />
+      <span className={styles.mono}>{`Name: ${name}`}</span>
+    </div>
+  );
+}
+
+// Shared by Border/Shadow below -- resolveValue() leaves a dimension
+// sub-property as a { value, unit } object, same as a standalone dimension
+// token, so this is the same rem->px normalization DimensionTokenChip does.
+function dimensionToPx(resolved: unknown): number {
+  const dimension = resolved as { value: number; unit: "px" | "rem" };
+  return dimension.unit === "rem"
+    ? dimension.value * REM_TO_PX
+    : dimension.value;
+}
+
+export function BorderTokenChip({ path, onClick }: TokenChipProps) {
+  const { name, value, resolved } = useResolvedTokenChip(path);
+  const border = resolved as { color: unknown; width: unknown; style: unknown };
+
+  return (
+    <div className={styles.chip} onClick={onClick}>
+      <div className={styles.previewBox}>
+        <div
+          className={styles.borderSample}
+          style={{
+            borderWidth: `${dimensionToPx(border.width)}px`,
+            borderStyle: String(border.style),
+            borderColor: toCssColor(border.color),
+          }}
+        />
+      </div>
+      <CompositeSubTokenRow
+        shape={COMPOSITE_TOKEN_SHAPES.border}
+        rawValue={value as Record<string, unknown>}
+      />
+      <span className={styles.mono}>{`Name: ${name}`}</span>
+    </div>
+  );
+}
+
+export function ShadowTokenChip({ path, onClick }: TokenChipProps) {
+  const { name, value, resolved } = useResolvedTokenChip(path);
+  const shadow = resolved as {
+    color: unknown;
+    offsetX: unknown;
+    offsetY: unknown;
+    blur: unknown;
+    spread: unknown;
+  };
+  const boxShadow = [shadow.offsetX, shadow.offsetY, shadow.blur, shadow.spread]
+    .map((dimension) => `${dimensionToPx(dimension)}px`)
+    .concat(toCssColor(shadow.color))
+    .join(" ");
+
+  return (
+    <div className={styles.chip} onClick={onClick}>
+      {/* .previewBox's overflow: hidden would clip the shadow at the box
+      edge, so this uses the unclipped variant instead. */}
+      <div className={styles.unclippedPreviewBox}>
+        <div className={styles.shadowSample} style={{ boxShadow }} />
+      </div>
+      <CompositeSubTokenRow
+        shape={COMPOSITE_TOKEN_SHAPES.shadow}
+        rawValue={value as Record<string, unknown>}
+      />
+      <span className={styles.mono}>{`Name: ${name}`}</span>
+    </div>
+  );
+}
+
+// Reuses .durationDot/duration-slide wholesale (see DurationTokenChip above)
+// with animation-duration/-delay/-timing-function overridden from the
+// transition's own resolved values, rather than a separate animation --
+// same "slide across the box" demo, now driven by the real easing curve
+// instead of a fixed ease-in-out.
+export function TransitionTokenChip({ path, onClick }: TokenChipProps) {
+  const { name, value, resolved } = useResolvedTokenChip(path);
+  const transition = resolved as {
+    duration: unknown;
+    delay: unknown;
+    timingFunction: unknown;
+  };
+  const ms = (resolved: unknown) => {
+    const duration = resolved as { value: number; unit: "ms" | "s" };
+    return duration.unit === "s" ? duration.value * 1000 : duration.value;
+  };
+  const [x1, y1, x2, y2] = transition.timingFunction as number[];
+
+  return (
+    <div className={styles.chip} onClick={onClick}>
+      <div className={styles.previewBox}>
+        <div
+          className={styles.durationDot}
+          style={{
+            animationDuration: `${ms(transition.duration)}ms`,
+            animationDelay: `${ms(transition.delay)}ms`,
+            animationTimingFunction: `cubic-bezier(${x1}, ${y1}, ${x2}, ${y2})`,
+          }}
+        />
+      </div>
+      <CompositeSubTokenRow
+        shape={COMPOSITE_TOKEN_SHAPES.transition}
+        rawValue={value as Record<string, unknown>}
+      />
+      <span className={styles.mono}>{`Name: ${name}`}</span>
+    </div>
+  );
+}
+
+// gradient's $value is an array of { color, position } stops, not a flat
+// object of named sub-properties -- it doesn't fit COMPOSITE_TOKEN_SHAPES
+// (see TODO.md), so this builds its own row of stop badges rather than
+// using CompositeSubTokenRow.
+export function GradientTokenChip({ path, onClick }: TokenChipProps) {
+  const { name, value, resolved } = useResolvedTokenChip(path);
+  const resolvedStops = resolved as { color: unknown; position: number }[];
+  const rawStops = value as { color: unknown; position: number }[];
+
+  const gradientCss = `linear-gradient(90deg, ${resolvedStops
+    .map((stop) => `${toCssColor(stop.color)} ${stop.position * 100}%`)
+    .join(", ")})`;
+
+  return (
+    <div className={styles.chip} onClick={onClick}>
+      <div className={styles.previewBox}>
+        <div
+          className={styles.gradientBarFill}
+          style={{ background: gradientCss }}
+        />
+      </div>
+      <div className={styles.compositeRow}>
+        {rawStops.map((stop, index) => {
+          const label = isReference(stop.color)
+            ? stop.color.slice(1, -1)
+            : formatResolvedValue(stop.color);
+          return (
+            <span
+              key={index}
+              className={styles.compositeBadge}
+              title={`position ${stop.position}`}
+            >
+              {label} @{Math.round(stop.position * 100)}%
+            </span>
+          );
+        })}
+      </div>
+      <span className={styles.mono}>{`Name: ${name}`}</span>
+    </div>
+  );
+}
+
+// strokeStyle's own $value is a plain keyword ("solid"/"dashed"/"dotted"),
+// not an object of sub-properties -- unlike the composites above, it isn't
+// "made up of" other tokens, so there's no CompositeSubTokenRow here, just
+// the keyword rendered as an actual rule.
+export function StrokeStyleTokenChip({ path, onClick }: TokenChipProps) {
+  const { name, value, resolved } = useResolvedTokenChip(path);
+  const borderStyle = typeof resolved === "string" ? resolved : "solid";
+
+  return (
+    <div className={styles.chip} onClick={onClick}>
+      <div className={styles.previewBox}>
+        <div className={styles.strokeStyleSample} style={{ borderStyle }} />
+      </div>
+      <ChipFooter
+        name={name}
+        value={value}
+        valueLabel={`Style: ${formatResolvedValue(resolved)}`}
+      />
+    </div>
+  );
+}
+
 export const TOKEN_CHIP_BY_TYPE: Partial<
   Record<TokenType, (props: TokenChipProps) => React.JSX.Element>
 > = {
@@ -238,4 +483,10 @@ export const TOKEN_CHIP_BY_TYPE: Partial<
   fontWeight: FontWeightTokenChip,
   number: NumberTokenChip,
   cubicBezier: CubicBezierTokenChip,
+  typography: TypographyTokenChip,
+  border: BorderTokenChip,
+  shadow: ShadowTokenChip,
+  transition: TransitionTokenChip,
+  gradient: GradientTokenChip,
+  strokeStyle: StrokeStyleTokenChip,
 };

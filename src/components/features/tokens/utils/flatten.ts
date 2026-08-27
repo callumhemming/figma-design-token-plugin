@@ -71,7 +71,6 @@ export const PRIMITIVE_TOKEN_TYPES = [
   "number",
   "duration",
   "cubicBezier",
-  "number",
 ] as const;
 
 export const COMPOSITE_TOKEN_TYPES = [
@@ -252,6 +251,89 @@ export function setLeafValue(
   return { ...tree, [key]: setLeafValue(node, rest, value) };
 }
 
+// Immutable leaf insertion: returns a new tree with a brand-new leaf placed
+// at `path`, creating any missing intermediate groups along the way.
+// setLeafValue (above) only replaces an existing leaf's $value -- it can't
+// create a path that doesn't exist yet, which is what adding a new token
+// needs. Throws if something already lives at `path` (a group, or an
+// existing leaf) rather than silently overwriting it.
+export function setLeafNode(
+  tree: TokenGroup,
+  path: string[],
+  leaf: TokenLeaf,
+): TokenGroup {
+  const [key, ...rest] = path;
+  const node = tree[key];
+
+  if (rest.length === 0) {
+    if (node !== undefined) {
+      throw new Error(`Path already in use: "${path.join(".")}"`);
+    }
+    return { ...tree, [key]: leaf };
+  }
+
+  if (node !== undefined && isLeaf(node)) {
+    throw new Error(
+      `Path passes through an existing leaf: "${[...path.slice(0, path.length - rest.length), key].join(".")}"`,
+    );
+  }
+
+  return { ...tree, [key]: setLeafNode(node ?? {}, rest, leaf) };
+}
+
+// Immutable leaf removal: returns a new tree with the leaf at `path` gone.
+// Also prunes any parent group left with no remaining child token (only
+// its own $type/$deprecated/etc. metadata, if any) so deleting the last
+// token in a group doesn't leave a dangling empty group behind.
+export function deleteLeafValue(tree: TokenGroup, path: string[]): TokenGroup {
+  const [key, ...rest] = path;
+  const node = tree[key];
+  if (!node) {
+    throw new Error(`No token at path: "${path.join(".")}"`);
+  }
+
+  if (rest.length === 0) {
+    if (!isLeaf(node)) {
+      throw new Error(`Path does not point to a leaf: "${path.join(".")}"`);
+    }
+    const { [key]: _removed, ...remaining } = tree;
+    return remaining;
+  }
+
+  if (isLeaf(node)) {
+    throw new Error(`Path does not point to a leaf: "${path.join(".")}"`);
+  }
+
+  const updatedChild = deleteLeafValue(node, rest);
+  const childStillHasTokens = Object.keys(updatedChild).some(
+    (childKey) => !GROUP_METADATA_KEYS.has(childKey),
+  );
+  if (childStillHasTokens) {
+    return { ...tree, [key]: updatedChild };
+  }
+  const { [key]: _removed, ...remaining } = tree;
+  return remaining;
+}
+
+// Whether `value` (a token's raw, unresolved $value -- possibly a composite
+// object or array of sub-properties) contains a `{path}` reference to
+// `path` anywhere within it. Used to guard token deletion: removing a token
+// still referenced elsewhere would leave those references dangling
+// (resolveValue throws "Unresolved token reference" the next time they're
+// resolved) rather than actually detaching them.
+export function referencesPath(value: unknown, path: string): boolean {
+  if (isReference(value)) {
+    return value.slice(1, -1) === path;
+  }
+  if (Array.isArray(value)) {
+    return value.some((item) => referencesPath(item, path));
+  }
+  if (value !== null && typeof value === "object") {
+    return Object.values(value).some((item) => referencesPath(item, path));
+  }
+  return false;
+}
+
 export function mergeTokenTrees(...trees: TokenGroup[]): TokenGroup {
   const result: TokenGroup = {};
 
@@ -284,11 +366,28 @@ export function isReference(value: unknown): value is string {
   return typeof value === "string" && ALIAS_PATTERN.test(value);
 }
 
-export function resolveValue(value: unknown, root: TokenGroup): unknown {
+export function resolveValue(
+  value: unknown,
+  root: TokenGroup,
+  // Reference paths already followed on this call chain -- guards against a
+  // circular alias (`{a}` -> `{b}` -> `{a}`) recursing until the stack
+  // overflows. Not just theoretical: the token-edit-modal's drag-and-drop
+  // can create a direct self-reference (a token dropped onto its own slot)
+  // with one drop, so this needs a real guard rather than "not an issue with
+  // current data."
+  seen: ReadonlySet<string> = new Set(),
+): unknown {
   if (isReference(value)) {
     const match = value.match(ALIAS_PATTERN)!;
+    const refPath = match[1];
 
-    const node = match[1]
+    if (seen.has(refPath)) {
+      throw new Error(
+        `Circular token reference: ${[...seen, refPath].join(" -> ")}`,
+      );
+    }
+
+    const node = refPath
       .split(".")
       .reduce<TokenLeaf | TokenGroup | undefined>(
         (acc, key) => (acc && !isLeaf(acc) ? acc[key] : undefined),
@@ -296,23 +395,25 @@ export function resolveValue(value: unknown, root: TokenGroup): unknown {
       );
 
     if (!node || !isLeaf(node)) {
-      throw new Error(`Unresolved token reference: ${match[1]}`);
+      throw new Error(`Unresolved token reference: ${refPath}`);
     }
 
-    return resolveValue(node.$value, root); // node.$value may itself be a reference
+    // node.$value may itself be a reference -- thread the growing seen set
+    // through so a longer cycle (a -> b -> a) is still caught.
+    return resolveValue(node.$value, root, new Set(seen).add(refPath));
   }
 
   // Composite $value (typography, border, shadow, ...): each sub-property
   // can independently be a literal or its own reference, per the DTCG
   // composite token spec — resolve every element/property in place.
   if (Array.isArray(value)) {
-    return value.map((item) => resolveValue(item, root));
+    return value.map((item) => resolveValue(item, root, seen));
   }
   if (value !== null && typeof value === "object") {
     return Object.fromEntries(
       Object.entries(value).map(([key, item]) => [
         key,
-        resolveValue(item, root),
+        resolveValue(item, root, seen),
       ]),
     );
   }
