@@ -1,0 +1,91 @@
+@mixin typography($variant) {
+  display: block;
+  font-family: var(--s-typography-#{$variant}-font-family);
+  font-weight: var(--s-typography-#{$variant}-font-weight);
+  font-size: var(--s-typography-#{$variant}-font-size);
+  line-height: var(--s-typography-#{$variant}-line-height);
+  letter-spacing: var(--s-typography-#{$variant}-letter-spacing);
+  text-box: trim-both cap alphabetic;
+}
+
+// Space below the text, in cap heights of the text's own font. Each variant
+// has a default (see gutterMap in index.tsx); override per usage with the
+// `gutter` prop.
+.gutter-none {
+  margin-bottom: var(--s-typography-gutter-none);
+}
+
+.gutter-xs {
+  margin-bottom: var(--s-typography-gutter-xs);
+}
+
+.gutter-sm {
+  margin-bottom: var(--s-typography-gutter-sm);
+}
+
+.gutter-md {
+  margin-bottom: var(--s-typography-gutter-md);
+}
+
+.gutter-lg {
+  margin-bottom: var(--s-typography-gutter-lg);
+}
+
+.heading1 {
+  @include typography(heading1);
+}
+
+.heading2 {
+  @include typography(heading2);
+}
+
+.heading3 {
+  @include typography(heading3);
+}
+
+.heading4 {
+  @include typography(heading4);
+}
+
+.heading5 {
+  @include typography(heading5);
+}
+
+.heading6 {
+  @include typography(heading6);
+}
+
+.subtitle1 {
+  @include typography(subtitle1);
+}
+
+.subtitle2 {
+  @include typography(subtitle2);
+}
+
+.body1 {
+  @include typography(body1);
+}
+
+.body2 {
+  @include typography(body2);
+}
+
+.button {
+  @include typography(button);
+}
+
+.caption {
+  @include typography(caption);
+}
+
+.overline {
+  @include typography(overline);
+
+  text-transform: uppercase;
+}
+
+.inherit {
+  font: inherit;
+  letter-spacing: inherit;
+}

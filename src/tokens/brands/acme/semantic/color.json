@@ -1,16 +1,161 @@
 {
-  "color": {
-    "action": {
+  "s": {
+    "color": {
       "primary": {
+        "background-subtle": {
+          "$type": "color",
+          "$value": "{p.color.indigo.2}"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "{p.color.indigo.3}"
+        },
+        "surface-hover": {
+          "$type": "color",
+          "$value": "{p.color.indigo.4}"
+        },
+        "surface-active": {
+          "$type": "color",
+          "$value": "{p.color.indigo.5}"
+        },
+        "border-subtle": {
+          "$type": "color",
+          "$value": "{p.color.indigo.6}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{p.color.indigo.7}"
+        },
+        "border-hover": {
+          "$type": "color",
+          "$value": "{p.color.indigo.8}"
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{p.color.indigo.9}"
+        },
+        "solid-hover": {
+          "$type": "color",
+          "$value": "{p.color.indigo.10}"
+        },
+        "on-solid": {
+          "$type": "color",
+          "$value": "{p.color.white}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{p.color.indigo.11}"
+        },
+        "text-strong": {
+          "$type": "color",
+          "$value": "{p.color.indigo.12}"
+        }
+      },
+      "secondary": {
+        "background-subtle": {
+          "$type": "color",
+          "$value": "{p.color.teal.2}"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "{p.color.teal.3}"
+        },
+        "surface-hover": {
+          "$type": "color",
+          "$value": "{p.color.teal.4}"
+        },
+        "surface-active": {
+          "$type": "color",
+          "$value": "{p.color.teal.5}"
+        },
+        "border-subtle": {
+          "$type": "color",
+          "$value": "{p.color.teal.6}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{p.color.teal.7}"
+        },
+        "border-hover": {
+          "$type": "color",
+          "$value": "{p.color.teal.8}"
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{p.color.teal.9}"
+        },
+        "solid-hover": {
+          "$type": "color",
+          "$value": "{p.color.teal.10}"
+        },
+        "on-solid": {
+          "$type": "color",
+          "$value": "{p.color.white}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{p.color.teal.11}"
+        },
+        "text-strong": {
+          "$type": "color",
+          "$value": "{p.color.teal.12}"
+        }
+      },
+      "accent": {
+        "background-subtle": {
+          "$type": "color",
+          "$value": "{p.color.amber.2}"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "{p.color.amber.3}"
+        },
+        "surface-hover": {
+          "$type": "color",
+          "$value": "{p.color.amber.4}"
+        },
+        "surface-active": {
+          "$type": "color",
+          "$value": "{p.color.amber.5}"
+        },
+        "border-subtle": {
+          "$type": "color",
+          "$value": "{p.color.amber.6}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{p.color.amber.7}"
+        },
+        "border-hover": {
+          "$type": "color",
+          "$value": "{p.color.amber.8}"
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{p.color.amber.9}"
+        },
+        "solid-hover": {
+          "$type": "color",
+          "$value": "{p.color.amber.10}"
+        },
+        "on-solid": {
+          "$type": "color",
+          "$value": "{p.color.amber.contrast}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{p.color.amber.11}"
+        },
+        "text-strong": {
+          "$type": "color",
+          "$value": "{p.color.amber.12}"
+        }
+      },
+      "focus-ring": {
         "$type": "color",
-        "$value": "{color.brand.500}"
-      }
-    },
-    "background": {
-      "primary": {
-        "$type": "color",
-        "$value": "{color.brand.100}"
-      }
+        "$value": "{p.color.indigo.8}"
+      },
+      "$description": "acme: primary = indigo, secondary = teal, accent = amber. Every brand must define the same paths."
     }
   }
 }

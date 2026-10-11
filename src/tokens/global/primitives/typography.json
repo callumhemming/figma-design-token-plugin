@@ -1,14 +1,242 @@
 {
-  "fontWeight": {
-    "regular": { "$type": "fontWeight", "$value": 400 },
-    "bold": { "$type": "fontWeight", "$value": 700 }
-  },
-  "fontSize": {
-    "100": { "$type": "dimension", "$value": { "value": 14, "unit": "px" } },
-    "200": { "$type": "dimension", "$value": { "value": 16, "unit": "px" } },
-    "300": { "$type": "dimension", "$value": { "value": 20, "unit": "px" } }
-  },
-  "lineHeight": {
-    "100": { "$type": "number", "$value": 1.4 }
+  "p": {
+    "font-weight": {
+      "regular": {
+        "$type": "fontWeight",
+        "$value": 400
+      },
+      "medium": {
+        "$type": "fontWeight",
+        "$value": 500
+      },
+      "semibold": {
+        "$type": "fontWeight",
+        "$value": 600
+      },
+      "bold": {
+        "$type": "fontWeight",
+        "$value": 700
+      }
+    },
+    "font-size": {
+      "step-n2": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.6944,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "fluid": {
+              "max": {
+                "value": 0.72,
+                "unit": "rem"
+              },
+              "minViewport": "{p.viewport.min}",
+              "maxViewport": "{p.viewport.max}"
+            }
+          }
+        }
+      },
+      "step-n1": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.8333,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "fluid": {
+              "max": {
+                "value": 0.9,
+                "unit": "rem"
+              },
+              "minViewport": "{p.viewport.min}",
+              "maxViewport": "{p.viewport.max}"
+            }
+          }
+        }
+      },
+      "step-0": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "fluid": {
+              "max": {
+                "value": 1.125,
+                "unit": "rem"
+              },
+              "minViewport": "{p.viewport.min}",
+              "maxViewport": "{p.viewport.max}"
+            }
+          }
+        }
+      },
+      "step-1": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.2,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "fluid": {
+              "max": {
+                "value": 1.4063,
+                "unit": "rem"
+              },
+              "minViewport": "{p.viewport.min}",
+              "maxViewport": "{p.viewport.max}"
+            }
+          }
+        }
+      },
+      "step-2": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.44,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "fluid": {
+              "max": {
+                "value": 1.7578,
+                "unit": "rem"
+              },
+              "minViewport": "{p.viewport.min}",
+              "maxViewport": "{p.viewport.max}"
+            }
+          }
+        }
+      },
+      "step-3": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.728,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "fluid": {
+              "max": {
+                "value": 2.1973,
+                "unit": "rem"
+              },
+              "minViewport": "{p.viewport.min}",
+              "maxViewport": "{p.viewport.max}"
+            }
+          }
+        }
+      },
+      "step-4": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2.0736,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "fluid": {
+              "max": {
+                "value": 2.7466,
+                "unit": "rem"
+              },
+              "minViewport": "{p.viewport.min}",
+              "maxViewport": "{p.viewport.max}"
+            }
+          }
+        }
+      },
+      "step-5": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2.4883,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "fluid": {
+              "max": {
+                "value": 3.4332,
+                "unit": "rem"
+              },
+              "minViewport": "{p.viewport.min}",
+              "maxViewport": "{p.viewport.max}"
+            }
+          }
+        }
+      },
+      "$description": "Utopia fluid type scale (utopia.fyi/type/calculator): 16px \u00d7 1.2 at viewport.min \u2192 18px \u00d7 1.25 at viewport.max. $value is the min; the max is in $extensions.dev.learning-plugin.fluid."
+    },
+    "line-height": {
+      "tight": {
+        "$type": "number",
+        "$value": 1.2
+      },
+      "snug": {
+        "$type": "number",
+        "$value": 1.35
+      },
+      "normal": {
+        "$type": "number",
+        "$value": 1.5
+      }
+    },
+    "letter-spacing": {
+      "tight": {
+        "$type": "dimension",
+        "$value": {
+          "value": -0.02,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "unit": "em"
+          }
+        }
+      },
+      "normal": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.0,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "unit": "em"
+          }
+        }
+      },
+      "wide": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.05,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "unit": "em"
+          }
+        }
+      },
+      "wider": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.1,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "dev.learning-plugin": {
+            "unit": "em"
+          }
+        }
+      },
+      "$description": "Tracking relative to the element's own font size, so it follows the fluid type. DTCG dimensions only allow px/rem, so $value holds the rem equivalent at the 16px root and $extensions[\"dev.learning-plugin\"].unit says to output it in em."
+    }
   }
 }

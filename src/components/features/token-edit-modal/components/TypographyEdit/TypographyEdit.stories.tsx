@@ -16,9 +16,7 @@ const WithTokenEditModalContext = ({
   const [draggedTokenType, setDraggedTokenType] = useState<TokenType | null>(
     null,
   );
-  const [draggedTokenPath, setDraggedTokenPath] = useState<string | null>(
-    null,
-  );
+  const [draggedTokenPath, setDraggedTokenPath] = useState<string | null>(null);
 
   return (
     <TokenEditModalContext.Provider

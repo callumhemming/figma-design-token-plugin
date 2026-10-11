@@ -1,0 +1,21 @@
+{
+  "p": {
+    "viewport": {
+      "min": {
+        "$type": "dimension",
+        "$value": {
+          "value": 320,
+          "unit": "px"
+        }
+      },
+      "max": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1240,
+          "unit": "px"
+        }
+      },
+      "$description": "Viewport range for fluid tokens (Utopia method): values are at their min at viewport.min and their max at viewport.max."
+    }
+  }
+}

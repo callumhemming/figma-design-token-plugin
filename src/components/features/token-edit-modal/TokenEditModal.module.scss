@@ -3,7 +3,7 @@
   width: 80vw;
   height: 80vh;
   overflow: visible;
-  padding: 28px 24px;
+  padding: var(--s-spacing-7) var(--s-spacing-6);
 
   &[open] {
     display: flex;
@@ -13,7 +13,7 @@
 
 .twoColumn {
   display: flex;
-  gap: 42px;
+  gap: var(--s-spacing-10);
 }
 
 .innerContainer {
@@ -37,8 +37,8 @@
 
 .closeButton {
   position: absolute;
-  top: -24px;
-  right: -24px;
+  top: calc(-1 * var(--s-spacing-6));
+  right: calc(-1 * var(--s-spacing-6));
   border: 1px black solid;
   width: 42px;
   height: 42px;
@@ -54,7 +54,7 @@
 }
 
 .tokenSlot {
-  padding: 24px;
+  padding: var(--s-spacing-6);
   border: grey 1px dotted;
 }
 
@@ -62,5 +62,5 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--s-spacing-3);
 }

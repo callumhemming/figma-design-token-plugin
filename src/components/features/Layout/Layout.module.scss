@@ -14,23 +14,19 @@
 .topBar {
   grid-area: topbar;
   background-color: grey;
-  padding: 12px;
-}
-
-.navRoot {
-  display: flex;
+  padding: var(--s-spacing-3);
 }
 
 .sideBarRoot {
   grid-area: side-bar;
   background-color: grey;
-  padding: 24px 12px;
+  padding: var(--s-spacing-6) var(--s-spacing-3);
 }
 
 .sideBarColumn {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--s-spacing-3);
 }
 
 .sideBarButton {

@@ -1,0 +1,226 @@
+{
+  "p": {
+    "spacing": {
+      "0": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "rem"
+        }
+      },
+      "1": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.25,
+          "unit": "rem"
+        }
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.5,
+          "unit": "rem"
+        }
+      },
+      "3": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0.75,
+          "unit": "rem"
+        }
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.0,
+          "unit": "rem"
+        }
+      },
+      "5": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.25,
+          "unit": "rem"
+        }
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.5,
+          "unit": "rem"
+        }
+      },
+      "7": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.75,
+          "unit": "rem"
+        }
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2.0,
+          "unit": "rem"
+        }
+      },
+      "9": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2.25,
+          "unit": "rem"
+        }
+      },
+      "10": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2.5,
+          "unit": "rem"
+        }
+      },
+      "$description": "4px grid in rem: spacing.n = n \u00d7 spacing.1 (0.25rem, 4px at the default 16px root).",
+      "fluid": {
+        "1-2": {
+          "$type": "dimension",
+          "$value": "{p.spacing.1}",
+          "$description": "Fluid: spacing.1 at the min viewport \u2192 spacing.2 at the max viewport. $value is the min.",
+          "$extensions": {
+            "dev.learning-plugin": {
+              "fluid": {
+                "max": "{p.spacing.2}",
+                "minViewport": "{p.viewport.min}",
+                "maxViewport": "{p.viewport.max}"
+              }
+            }
+          }
+        },
+        "2-4": {
+          "$type": "dimension",
+          "$value": "{p.spacing.2}",
+          "$description": "Fluid: spacing.2 at the min viewport \u2192 spacing.4 at the max viewport. $value is the min.",
+          "$extensions": {
+            "dev.learning-plugin": {
+              "fluid": {
+                "max": "{p.spacing.4}",
+                "minViewport": "{p.viewport.min}",
+                "maxViewport": "{p.viewport.max}"
+              }
+            }
+          }
+        },
+        "4-6": {
+          "$type": "dimension",
+          "$value": "{p.spacing.4}",
+          "$description": "Fluid: spacing.4 at the min viewport \u2192 spacing.6 at the max viewport. $value is the min.",
+          "$extensions": {
+            "dev.learning-plugin": {
+              "fluid": {
+                "max": "{p.spacing.6}",
+                "minViewport": "{p.viewport.min}",
+                "maxViewport": "{p.viewport.max}"
+              }
+            }
+          }
+        },
+        "6-10": {
+          "$type": "dimension",
+          "$value": "{p.spacing.6}",
+          "$description": "Fluid: spacing.6 at the min viewport \u2192 spacing.10 at the max viewport. $value is the min.",
+          "$extensions": {
+            "dev.learning-plugin": {
+              "fluid": {
+                "max": "{p.spacing.10}",
+                "minViewport": "{p.viewport.min}",
+                "maxViewport": "{p.viewport.max}"
+              }
+            }
+          }
+        }
+      },
+      "cap": {
+        "0": {
+          "$type": "number",
+          "$value": 0,
+          "$extensions": {
+            "dev.learning-plugin": {
+              "unit": "cap"
+            }
+          }
+        },
+        "2": {
+          "$type": "number",
+          "$value": 0.5,
+          "$extensions": {
+            "dev.learning-plugin": {
+              "unit": "cap"
+            }
+          }
+        },
+        "3": {
+          "$type": "number",
+          "$value": 0.75,
+          "$extensions": {
+            "dev.learning-plugin": {
+              "unit": "cap"
+            }
+          }
+        },
+        "4": {
+          "$type": "number",
+          "$value": 1.0,
+          "$extensions": {
+            "dev.learning-plugin": {
+              "unit": "cap"
+            }
+          }
+        },
+        "5": {
+          "$type": "number",
+          "$value": 1.25,
+          "$extensions": {
+            "dev.learning-plugin": {
+              "unit": "cap"
+            }
+          }
+        },
+        "6": {
+          "$type": "number",
+          "$value": 1.5,
+          "$extensions": {
+            "dev.learning-plugin": {
+              "unit": "cap"
+            }
+          }
+        },
+        "8": {
+          "$type": "number",
+          "$value": 2.0,
+          "$extensions": {
+            "dev.learning-plugin": {
+              "unit": "cap"
+            }
+          }
+        },
+        "10": {
+          "$type": "number",
+          "$value": 2.5,
+          "$extensions": {
+            "dev.learning-plugin": {
+              "unit": "cap"
+            }
+          }
+        },
+        "16": {
+          "$type": "number",
+          "$value": 4.0,
+          "$extensions": {
+            "dev.learning-plugin": {
+              "unit": "cap"
+            }
+          }
+        },
+        "$description": "Multiples of the cap height of the element's own font (CSS `cap` unit). Numbers because DTCG dimensions only allow px/rem."
+      }
+    }
+  }
+}

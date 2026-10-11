@@ -1,4 +1,5 @@
 import { InputHTMLAttributes, KeyboardEvent, useState } from "react";
+import { Typography } from "../../ui/Typography";
 import styles from "./Combobox.module.scss";
 
 export type ComboboxOption = {
@@ -105,9 +106,17 @@ export function Combobox({
                   : styles.option
               }
             >
-              <span>{option.value}</span>
+              <Typography variant="body2" as="span">
+                {option.value}
+              </Typography>
               {option.meta ? (
-                <span className={styles.optionMeta}>{option.meta}</span>
+                <Typography
+                  variant="body2"
+                  as="span"
+                  className={styles.optionMeta}
+                >
+                  {option.meta}
+                </Typography>
               ) : null}
             </li>
           ))}

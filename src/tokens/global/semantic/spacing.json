@@ -1,0 +1,68 @@
+{
+  "s": {
+    "spacing": {
+      "0": {
+        "$type": "dimension",
+        "$value": "{p.spacing.0}"
+      },
+      "1": {
+        "$type": "dimension",
+        "$value": "{p.spacing.1}"
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": "{p.spacing.2}"
+      },
+      "3": {
+        "$type": "dimension",
+        "$value": "{p.spacing.3}"
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": "{p.spacing.4}"
+      },
+      "5": {
+        "$type": "dimension",
+        "$value": "{p.spacing.5}"
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": "{p.spacing.6}"
+      },
+      "7": {
+        "$type": "dimension",
+        "$value": "{p.spacing.7}"
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": "{p.spacing.8}"
+      },
+      "9": {
+        "$type": "dimension",
+        "$value": "{p.spacing.9}"
+      },
+      "10": {
+        "$type": "dimension",
+        "$value": "{p.spacing.10}"
+      },
+      "fluid": {
+        "xs": {
+          "$type": "dimension",
+          "$value": "{p.spacing.fluid.1-2}"
+        },
+        "sm": {
+          "$type": "dimension",
+          "$value": "{p.spacing.fluid.2-4}"
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "{p.spacing.fluid.4-6}"
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "{p.spacing.fluid.6-10}"
+        }
+      }
+    }
+  }
+}

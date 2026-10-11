@@ -3,6 +3,8 @@ import {
   GenericTokenChip,
   TOKEN_CHIP_BY_TYPE,
 } from "../tokens/components/TokenChip/TokenChip";
+import { Button } from "../../ui/Button";
+import { Typography } from "../../ui/Typography";
 import { useTokensContext } from "../tokens/hooks/useTokensContext";
 import {
   COMPOSITE_TOKEN_SHAPES,
@@ -99,10 +101,10 @@ export const TokenEditModal = ({
           className={styles.closeButton}
           onClick={() => dialogRef.current?.close()}
         >
-          <p className={styles.closeIcon}>+</p>
+          <Typography className={styles.closeIcon}>+</Typography>
         </button>
         <div className={styles.innerContainer}>
-          <h1>{`Token edit modal | ${selectedPath}`} </h1>
+          <Typography variant="heading1">{`Token edit modal | ${selectedPath}`}</Typography>
           <div className={styles.twoColumn}>
             <div>
               {compatibleTypes.map((type) => {
@@ -116,7 +118,7 @@ export const TokenEditModal = ({
 
                 return (
                   <Fragment key={type}>
-                    <h2>{type}</h2>
+                    <Typography variant="heading2">{type}</Typography>
                     <div className={styles.tokenChipContainer}>
                       {tokensByType.map((token) => (
                         <div
@@ -150,9 +152,9 @@ export const TokenEditModal = ({
             </div>
             <div>
               <div className={styles.selectedTokenHeader}>
-                <h2>Selected token</h2>
+                <Typography variant="heading2">Selected token</Typography>
                 {selectedPath ? (
-                  <button
+                  <Button
                     disabled={referencingTokens.length > 0}
                     title={
                       referencingTokens.length > 0
@@ -166,7 +168,7 @@ export const TokenEditModal = ({
                     }}
                   >
                     Delete token
-                  </button>
+                  </Button>
                 ) : null}
               </div>
               <div className={styles.tokenSlot}>
@@ -182,7 +184,7 @@ export const TokenEditModal = ({
                     })()
                   )
                 ) : (
-                  <p>No token selected.</p>
+                  <Typography>No token selected.</Typography>
                 )}
               </div>
             </div>

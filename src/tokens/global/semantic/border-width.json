@@ -1,0 +1,14 @@
+{
+  "s": {
+    "border-width": {
+      "default": {
+        "$type": "dimension",
+        "$value": "{p.border-width.1}"
+      },
+      "focus": {
+        "$type": "dimension",
+        "$value": "{p.border-width.2}"
+      }
+    }
+  }
+}
