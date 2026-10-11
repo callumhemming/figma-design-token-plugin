@@ -16,17 +16,13 @@ const set = z.object({
 });
 
 const sets = z.object({
-  foundation: set,
-  typography: set,
-  strokeStyle: set,
-  border: set,
-  spacing: set,
-  motion: set,
-  shadow: set,
-  gradient: set,
+  primitives: set,
+  semantic: set,
+  component: set,
 });
 
 const themeModifier = z.object({
+  description: z.string().optional(),
   contexts: z.object({
     light: z.array(sourceRef),
     dark: z.array(sourceRef),

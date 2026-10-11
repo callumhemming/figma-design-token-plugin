@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
+  gap: var(--s-spacing-2);
+  padding: var(--s-spacing-1) var(--s-spacing-2);
   border-radius: 6px;
   border: 1px solid rgb(0 0 0 / 10%);
   width: fit-content;
@@ -23,11 +23,6 @@
 
 .swatch {
   @extend %swatch-box;
-}
-
-.mono {
-  font-size: 12px;
-  font-family: monospace;
 }
 
 // Same box as .swatch, for previews that render inline content (a font
@@ -73,7 +68,7 @@
   height: 8px;
   border-radius: 4px;
   background: #3b82f6;
-  margin: 0 4px;
+  margin: 0 var(--s-spacing-1);
 }
 
 .durationDot {
@@ -83,7 +78,7 @@
   background: #3b82f6;
   position: absolute;
   top: 50%;
-  left: 4px;
+  left: var(--s-spacing-1);
   transform: translateY(-50%);
   animation-name: duration-slide;
   animation-timing-function: ease-in-out;
@@ -93,11 +88,11 @@
 
 @keyframes duration-slide {
   from {
-    left: 4px;
+    left: var(--s-spacing-1);
   }
 
   to {
-    left: calc(100% - 14px);
+    left: calc(100% - 10px - var(--s-spacing-1));
   }
 }
 
@@ -111,7 +106,7 @@
 // box just gets cut off with an ellipsis rather than breaking the layout.
 .typographySample {
   max-width: 100%;
-  padding: 0 6px;
+  padding: 0 var(--s-spacing-2);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -124,7 +119,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 4px;
+  gap: var(--s-spacing-1);
   max-width: 160px;
 }
 
@@ -132,7 +127,7 @@
   font-family: monospace;
   font-size: 10px;
   line-height: 1.4;
-  padding: 2px 6px;
+  padding: var(--s-spacing-1) var(--s-spacing-2);
   border-radius: 999px;
   background: rgb(0 0 0 / 6%);
   border: 1px solid rgb(0 0 0 / 10%);

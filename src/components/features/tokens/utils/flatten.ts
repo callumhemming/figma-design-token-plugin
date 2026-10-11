@@ -199,6 +199,7 @@ export const COMPOSITE_TOKEN_SHAPES: Record<string, CompositeTokenProperty[]> =
       { property: "fontSize", expectedType: "dimension" },
       { property: "fontWeight", expectedType: "fontWeight" },
       { property: "lineHeight", expectedType: "number" },
+      { property: "letterSpacing", expectedType: "dimension" },
     ],
     border: [
       { property: "color", expectedType: "color" },
@@ -428,11 +429,26 @@ export function toCssColor(value: unknown): string {
     return value;
   }
   const color = value as ColorValue;
-  if (color.hex) {
+  const alpha = color.alpha ?? 1;
+  // hex is 6-digit (no alpha channel), so it's only exact when opaque.
+  if (color.hex && alpha === 1) {
     return color.hex;
   }
-  const [h, s, l] = color.components;
-  return `hsl(${h} ${s}% ${l}% / ${color.alpha ?? 1})`;
+  const [a, b, c] = color.components;
+  switch (color.colorSpace) {
+    case "hsl":
+      return `hsl(${a} ${b}% ${c}% / ${alpha})`;
+    case "hwb":
+      return `hwb(${a} ${b}% ${c}% / ${alpha})`;
+    case "lab":
+    case "lch":
+    case "oklab":
+    case "oklch":
+      return `${color.colorSpace}(${a} ${b} ${c} / ${alpha})`;
+    default:
+      // srgb, display-p3, rec2020, xyz-*, ...: CSS color() takes these as-is.
+      return `color(${color.colorSpace} ${a} ${b} ${c} / ${alpha})`;
+  }
 }
 
 // Best-effort human-readable rendering of a resolved (non-color) value for

@@ -1,6 +1,6 @@
 .root {
   display: flex;
-  gap: 24px;
+  gap: var(--s-spacing-6);
   align-items: flex-start;
   flex-direction: column;
 }
@@ -10,12 +10,12 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: fit-content;
-  gap: 12px;
+  gap: var(--s-spacing-3);
 }
 
 .slotPlaceholder {
   border: 1px dotted black;
-  padding: 12px 8px;
+  padding: var(--s-spacing-3) var(--s-spacing-2);
 
   &.selected {
     border: 3px dotted black;
@@ -29,6 +29,6 @@
 
 .output {
   flex: 1;
-  padding: 12px;
+  padding: var(--s-spacing-3);
   border: 1px solid black;
 }

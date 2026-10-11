@@ -1,0 +1,18 @@
+{
+  "s": {
+    "radius": {
+      "control": {
+        "$type": "dimension",
+        "$value": "{p.radius.2}"
+      },
+      "surface": {
+        "$type": "dimension",
+        "$value": "{p.radius.4}"
+      },
+      "pill": {
+        "$type": "dimension",
+        "$value": "{p.radius.full}"
+      }
+    }
+  }
+}

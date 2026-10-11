@@ -3,10 +3,17 @@ import {
   TokenEditModal,
   TokenEditModalHandle,
 } from "../../../token-edit-modal/TokenEditModal";
+import { Button } from "../../../../ui/Button";
+import { Typography } from "../../../../ui/Typography";
 import { useTokensContext } from "../../hooks/useTokensContext";
 import { COMPOSITE_TOKEN_SHAPES, FlatToken } from "../../utils/flatten";
 import { GenericTokenChip, TOKEN_CHIP_BY_TYPE } from "../TokenChip/TokenChip";
 import styles from "./TokenWindow.module.scss";
+
+// "fontSize" -> "font-size", matching the token files' kebab-case groups.
+function toKebabCase(value: string): string {
+  return value.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
+}
 
 export const TokenWindowContainer = ({ children }: { children: ReactNode }) => {
   return <div className={styles.tokenWindowContainer}>{children}</div>;
@@ -65,9 +72,13 @@ function AddTokenForm({
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
-        <button type="submit">+ Add</button>
+        <Button type="submit">+ Add</Button>
       </div>
-      {error ? <p className={styles.addTokenError}>{error}</p> : null}
+      {error ? (
+        <Typography variant="caption" as="p" className={styles.addTokenError}>
+          {error}
+        </Typography>
+      ) : null}
     </form>
   );
 }
@@ -87,14 +98,14 @@ export const TokenWindow = ({
   const modalRef = useRef<TokenEditModalHandle>(null);
   const { tokens: allTokens, addToken } = useTokensContext();
 
-  // Defaults every sub-property to a token of the expected type whose own
-  // top-level group matches the property name (e.g. "fontSize" ->
-  // fontSize.100, not borderWidth.thick -- same $type: "dimension", but
-  // nonsensical as a font size), so the new composite resolves immediately
+  // Defaults every sub-property to a token of the expected type whose path
+  // has a group named after the property (e.g. "fontSize" ->
+  // p.font-size.step-0, not p.border-width.1 -- same $type: "dimension",
+  // but nonsensical as a font size), so the new composite resolves immediately
   // and sensibly instead of landing broken or nonsensical. The user then
   // drags in whatever they actually want via TypographyEdit's slots.
   function addTypographyToken(name: string): string | null {
-    const path = `typography.${name}`;
+    const path = `s.typography.${name}`;
     if (allTokens.some((token) => token.path.join(".") === path)) {
       return `A token already exists at "${path}".`;
     }
@@ -105,7 +116,9 @@ export const TokenWindow = ({
       expectedType,
     } of COMPOSITE_TOKEN_SHAPES.typography) {
       const fallback = allTokens.find(
-        (token) => token.type === expectedType && token.path[0] === property,
+        (token) =>
+          token.type === expectedType &&
+          token.path.includes(toKebabCase(property)),
       );
       if (!fallback) {
         return `No ${expectedType} token exists yet to default "${property}" to.`;
@@ -123,7 +136,7 @@ export const TokenWindow = ({
 
   return (
     <div className={styles.tokenWindow}>
-      <h1>{title}</h1>
+      <Typography variant="heading1">{title}</Typography>
       {addableType === "typography" ? (
         <AddTokenForm
           placeholder="New typography token name"
@@ -132,7 +145,9 @@ export const TokenWindow = ({
       ) : null}
       <div className={styles.tokenList}>
         {tokens.length === 0 ? (
-          <p className={styles.empty}>No tokens of this type here.</p>
+          <Typography variant="caption" as="p" className={styles.empty}>
+            No tokens of this type here.
+          </Typography>
         ) : (
           tokens.map((token) => {
             const Chip = TOKEN_CHIP_BY_TYPE[token.type] ?? GenericTokenChip;

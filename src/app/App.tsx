@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import StyleDictionary from "style-dictionary";
+import { Typography } from "../components/ui/Typography";
 import { useNavContext } from "../components/features/Layout/context/NavContext";
 import { Layout } from "../components/features/Layout/Layout";
 import { ResolverSettingsForm } from "../components/features/settings/ResolverSettingsForm";
@@ -101,7 +102,7 @@ export function App() {
 const SettingsView = () => {
   return (
     <div>
-      <h1>Settings</h1>
+      <Typography variant="heading1">Settings</Typography>
       <ResolverSettingsForm />
     </div>
   );
@@ -170,6 +171,9 @@ const TokenView = () => {
   const semanticTokens = activeTypeTokens.filter((token) =>
     tokenSources[token.path.join(".")]?.includes("/semantic/"),
   );
+  const componentTokens = activeTypeTokens.filter((token) =>
+    tokenSources[token.path.join(".")]?.includes("/component/"),
+  );
   return (
     <TokenWindowContainer>
       {COMPOSITE_TOKEN_TYPES.includes(slug) ? null : (
@@ -181,6 +185,10 @@ const TokenView = () => {
         tokens={semanticTokens}
         addableType={slug === "typography" ? "typography" : undefined}
       />
+
+      {componentTokens.length > 0 ? (
+        <TokenWindow title={`Component ${slug}`} tokens={componentTokens} />
+      ) : null}
     </TokenWindowContainer>
   );
 };

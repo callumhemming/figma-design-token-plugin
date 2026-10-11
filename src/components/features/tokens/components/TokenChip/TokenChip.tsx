@@ -1,7 +1,8 @@
+import { Typography } from "../../../../ui/Typography";
 import { useTokensContext } from "../../hooks/useTokensContext";
 import {
-  CompositeTokenProperty,
   COMPOSITE_TOKEN_SHAPES,
+  CompositeTokenProperty,
   formatResolvedValue,
   isReference,
   resolveValue,
@@ -41,11 +42,11 @@ export function ColorTokenChip({ path, onClick }: TokenChipProps) {
         style={{ background: cssColor }}
         title={cssColor}
       />
-      <span className={styles.mono}>{`Color: ${cssColor}`}</span>
+      <Typography>{`Color: ${cssColor}`}</Typography>
       {isReference(value) ? (
-        <span className={styles.mono}>{`Reference: ${value}`}</span>
+        <Typography>{`Reference: ${value}`}</Typography>
       ) : null}
-      <span className={styles.mono}>{`Name: ${name}`}</span>
+      <Typography>{`Name: ${name}`}</Typography>
     </div>
   );
 }
@@ -63,11 +64,11 @@ function ChipFooter({
 }) {
   return (
     <>
-      <span className={styles.mono}>{valueLabel}</span>
+      <Typography>{valueLabel}</Typography>
       {isReference(value) ? (
-        <span className={styles.mono}>{`Reference: ${value}`}</span>
+        <Typography>{`Reference: ${value}`}</Typography>
       ) : null}
-      <span className={styles.mono}>{`Name: ${name}`}</span>
+      <Typography>{`Name: ${name}`}</Typography>
     </>
   );
 }
@@ -146,9 +147,14 @@ export function FontFamilyTokenChip({ path, onClick }: TokenChipProps) {
   return (
     <div className={styles.chip} onClick={onClick}>
       <span className={styles.sampleSwatch}>
-        <span className={styles.fontSample} style={{ fontFamily }}>
+        <Typography
+          variant="inherit"
+          as="span"
+          className={styles.fontSample}
+          style={{ fontFamily }}
+        >
           Ag
-        </span>
+        </Typography>
       </span>
       <ChipFooter
         name={name}
@@ -166,9 +172,14 @@ export function FontWeightTokenChip({ path, onClick }: TokenChipProps) {
   return (
     <div className={styles.chip} onClick={onClick}>
       <span className={styles.sampleSwatch}>
-        <span className={styles.fontSample} style={{ fontWeight }}>
+        <Typography
+          variant="inherit"
+          as="span"
+          className={styles.fontSample}
+          style={{ fontWeight }}
+        >
           Ag
-        </span>
+        </Typography>
       </span>
       <ChipFooter
         name={name}
@@ -185,9 +196,9 @@ export function NumberTokenChip({ path, onClick }: TokenChipProps) {
   return (
     <div className={styles.chip} onClick={onClick}>
       <span className={styles.sampleSwatch}>
-        <span className={styles.numberValue}>
+        <Typography as="span" className={styles.numberValue}>
           {formatResolvedValue(resolved)}
-        </span>
+        </Typography>
       </span>
       <ChipFooter
         name={name}
@@ -243,12 +254,25 @@ function CompositeSubTokenRow({
   rawValue,
 }: {
   shape: CompositeTokenProperty[];
-  rawValue: Record<string, unknown>;
+  rawValue: unknown;
 }) {
+  // The whole composite aliases another one (e.g. c.button.typography ->
+  // {s.typography.button}): name that token rather than its sub-properties.
+  if (isReference(rawValue)) {
+    return (
+      <div className={styles.compositeRow}>
+        <span className={styles.compositeBadge} title="alias">
+          <Typography variant="caption">{rawValue.slice(1, -1)}</Typography>
+        </span>
+      </div>
+    );
+  }
+  const properties = rawValue as Record<string, unknown>;
+
   return (
     <div className={styles.compositeRow}>
       {shape.map(({ property }) => {
-        const raw = rawValue[property];
+        const raw = properties[property];
         if (raw === undefined) return null; // this token doesn't set that sub-property
 
         const label = isReference(raw)
@@ -261,7 +285,7 @@ function CompositeSubTokenRow({
             className={styles.compositeBadge}
             title={property}
           >
-            {label}
+            <Typography variant="caption">{label}</Typography>
           </span>
         );
       })}
@@ -292,15 +316,20 @@ export function TypographyTokenChip({ path, onClick }: TokenChipProps) {
   return (
     <div className={styles.chip} onClick={onClick}>
       <div className={styles.previewBox}>
-        <span className={styles.typographySample} style={sampleStyle}>
+        <Typography
+          variant="inherit"
+          as="span"
+          className={styles.typographySample}
+          style={sampleStyle}
+        >
           Ag
-        </span>
+        </Typography>
       </div>
       <CompositeSubTokenRow
         shape={COMPOSITE_TOKEN_SHAPES.typography}
         rawValue={value as Record<string, unknown>}
       />
-      <span className={styles.mono}>{`Name: ${name}`}</span>
+      <Typography>{`Name: ${name}`}</Typography>
     </div>
   );
 }
@@ -335,7 +364,7 @@ export function BorderTokenChip({ path, onClick }: TokenChipProps) {
         shape={COMPOSITE_TOKEN_SHAPES.border}
         rawValue={value as Record<string, unknown>}
       />
-      <span className={styles.mono}>{`Name: ${name}`}</span>
+      <Typography>{`Name: ${name}`}</Typography>
     </div>
   );
 }
@@ -365,7 +394,7 @@ export function ShadowTokenChip({ path, onClick }: TokenChipProps) {
         shape={COMPOSITE_TOKEN_SHAPES.shadow}
         rawValue={value as Record<string, unknown>}
       />
-      <span className={styles.mono}>{`Name: ${name}`}</span>
+      <Typography>{`Name: ${name}`}</Typography>
     </div>
   );
 }
@@ -404,7 +433,7 @@ export function TransitionTokenChip({ path, onClick }: TokenChipProps) {
         shape={COMPOSITE_TOKEN_SHAPES.transition}
         rawValue={value as Record<string, unknown>}
       />
-      <span className={styles.mono}>{`Name: ${name}`}</span>
+      <Typography>{`Name: ${name}`}</Typography>
     </div>
   );
 }
@@ -441,12 +470,14 @@ export function GradientTokenChip({ path, onClick }: TokenChipProps) {
               className={styles.compositeBadge}
               title={`position ${stop.position}`}
             >
-              {label} @{Math.round(stop.position * 100)}%
+              <Typography variant="caption">
+                {`${label} @${Math.round(stop.position * 100)}%`}
+              </Typography>
             </span>
           );
         })}
       </div>
-      <span className={styles.mono}>{`Name: ${name}`}</span>
+      <Typography>{`Name: ${name}`}</Typography>
     </div>
   );
 }

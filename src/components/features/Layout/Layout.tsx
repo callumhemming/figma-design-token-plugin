@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, ReactNode } from "react";
-import { Cog } from "../../ui/icons/cog";
+import { Button } from "../../ui/Button";
+import { Typography } from "../../ui/Typography";
 import { useTokensContext } from "../tokens/hooks/useTokensContext";
 import {
   COMPOSITE_TOKEN_TYPES,
@@ -15,12 +16,12 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     <div className={styles.root}>
       <SideBar />
       <div className={styles.topBar}>
-        <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-          Theme: {theme}
-        </button>
-        <button onClick={() => setBrand(brand === "acme" ? "globex" : "acme")}>
-          Brand: {brand}
-        </button>
+        <Button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+          {`Theme: ${theme}`}
+        </Button>
+        <Button onClick={() => setBrand(brand === "acme" ? "globex" : "acme")}>
+          {`Brand: ${brand}`}
+        </Button>
       </div>
 
       <main className={styles.main}>{children}</main>
@@ -37,9 +38,9 @@ export const SideBar = ({
   return (
     <div className={clsx(styles.sideBarRoot, className)} {...props}>
       <div className={styles.sideBarColumn}>
-        <h2>Primitive</h2>
+        <Typography variant="heading2">Primitive</Typography>
         {PRIMITIVE_TOKEN_TYPES.map((type) => (
-          <button
+          <Button
             key={type}
             aria-pressed={slug === type}
             className={clsx(
@@ -49,14 +50,14 @@ export const SideBar = ({
             onClick={() => setSlug(type)}
           >
             {type}
-          </button>
+          </Button>
         ))}
       </div>
 
       <div className={styles.sideBarColumn}>
-        <h2>Composite</h2>
+        <Typography variant="heading2">Composite</Typography>
         {COMPOSITE_TOKEN_TYPES.map((type) => (
-          <button
+          <Button
             key={type}
             aria-pressed={slug === type}
             className={clsx(
@@ -66,13 +67,17 @@ export const SideBar = ({
             onClick={() => setSlug(type)}
           >
             {type}
-          </button>
+          </Button>
         ))}
       </div>
-      <button onClick={() => setSlug("settings")}>
+      <Button
+        icon="cog"
+        variant="outline"
+        color="secondary"
+        onClick={() => setSlug("settings")}
+      >
         Settings
-        <Cog />
-      </button>
+      </Button>
     </div>
   );
 };

@@ -2,18 +2,11 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 import { Providers } from "../../../../Providers/Providers";
 import {
-  BorderTokenChip,
   ColorTokenChip,
-  CubicBezierTokenChip,
   DimensionTokenChip,
-  DurationTokenChip,
   FontFamilyTokenChip,
   FontWeightTokenChip,
   GenericTokenChip,
-  GradientTokenChip,
-  ShadowTokenChip,
-  StrokeStyleTokenChip,
-  TransitionTokenChip,
   TypographyTokenChip,
 } from "./TokenChip";
 
@@ -41,72 +34,47 @@ type Story = StoryObj<typeof meta>;
 
 export const Color: Story = {
   render: (args) => <ColorTokenChip {...args} />,
-  args: { path: "color.grey.500" },
+  args: { path: "p.color.slate.9" },
+};
+
+export const ColorAlias: Story = {
+  render: (args) => <ColorTokenChip {...args} />,
+  args: { path: "s.color.primary.solid" },
 };
 
 export const ColorWithAlpha: Story = {
   render: (args) => <ColorTokenChip {...args} />,
-  args: { path: "color.brand.500" },
+  args: { path: "p.color.transparent" },
 };
 
 export const Dimension: Story = {
   render: (args) => <DimensionTokenChip {...args} />,
-  args: { path: "fontSize.200" },
-};
-
-export const Duration: Story = {
-  render: (args) => <DurationTokenChip {...args} />,
-  args: { path: "duration.fast" },
+  args: { path: "p.spacing.4" },
 };
 
 export const FontFamily: Story = {
   render: (args) => <FontFamilyTokenChip {...args} />,
-  args: { path: "fontFamily.sans" },
+  args: { path: "p.font-family.sans" },
 };
 
 export const FontWeight: Story = {
   render: (args) => <FontWeightTokenChip {...args} />,
-  args: { path: "fontWeight.bold" },
-};
-
-export const CubicBezier: Story = {
-  render: (args) => <CubicBezierTokenChip {...args} />,
-  args: { path: "cubicBezier.easeOut" },
+  args: { path: "p.font-weight.bold" },
 };
 
 export const Typography: Story = {
   render: (args) => <TypographyTokenChip {...args} />,
-  args: { path: "typography.heading" },
+  args: { path: "s.typography.heading1" },
 };
 
-export const Border: Story = {
-  render: (args) => <BorderTokenChip {...args} />,
-  args: { path: "border.default" },
-};
-
-export const Shadow: Story = {
-  render: (args) => <ShadowTokenChip {...args} />,
-  args: { path: "shadow.lg" },
-};
-
-export const Transition: Story = {
-  render: (args) => <TransitionTokenChip {...args} />,
-  args: { path: "transition.fast" },
-};
-
-export const Gradient: Story = {
-  render: (args) => <GradientTokenChip {...args} />,
-  args: { path: "gradient.brandFade" },
-};
-
-export const StrokeStyle: Story = {
-  render: (args) => <StrokeStyleTokenChip {...args} />,
-  args: { path: "strokeStyle.dashed" },
+export const TypographyAlias: Story = {
+  render: (args) => <TypographyTokenChip {...args} />,
+  args: { path: "c.button.typography" },
 };
 
 // number is the only type left with no dedicated preview -- see TODO.md
 // "No per-type editors beyond color".
 export const Generic: Story = {
   render: (args) => <GenericTokenChip {...args} />,
-  args: { path: "lineHeight.100" },
+  args: { path: "p.line-height.normal" },
 };

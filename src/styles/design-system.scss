@@ -1,0 +1,368 @@
+:root {
+  // ======================================================================
+  // PRIMITIVES (--p-*): raw values. Only referenced by semantic tokens.
+  // ======================================================================
+
+  // Spacing
+  --p-spacing-0: 0;
+  --p-spacing-1: 0.25rem; // 4px at the default 16px root
+  --p-spacing-2: calc(var(--p-spacing-1) + var(--p-spacing-1));
+  --p-spacing-3: calc(var(--p-spacing-2) + var(--p-spacing-1));
+  --p-spacing-4: calc(var(--p-spacing-3) + var(--p-spacing-1));
+  --p-spacing-5: calc(var(--p-spacing-4) + var(--p-spacing-1));
+  --p-spacing-6: calc(var(--p-spacing-5) + var(--p-spacing-1));
+  --p-spacing-7: calc(var(--p-spacing-6) + var(--p-spacing-1));
+  --p-spacing-8: calc(var(--p-spacing-7) + var(--p-spacing-1));
+  --p-spacing-9: calc(var(--p-spacing-8) + var(--p-spacing-1));
+  --p-spacing-10: calc(var(--p-spacing-9) + var(--p-spacing-1));
+
+  // Fluid spacing: pairs of steps on the 4px grid, growing from the first
+  // at a 320px viewport to the second at 1240px (same range as the type).
+  --p-spacing-fluid-1-2: clamp(0.25rem, 0.163rem + 0.4348vw, 0.5rem);
+  --p-spacing-fluid-2-4: clamp(0.5rem, 0.3261rem + 0.8696vw, 1rem);
+  --p-spacing-fluid-4-6: clamp(1rem, 0.8261rem + 0.8696vw, 1.5rem);
+  --p-spacing-fluid-6-10: clamp(1.5rem, 1.1522rem + 1.7391vw, 2.5rem);
+
+  // Relative spacing (cap): quarters of the cap height of the element's own
+  // font. Tracks the visible letters, so it holds up when the font changes.
+  --p-spacing-cap-2: 0.5cap;
+  --p-spacing-cap-3: 0.75cap;
+  --p-spacing-cap-4: 1cap;
+  --p-spacing-cap-5: 1.25cap;
+  --p-spacing-cap-6: 1.5cap;
+  --p-spacing-cap-8: 2cap;
+  --p-spacing-cap-10: 2.5cap;
+  --p-spacing-cap-16: 4cap;
+
+  // Radius
+  --p-radius-1: 2px;
+  --p-radius-2: 4px;
+  --p-radius-3: 6px;
+  --p-radius-4: 8px;
+  --p-radius-full: 9999px;
+
+  // Border width
+  --p-border-width-1: 1px;
+  --p-border-width-2: 2px;
+
+  // Colour — Radix Colors (light), https://www.radix-ui.com/colors
+  // Slate (gray)
+  --p-color-slate-1: #fcfcfd;
+  --p-color-slate-2: #f9f9fb;
+  --p-color-slate-3: #f0f0f3;
+  --p-color-slate-4: #e8e8ec;
+  --p-color-slate-5: #e0e1e6;
+  --p-color-slate-6: #d9d9e0;
+  --p-color-slate-7: #cdced6;
+  --p-color-slate-8: #b9bbc6;
+  --p-color-slate-9: #8b8d98;
+  --p-color-slate-10: #80838d;
+  --p-color-slate-11: #60646c;
+  --p-color-slate-12: #1c2024;
+
+  // Indigo (primary)
+  --p-color-indigo-1: #fdfdfe;
+  --p-color-indigo-2: #f7f9ff;
+  --p-color-indigo-3: #edf2fe;
+  --p-color-indigo-4: #e1e9ff;
+  --p-color-indigo-5: #d2deff;
+  --p-color-indigo-6: #c1d0ff;
+  --p-color-indigo-7: #abbdf9;
+  --p-color-indigo-8: #8da4ef;
+  --p-color-indigo-9: #3e63dd;
+  --p-color-indigo-10: #3358d4;
+  --p-color-indigo-11: #3a5bc7;
+  --p-color-indigo-12: #1f2d5c;
+
+  // Teal (secondary)
+  --p-color-teal-1: #fafefd;
+  --p-color-teal-2: #f3fbf9;
+  --p-color-teal-3: #e0f8f3;
+  --p-color-teal-4: #ccf3ea;
+  --p-color-teal-5: #b8eae0;
+  --p-color-teal-6: #a1ded2;
+  --p-color-teal-7: #83cdc1;
+  --p-color-teal-8: #53b9ab;
+  --p-color-teal-9: #12a594;
+  --p-color-teal-10: #0d9b8a;
+  --p-color-teal-11: #008573;
+  --p-color-teal-12: #0d3d38;
+
+  // Amber (accent)
+  --p-color-amber-1: #fefdfb;
+  --p-color-amber-2: #fefbe9;
+  --p-color-amber-3: #fff7c2;
+  --p-color-amber-4: #ffee9c;
+  --p-color-amber-5: #fbe577;
+  --p-color-amber-6: #f3d673;
+  --p-color-amber-7: #e9c162;
+  --p-color-amber-8: #e2a336;
+  --p-color-amber-9: #ffc53d;
+  --p-color-amber-10: #ffba18;
+  --p-color-amber-11: #ab6400;
+  --p-color-amber-12: #4f3422;
+  --p-color-white: #fff;
+
+  // Typography
+  --p-font-family-sans: "Inter", system-ui, sans-serif;
+  --p-font-weight-regular: 400;
+  --p-font-weight-medium: 500;
+  --p-font-weight-semibold: 600;
+  --p-font-weight-bold: 700;
+
+  // Fluid type scale from Utopia (https://utopia.fyi/type/calculator):
+  // 16px × 1.2 at a 320px viewport → 18px × 1.25 at 1240px.
+  // Negative steps are n1/n2 (Utopia uses --step--1) to stay kebab-case.
+  --p-font-size-step-n2: clamp(0.6944rem, 0.6856rem + 0.0444vw, 0.72rem);
+  --p-font-size-step-n1: clamp(0.8333rem, 0.8101rem + 0.1159vw, 0.9rem);
+  --p-font-size-step-0: clamp(1rem, 0.9565rem + 0.2174vw, 1.125rem);
+  --p-font-size-step-1: clamp(1.2rem, 1.1283rem + 0.3587vw, 1.4063rem);
+  --p-font-size-step-2: clamp(1.44rem, 1.3295rem + 0.5527vw, 1.7578rem);
+  --p-font-size-step-3: clamp(1.728rem, 1.5648rem + 0.8161vw, 2.1973rem);
+  --p-font-size-step-4: clamp(2.0736rem, 1.8395rem + 1.1704vw, 2.7466rem);
+  --p-font-size-step-5: clamp(2.4883rem, 2.1597rem + 1.6433vw, 3.4332rem);
+
+  // Line height
+  --p-line-height-tight: 1.2;
+  --p-line-height-snug: 1.35;
+  --p-line-height-normal: 1.5;
+
+  // Letter spacing is in em, so it tracks the fluid font size.
+  --p-letter-spacing-tight: -0.02em;
+  --p-letter-spacing-normal: 0;
+  --p-letter-spacing-wide: 0.05em;
+  --p-letter-spacing-wider: 0.1em;
+
+  // ======================================================================
+  // SEMANTIC (--s-*): intent. Only reference primitives.
+  // ======================================================================
+
+  // Spacing
+  --s-spacing-0: var(--p-spacing-0);
+  --s-spacing-1: var(--p-spacing-1);
+  --s-spacing-2: var(--p-spacing-2);
+  --s-spacing-3: var(--p-spacing-3);
+  --s-spacing-4: var(--p-spacing-4);
+  --s-spacing-5: var(--p-spacing-5);
+  --s-spacing-6: var(--p-spacing-6);
+  --s-spacing-7: var(--p-spacing-7);
+  --s-spacing-8: var(--p-spacing-8);
+  --s-spacing-9: var(--p-spacing-9);
+  --s-spacing-10: var(--p-spacing-10);
+
+  // Fluid: grow with the viewport, in step with the type scale
+  --s-spacing-fluid-xs: var(--p-spacing-fluid-1-2); // 4px → 8px
+  --s-spacing-fluid-sm: var(--p-spacing-fluid-2-4); // 8px → 16px
+  --s-spacing-fluid-md: var(--p-spacing-fluid-4-6); // 16px → 24px
+  --s-spacing-fluid-lg: var(--p-spacing-fluid-6-10); // 24px → 40px
+
+  // Typography gutters: space below text, in cap heights of its own font.
+  // Measured baseline → next cap height (text-box trim), so the value is
+  // exactly the visible gap. Font size is fluid, so gutters are too.
+  --s-typography-gutter-none: var(--p-spacing-0);
+  --s-typography-gutter-xs: var(--p-spacing-cap-3);
+  --s-typography-gutter-sm: var(--p-spacing-cap-5);
+  --s-typography-gutter-md: var(--p-spacing-cap-10);
+  --s-typography-gutter-lg: var(--p-spacing-cap-16);
+
+  // Radius
+  --s-radius-control: var(--p-radius-2);
+  --s-radius-surface: var(--p-radius-4);
+  --s-radius-pill: var(--p-radius-full);
+
+  // Border width
+  --s-border-width-default: var(--p-border-width-1);
+  --s-border-width-focus: var(--p-border-width-2);
+
+  // Colour
+  // Neutral (slate)
+  --s-color-background-app: var(--p-color-slate-1);
+  --s-color-background-subtle: var(--p-color-slate-2);
+  --s-color-surface: var(--p-color-slate-3);
+  --s-color-surface-hover: var(--p-color-slate-4);
+  --s-color-surface-active: var(--p-color-slate-5);
+  --s-color-border-subtle: var(--p-color-slate-6);
+  --s-color-border: var(--p-color-slate-7);
+  --s-color-border-hover: var(--p-color-slate-8);
+  --s-color-text: var(--p-color-slate-12);
+  --s-color-text-muted: var(--p-color-slate-11);
+  --s-color-text-disabled: var(--p-color-slate-9);
+  --s-color-focus-ring: var(--p-color-indigo-8);
+
+  // Neutral role (slate): same steps as the brand roles, for neutral controls.
+  // Slate-9 is too low-contrast for white text, so solid uses the dark end.
+  --s-color-neutral-background-subtle: var(--p-color-slate-2);
+  --s-color-neutral-surface: var(--p-color-slate-3);
+  --s-color-neutral-surface-hover: var(--p-color-slate-4);
+  --s-color-neutral-surface-active: var(--p-color-slate-5);
+  --s-color-neutral-border-subtle: var(--p-color-slate-6);
+  --s-color-neutral-border: var(--p-color-slate-7);
+  --s-color-neutral-border-hover: var(--p-color-slate-8);
+  --s-color-neutral-solid: var(--p-color-slate-12);
+  --s-color-neutral-solid-hover: var(--p-color-slate-11);
+  --s-color-neutral-on-solid: var(--p-color-slate-1);
+  --s-color-neutral-text: var(--p-color-slate-12);
+  --s-color-neutral-text-strong: var(--p-color-slate-12);
+
+  // Primary (indigo)
+  --s-color-primary-background-subtle: var(--p-color-indigo-2);
+  --s-color-primary-surface: var(--p-color-indigo-3);
+  --s-color-primary-surface-hover: var(--p-color-indigo-4);
+  --s-color-primary-surface-active: var(--p-color-indigo-5);
+  --s-color-primary-border-subtle: var(--p-color-indigo-6);
+  --s-color-primary-border: var(--p-color-indigo-7);
+  --s-color-primary-border-hover: var(--p-color-indigo-8);
+  --s-color-primary-solid: var(--p-color-indigo-9);
+  --s-color-primary-solid-hover: var(--p-color-indigo-10);
+  --s-color-primary-on-solid: var(--p-color-white);
+  --s-color-primary-text: var(--p-color-indigo-11);
+  --s-color-primary-text-strong: var(--p-color-indigo-12);
+
+  // Secondary (teal)
+  --s-color-secondary-background-subtle: var(--p-color-teal-2);
+  --s-color-secondary-surface: var(--p-color-teal-3);
+  --s-color-secondary-surface-hover: var(--p-color-teal-4);
+  --s-color-secondary-surface-active: var(--p-color-teal-5);
+  --s-color-secondary-border-subtle: var(--p-color-teal-6);
+  --s-color-secondary-border: var(--p-color-teal-7);
+  --s-color-secondary-border-hover: var(--p-color-teal-8);
+  --s-color-secondary-solid: var(--p-color-teal-9);
+  --s-color-secondary-solid-hover: var(--p-color-teal-10);
+  --s-color-secondary-on-solid: var(--p-color-white);
+  --s-color-secondary-text: var(--p-color-teal-11);
+  --s-color-secondary-text-strong: var(--p-color-teal-12);
+
+  // Accent (amber)
+  // amber-9 is light, so on-solid text uses the dark end of the scale
+  --s-color-accent-background-subtle: var(--p-color-amber-2);
+  --s-color-accent-surface: var(--p-color-amber-3);
+  --s-color-accent-surface-hover: var(--p-color-amber-4);
+  --s-color-accent-surface-active: var(--p-color-amber-5);
+  --s-color-accent-border-subtle: var(--p-color-amber-6);
+  --s-color-accent-border: var(--p-color-amber-7);
+  --s-color-accent-border-hover: var(--p-color-amber-8);
+  --s-color-accent-solid: var(--p-color-amber-9);
+  --s-color-accent-solid-hover: var(--p-color-amber-10);
+  --s-color-accent-on-solid: var(--p-color-amber-12);
+  --s-color-accent-text: var(--p-color-amber-11);
+  --s-color-accent-text-strong: var(--p-color-amber-12);
+
+  // Typography
+  // Heading 1
+  --s-typography-heading1-font-family: var(--p-font-family-sans);
+  --s-typography-heading1-font-weight: var(--p-font-weight-bold);
+  --s-typography-heading1-font-size: var(--p-font-size-step-5);
+  --s-typography-heading1-line-height: var(--p-line-height-tight);
+  --s-typography-heading1-letter-spacing: var(--p-letter-spacing-tight);
+
+  // Heading 2
+  --s-typography-heading2-font-family: var(--p-font-family-sans);
+  --s-typography-heading2-font-weight: var(--p-font-weight-bold);
+  --s-typography-heading2-font-size: var(--p-font-size-step-4);
+  --s-typography-heading2-line-height: var(--p-line-height-tight);
+  --s-typography-heading2-letter-spacing: var(--p-letter-spacing-tight);
+
+  // Heading 3
+  --s-typography-heading3-font-family: var(--p-font-family-sans);
+  --s-typography-heading3-font-weight: var(--p-font-weight-semibold);
+  --s-typography-heading3-font-size: var(--p-font-size-step-3);
+  --s-typography-heading3-line-height: var(--p-line-height-tight);
+  --s-typography-heading3-letter-spacing: var(--p-letter-spacing-normal);
+
+  // Heading 4
+  --s-typography-heading4-font-family: var(--p-font-family-sans);
+  --s-typography-heading4-font-weight: var(--p-font-weight-semibold);
+  --s-typography-heading4-font-size: var(--p-font-size-step-2);
+  --s-typography-heading4-line-height: var(--p-line-height-snug);
+  --s-typography-heading4-letter-spacing: var(--p-letter-spacing-normal);
+
+  // Heading 5
+  --s-typography-heading5-font-family: var(--p-font-family-sans);
+  --s-typography-heading5-font-weight: var(--p-font-weight-semibold);
+  --s-typography-heading5-font-size: var(--p-font-size-step-1);
+  --s-typography-heading5-line-height: var(--p-line-height-snug);
+  --s-typography-heading5-letter-spacing: var(--p-letter-spacing-normal);
+
+  // Heading 6
+  --s-typography-heading6-font-family: var(--p-font-family-sans);
+  --s-typography-heading6-font-weight: var(--p-font-weight-semibold);
+  --s-typography-heading6-font-size: var(--p-font-size-step-0);
+  --s-typography-heading6-line-height: var(--p-line-height-snug);
+  --s-typography-heading6-letter-spacing: var(--p-letter-spacing-normal);
+
+  // Subtitle 1
+  --s-typography-subtitle1-font-family: var(--p-font-family-sans);
+  --s-typography-subtitle1-font-weight: var(--p-font-weight-medium);
+  --s-typography-subtitle1-font-size: var(--p-font-size-step-0);
+  --s-typography-subtitle1-line-height: var(--p-line-height-normal);
+  --s-typography-subtitle1-letter-spacing: var(--p-letter-spacing-normal);
+
+  // Subtitle 2
+  --s-typography-subtitle2-font-family: var(--p-font-family-sans);
+  --s-typography-subtitle2-font-weight: var(--p-font-weight-medium);
+  --s-typography-subtitle2-font-size: var(--p-font-size-step-n1);
+  --s-typography-subtitle2-line-height: var(--p-line-height-normal);
+  --s-typography-subtitle2-letter-spacing: var(--p-letter-spacing-normal);
+
+  // Body 1
+  --s-typography-body1-font-family: var(--p-font-family-sans);
+  --s-typography-body1-font-weight: var(--p-font-weight-regular);
+  --s-typography-body1-font-size: var(--p-font-size-step-0);
+  --s-typography-body1-line-height: var(--p-line-height-normal);
+  --s-typography-body1-letter-spacing: var(--p-letter-spacing-normal);
+
+  // Body 2
+  --s-typography-body2-font-family: var(--p-font-family-sans);
+  --s-typography-body2-font-weight: var(--p-font-weight-regular);
+  --s-typography-body2-font-size: var(--p-font-size-step-n1);
+  --s-typography-body2-line-height: var(--p-line-height-normal);
+  --s-typography-body2-letter-spacing: var(--p-letter-spacing-normal);
+
+  // Button
+  --s-typography-button-font-family: var(--p-font-family-sans);
+  --s-typography-button-font-weight: var(--p-font-weight-medium);
+  --s-typography-button-font-size: var(--p-font-size-step-n1);
+  --s-typography-button-line-height: var(--p-line-height-tight);
+  --s-typography-button-letter-spacing: var(--p-letter-spacing-wide);
+
+  // Caption
+  --s-typography-caption-font-family: var(--p-font-family-sans);
+  --s-typography-caption-font-weight: var(--p-font-weight-regular);
+  --s-typography-caption-font-size: var(--p-font-size-step-n2);
+  --s-typography-caption-line-height: var(--p-line-height-snug);
+  --s-typography-caption-letter-spacing: var(--p-letter-spacing-normal);
+
+  // Overline
+  --s-typography-overline-font-family: var(--p-font-family-sans);
+  --s-typography-overline-font-weight: var(--p-font-weight-semibold);
+  --s-typography-overline-font-size: var(--p-font-size-step-n2);
+  --s-typography-overline-line-height: var(--p-line-height-snug);
+  --s-typography-overline-letter-spacing: var(--p-letter-spacing-wider);
+
+  // ======================================================================
+  // COMPONENTS (--c-*): per-component. Only reference semantic tokens.
+  // ======================================================================
+
+  // Button
+  // Defaults describe variant="solid" color="primary" size={2}; the Button's
+  // module re-points these per variant/colour/size.
+  --c-button-background-color: var(--s-color-primary-solid);
+  --c-button-background-color-hover: var(--s-color-primary-solid-hover);
+  --c-button-background-color-active: var(--s-color-primary-solid-hover);
+  --c-button-font-color: var(--s-color-primary-on-solid);
+  --c-button-border-color: transparent;
+  --c-button-border-color-hover: transparent;
+  --c-button-border-width: var(--s-border-width-default);
+  --c-button-border-radius: var(--s-radius-control);
+  --c-button-focus-ring-color: var(--s-color-focus-ring);
+  --c-button-focus-ring-width: var(--s-border-width-focus);
+  --c-button-disabled-background-color: var(--s-color-neutral-surface);
+  --c-button-disabled-font-color: var(--s-color-text-disabled);
+  --c-button-font-family: var(--s-typography-button-font-family);
+  --c-button-font-weight: var(--s-typography-button-font-weight);
+  --c-button-font-size: var(--s-typography-button-font-size);
+  --c-button-line-height: var(--s-typography-button-line-height);
+  --c-button-letter-spacing: var(--s-typography-button-letter-spacing);
+  --c-button-gap: var(--s-spacing-2);
+  --c-button-padding: var(--s-spacing-1) var(--s-spacing-3);
+}

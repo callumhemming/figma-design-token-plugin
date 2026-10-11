@@ -1,0 +1,71 @@
+{
+  "c": {
+    "button": {
+      "background-color": {
+        "$type": "color",
+        "$value": "{s.color.primary.solid}"
+      },
+      "background-color-hover": {
+        "$type": "color",
+        "$value": "{s.color.primary.solid-hover}"
+      },
+      "background-color-active": {
+        "$type": "color",
+        "$value": "{s.color.primary.solid-hover}"
+      },
+      "font-color": {
+        "$type": "color",
+        "$value": "{s.color.primary.on-solid}"
+      },
+      "border-color": {
+        "$type": "color",
+        "$value": "{s.color.transparent}"
+      },
+      "border-color-hover": {
+        "$type": "color",
+        "$value": "{s.color.transparent}"
+      },
+      "border-width": {
+        "$type": "dimension",
+        "$value": "{s.border-width.default}"
+      },
+      "border-radius": {
+        "$type": "dimension",
+        "$value": "{s.radius.control}"
+      },
+      "focus-ring-color": {
+        "$type": "color",
+        "$value": "{s.color.focus-ring}"
+      },
+      "focus-ring-width": {
+        "$type": "dimension",
+        "$value": "{s.border-width.focus}"
+      },
+      "disabled-background-color": {
+        "$type": "color",
+        "$value": "{s.color.neutral.surface}"
+      },
+      "disabled-font-color": {
+        "$type": "color",
+        "$value": "{s.color.text-disabled}"
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": "{s.spacing.2}"
+      },
+      "padding-block": {
+        "$type": "dimension",
+        "$value": "{s.spacing.1}"
+      },
+      "padding-inline": {
+        "$type": "dimension",
+        "$value": "{s.spacing.3}"
+      },
+      "typography": {
+        "$type": "typography",
+        "$value": "{s.typography.button}"
+      },
+      "$description": "Defaults describe variant=solid, color=primary, size=2; the Button re-points these per variant/colour/size."
+    }
+  }
+}

@@ -1,12 +1,12 @@
 .tokenList {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--s-spacing-2);
 }
 
 .tokenWindowContainer {
   display: flex;
-  gap: 24px;
+  gap: var(--s-spacing-6);
 }
 
 .tokenWindow {
@@ -19,16 +19,16 @@
 }
 
 .addTokenForm {
-  margin-bottom: 12px;
+  margin-bottom: var(--s-spacing-3);
 }
 
 .addTokenRow {
   display: flex;
-  gap: 8px;
+  gap: var(--s-spacing-2);
 }
 
 .addTokenError {
-  margin: 4px 0 0;
+  margin: var(--s-spacing-1) 0 0;
   color: #c0392b;
   font-size: 12px;
 }

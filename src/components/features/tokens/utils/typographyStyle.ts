@@ -14,8 +14,8 @@ export type ResolvedTypographyParts = {
 // a {reference} string) -- shared between TypographyTokenChip's preview
 // (TokenChip.tsx) and TypographyEdit's live-preview text, so the
 // fontFamily-array-join / formatResolvedValue plumbing lives in one place.
-// letterSpacing is optional since real typography tokens today don't
-// declare one (see COMPOSITE_TOKEN_SHAPES's typography entry).
+// letterSpacing is optional so composites that don't declare one still
+// render.
 export function typographyStyleFromResolved(
   parts: ResolvedTypographyParts,
 ): CSSProperties {

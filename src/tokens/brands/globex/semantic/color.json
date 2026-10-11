@@ -1,16 +1,161 @@
 {
-  "color": {
-    "action": {
+  "s": {
+    "color": {
       "primary": {
+        "background-subtle": {
+          "$type": "color",
+          "$value": "{p.color.orange.2}"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "{p.color.orange.3}"
+        },
+        "surface-hover": {
+          "$type": "color",
+          "$value": "{p.color.orange.4}"
+        },
+        "surface-active": {
+          "$type": "color",
+          "$value": "{p.color.orange.5}"
+        },
+        "border-subtle": {
+          "$type": "color",
+          "$value": "{p.color.orange.6}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{p.color.orange.7}"
+        },
+        "border-hover": {
+          "$type": "color",
+          "$value": "{p.color.orange.8}"
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{p.color.orange.9}"
+        },
+        "solid-hover": {
+          "$type": "color",
+          "$value": "{p.color.orange.10}"
+        },
+        "on-solid": {
+          "$type": "color",
+          "$value": "{p.color.white}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{p.color.orange.11}"
+        },
+        "text-strong": {
+          "$type": "color",
+          "$value": "{p.color.orange.12}"
+        }
+      },
+      "secondary": {
+        "background-subtle": {
+          "$type": "color",
+          "$value": "{p.color.purple.2}"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "{p.color.purple.3}"
+        },
+        "surface-hover": {
+          "$type": "color",
+          "$value": "{p.color.purple.4}"
+        },
+        "surface-active": {
+          "$type": "color",
+          "$value": "{p.color.purple.5}"
+        },
+        "border-subtle": {
+          "$type": "color",
+          "$value": "{p.color.purple.6}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{p.color.purple.7}"
+        },
+        "border-hover": {
+          "$type": "color",
+          "$value": "{p.color.purple.8}"
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{p.color.purple.9}"
+        },
+        "solid-hover": {
+          "$type": "color",
+          "$value": "{p.color.purple.10}"
+        },
+        "on-solid": {
+          "$type": "color",
+          "$value": "{p.color.white}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{p.color.purple.11}"
+        },
+        "text-strong": {
+          "$type": "color",
+          "$value": "{p.color.purple.12}"
+        }
+      },
+      "accent": {
+        "background-subtle": {
+          "$type": "color",
+          "$value": "{p.color.crimson.2}"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "{p.color.crimson.3}"
+        },
+        "surface-hover": {
+          "$type": "color",
+          "$value": "{p.color.crimson.4}"
+        },
+        "surface-active": {
+          "$type": "color",
+          "$value": "{p.color.crimson.5}"
+        },
+        "border-subtle": {
+          "$type": "color",
+          "$value": "{p.color.crimson.6}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{p.color.crimson.7}"
+        },
+        "border-hover": {
+          "$type": "color",
+          "$value": "{p.color.crimson.8}"
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{p.color.crimson.9}"
+        },
+        "solid-hover": {
+          "$type": "color",
+          "$value": "{p.color.crimson.10}"
+        },
+        "on-solid": {
+          "$type": "color",
+          "$value": "{p.color.white}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{p.color.crimson.11}"
+        },
+        "text-strong": {
+          "$type": "color",
+          "$value": "{p.color.crimson.12}"
+        }
+      },
+      "focus-ring": {
         "$type": "color",
-        "$value": "{color.brand.500}"
-      }
-    },
-    "background": {
-      "primary": {
-        "$type": "color",
-        "$value": "{color.brand.100}"
-      }
+        "$value": "{p.color.orange.8}"
+      },
+      "$description": "globex: primary = orange, secondary = purple, accent = crimson. Every brand must define the same paths."
     }
   }
 }

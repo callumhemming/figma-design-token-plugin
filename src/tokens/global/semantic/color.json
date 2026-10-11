@@ -1,0 +1,105 @@
+{
+  "s": {
+    "color": {
+      "background-app": {
+        "$type": "color",
+        "$value": "{p.color.slate.1}"
+      },
+      "background-subtle": {
+        "$type": "color",
+        "$value": "{p.color.slate.2}"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "{p.color.slate.3}"
+      },
+      "surface-hover": {
+        "$type": "color",
+        "$value": "{p.color.slate.4}"
+      },
+      "surface-active": {
+        "$type": "color",
+        "$value": "{p.color.slate.5}"
+      },
+      "border-subtle": {
+        "$type": "color",
+        "$value": "{p.color.slate.6}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{p.color.slate.7}"
+      },
+      "border-hover": {
+        "$type": "color",
+        "$value": "{p.color.slate.8}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{p.color.slate.12}"
+      },
+      "text-muted": {
+        "$type": "color",
+        "$value": "{p.color.slate.11}"
+      },
+      "text-disabled": {
+        "$type": "color",
+        "$value": "{p.color.slate.9}"
+      },
+      "neutral": {
+        "background-subtle": {
+          "$type": "color",
+          "$value": "{p.color.slate.2}"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "{p.color.slate.3}"
+        },
+        "surface-hover": {
+          "$type": "color",
+          "$value": "{p.color.slate.4}"
+        },
+        "surface-active": {
+          "$type": "color",
+          "$value": "{p.color.slate.5}"
+        },
+        "border-subtle": {
+          "$type": "color",
+          "$value": "{p.color.slate.6}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{p.color.slate.7}"
+        },
+        "border-hover": {
+          "$type": "color",
+          "$value": "{p.color.slate.8}"
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{p.color.slate.12}"
+        },
+        "solid-hover": {
+          "$type": "color",
+          "$value": "{p.color.slate.11}"
+        },
+        "on-solid": {
+          "$type": "color",
+          "$value": "{p.color.slate.1}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{p.color.slate.12}"
+        },
+        "text-strong": {
+          "$type": "color",
+          "$value": "{p.color.slate.12}"
+        },
+        "$description": "Same step names as the brand roles, so components can swap role freely."
+      },
+      "transparent": {
+        "$type": "color",
+        "$value": "{p.color.transparent}"
+      }
+    }
+  }
+}

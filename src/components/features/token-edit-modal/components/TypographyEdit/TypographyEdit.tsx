@@ -2,7 +2,7 @@
 //   { property: "fontFamily", expectedType: "fontFamily" },
 //   { property: "fontSize", expectedType: "dimension" },
 //   { property: "fontWeight", expectedType: "fontWeight" },
-//   { property: "letterSpacing", expectedType: "dimension" },  // missing today
+//   { property: "letterSpacing", expectedType: "dimension" },
 //   { property: "lineHeight", expectedType: "number" },
 // ],
 
@@ -14,6 +14,7 @@ import {
   FontWeightTokenChip,
   NumberTokenChip,
 } from "../../../tokens/components/TokenChip/TokenChip";
+import { Typography } from "../../../../ui/Typography";
 import { useTokensContext } from "../../../tokens/hooks/useTokensContext";
 import { resolveValue, TokenType } from "../../../tokens/utils/flatten";
 import { typographyStyleFromResolved } from "../../../tokens/utils/typographyStyle";
@@ -22,11 +23,11 @@ import { useTokenEditModalContext } from "../../hooks/useTokenEditModalContext";
 import styles from "./TypographyEdit.module.scss";
 
 const PLACEHOLDER_PATHS = {
-  fontFamily: "fontFamily.sans",
-  fontSize: "fontSize.200",
-  fontWeight: "fontWeight.regular",
-  letterSpacing: "space.100",
-  lineHeight: "lineHeight.100",
+  fontFamily: "p.font-family.sans",
+  fontSize: "p.font-size.step-0",
+  fontWeight: "p.font-weight.regular",
+  letterSpacing: "p.letter-spacing.normal",
+  lineHeight: "p.line-height.normal",
 };
 
 const SlotPlaceholder = ({
@@ -123,14 +124,14 @@ export const TypographyEdit = () => {
 
   return (
     <div className={styles.root}>
-      <h3>Body1</h3>
+      <Typography variant="heading3">Body1</Typography>
       <div className={styles.output}>
-        <span style={previewStyle}>
+        <Typography variant="inherit" as="span" style={previewStyle}>
           The quick brown fox jumps over the lazy dog
-        </span>
+        </Typography>
       </div>
       <div className={styles.tokenTreeContainer}>
-        <span>Font family</span>
+        <Typography variant="body2">Font family</Typography>
         <SlotPlaceholder
           isSelected={selectedSlot === 1}
           expectedType="fontFamily"
@@ -147,7 +148,7 @@ export const TypographyEdit = () => {
           />
         </SlotPlaceholder>
 
-        <span>Font size </span>
+        <Typography variant="body2">Font size</Typography>
         <SlotPlaceholder
           isSelected={selectedSlot === 2}
           expectedType="dimension"
@@ -164,7 +165,7 @@ export const TypographyEdit = () => {
           />
         </SlotPlaceholder>
 
-        <span>Font weight </span>
+        <Typography variant="body2">Font weight</Typography>
 
         <SlotPlaceholder
           isSelected={selectedSlot === 3}
@@ -183,7 +184,7 @@ export const TypographyEdit = () => {
           />
         </SlotPlaceholder>
 
-        <span>Letter spacing </span>
+        <Typography variant="body2">Letter spacing</Typography>
 
         <SlotPlaceholder
           isSelected={selectedSlot === 4}
@@ -195,7 +196,6 @@ export const TypographyEdit = () => {
         >
           <DimensionTokenChip
             path={PLACEHOLDER_PATHS.letterSpacing}
-
             onClick={() => {
               setSelectedToken(4);
 
@@ -204,7 +204,7 @@ export const TypographyEdit = () => {
           />
         </SlotPlaceholder>
 
-        <span>Line height </span>
+        <Typography variant="body2">Line height</Typography>
         <SlotPlaceholder
           isSelected={selectedSlot === 5}
           expectedType="number"

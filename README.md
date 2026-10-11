@@ -15,51 +15,86 @@ Design tokens usually only get consumed one way (token JSON → CSS/build output
 
 ## Token structure
 
-Tokens live under `src/tokens/` as DTCG token JSON files, wired together by `resolver.json`:
+Tokens live under `src/tokens/` as DTCG token JSON files, wired together by `resolver.json`. They mirror `src/styles/design-system.scss` in three layers, each under its own root group so a token's flattened name is its CSS custom property (`p.color.slate.1` → `--p-color-slate-1`):
+
+- **`p` (primitives)**: raw values.
+- **`s` (semantic)**: purpose, and only alias primitives.
+- **`c` (component)**: per-component settings, and only alias semantic tokens.
 
 ```
 src/tokens/
-  resolver.json                          # DTCG resolver: sets, modifiers, resolution order
+  resolver.json                           # DTCG resolver: sets, modifiers, resolution order
   global/
-    primitives/color.json                # base color scale (grey 50–950), literal values
-    primitives/typography.json           # font size/weight/line-height scale
-    primitives/fontFamily.web.json       # platform modifier: web font stack
-    primitives/fontFamily.native.json    # platform modifier: native font stack
-    semantic/color.light.json            # theme modifier: light-mode semantic aliases
-    semantic/color.dark.json             # theme modifier: dark-mode semantic aliases
-    semantic/typography.json             # semantic typography aliases
+    primitives/color.json                 # theme-independent colours (white, transparent, amber contrast)
+    primitives/color.light.json           # theme modifier: Radix light scales (slate, indigo, teal, amber, orange, purple, crimson)
+    primitives/color.dark.json            # theme modifier: Radix dark scales, same steps
+    primitives/spacing.json               # 4px rem grid, fluid spacing pairs, cap-height multiples
+    primitives/viewport.json              # min/max viewport for every fluid token
+    primitives/radius.json
+    primitives/border-width.json
+    primitives/typography.json            # weights, Utopia fluid font sizes, line heights, letter spacing
+    primitives/font-family.web.json       # platform modifier: web font stack
+    primitives/font-family.native.json    # platform modifier: native font stack
+    semantic/color.json                   # neutral (slate) roles, shared by every brand
+    semantic/spacing.json
+    semantic/radius.json
+    semantic/border-width.json
+    semantic/typography.json              # one typography composite per variant, plus gutters
+    component/button.json
   brands/
-    acme/primitives/color.json           # brand modifier: acme's color primitives
-    globex/primitives/color.json         # brand modifier: globex's color primitives
-    semantic/color.json                  # brand-agnostic semantic aliases ({color.brand.*})
+    acme/semantic/color.json              # brand modifier: primary/secondary/accent → indigo/teal/amber
+    globex/semantic/color.json            # brand modifier: primary/secondary/accent → orange/purple/crimson
 ```
 
-Each token is a leaf shaped like:
+Primitives hold literal values:
 
 ```json
 {
   "$type": "color",
   "$value": {
-    "colorSpace": "hsl",
-    "components": [240, 5.9, 90],
-    "hex": "#e4e4e7"
+    "colorSpace": "srgb",
+    "components": [0.2431, 0.3882, 0.8667],
+    "hex": "#3e63dd"
   }
 }
 ```
 
-Semantic tokens instead alias a primitive by reference:
+Semantic and component tokens alias the layer below by reference:
 
 ```json
-{ "$type": "color", "$value": "{color.brand.100}" }
+{ "$type": "color", "$value": "{p.color.indigo.9}" }
 ```
+
+Theme swaps only the primitive colour scales. A Radix step does the same job in light and dark, so semantic and component tokens are shared by both. Brand re-points the semantic colour roles at different hues, and component tokens follow automatically.
+
+### Values DTCG can't express
+
+The token files stay valid against the DTCG 2025.10 schemas. Values CSS can express but DTCG can't are stored under `$extensions["dev.learning-plugin"]`:
+
+- **Fluid sizes** (`clamp()` in CSS): `$value` is the minimum, and `fluid.max` holds the maximum. `fluid.minViewport`/`maxViewport` reference `p.viewport.*`. Fluid spacing references spacing steps for both ends (e.g. `p.spacing.fluid.2-4` runs from `{p.spacing.2}` to `{p.spacing.4}`).
+- **Relative units**: DTCG dimensions only allow `px`/`rem`, so `unit` records the real unit:
+  - Letter spacing is a `rem` dimension holding the value at the 16px root (so typography composites stay valid), with `unit: "em"`.
+  - Gutters are `number` tokens holding the multiplier, with `unit: "cap"`.
+
+### Generated CSS
+
+`npm run build:tokens` runs [Terrazzo](https://terrazzo.app) (`tz build`, configured in `terrazzo.config.ts`), which reads `resolver.json` directly and writes `src/styles/tokens.css`. `npm run build` runs it too. The output has:
+
+- **`:root`**: the defaults (light, acme, web).
+- **`[data-theme="dark"]`**: only the tokens `color.dark.json` defines.
+- **`[data-brand="globex"]`**: only the tokens globex's semantic file defines.
+
+Semantic and component variables are `var()` references to the layer below, so both overrides cascade. The config's `transform` turns the `dev.learning-plugin` extensions back into CSS: fluid tokens become `clamp()`, and `unit` outputs `em`/`cap`. Don't edit `tokens.css` by hand: change the tokens and rebuild.
+
+### Resolution
 
 `resolver.json` defines how these files combine:
 
-- **sets** — fixed groups of source files always included (e.g. `foundation` = global color primitives).
-- **modifiers** — axes with a context per option (`theme`: light/dark, `brand`: acme/globex, `platform`: web/native), each with a default.
-- **resolutionOrder** — the order sets and modifiers are merged in; later entries win on key conflicts (`src/tokens/flatten.ts`'s `mergeTokenTrees`).
+- **sets**: groups of source files that are always included (`primitives`, `semantic`, `component`).
+- **modifiers**: axes with one context per option (`theme`: light/dark, `platform`: web/native, `brand`: acme/globex), each with a default.
+- **resolutionOrder**: the order sets and modifiers are merged in. Later entries win on key conflicts (`mergeTokenTrees` in `src/components/features/tokens/utils/flatten.ts`).
 
-`src/tokens/resolve.ts` walks `resolutionOrder` for a given `{ theme, brand }` input, resolves each modifier's active context, and merges the resulting trees — plus `resolveAllPermutations()`, which precomputes every theme × brand combination once so the UI can just index into it instead of re-merging on every toggle.
+`resolveTokens` in `src/components/features/tokens/utils/resolve.ts` walks `resolutionOrder` for the active `{ theme, brand }`, resolves each modifier's context, and merges the resulting trees.
 
 ## Running it
 

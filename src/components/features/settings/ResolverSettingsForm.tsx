@@ -8,6 +8,8 @@ import {
 import { AutoForm, useRegister } from "@autoform/react/react-hook-form";
 import { ZodProvider } from "@autoform/zod";
 import { ComponentProps, ReactNode } from "react";
+import { Button } from "../../ui/Button";
+import { Typography } from "../../ui/Typography";
 import { resolverSchema } from "../../../tokens/resolver.schema";
 import styles from "./ResolverSettingsForm.module.scss";
 
@@ -29,36 +31,62 @@ const Form = (props: ComponentProps<"form">) => (
 
 const FieldWrapper = ({ label, error, id, children }: FieldWrapperProps) => (
   <label className={styles.field} htmlFor={id}>
-    <span className={styles.label}>{label}</span>
+    {typeof label === "string" ? (
+      <Typography variant="subtitle2" as="span" className={styles.label}>
+        {label}
+      </Typography>
+    ) : (
+      label
+    )}
     {children}
-    {error ? <span className={styles.error}>{error}</span> : null}
+    {typeof error === "string" && error ? (
+      <Typography variant="caption" className={styles.error}>
+        {error}
+      </Typography>
+    ) : (
+      error || null
+    )}
   </label>
 );
 
 const ErrorMessage = ({ error }: { error: string }) => (
-  <p className={styles.error}>{error}</p>
+  <Typography variant="caption" as="p" className={styles.error}>
+    {error}
+  </Typography>
 );
 
 const SubmitButton = ({ children }: { children: ReactNode }) => (
-  <button type="submit" className={styles.submit}>
+  <Button type="submit" className={styles.submit}>
     {children}
-  </button>
+  </Button>
 );
 
 const ObjectWrapper = ({ label, children }: ObjectWrapperProps) => (
   <fieldset className={styles.object}>
-    <legend className={styles.legend}>{label}</legend>
+    {typeof label === "string" ? (
+      <Typography variant="subtitle2" as="legend" className={styles.legend}>
+        {label}
+      </Typography>
+    ) : (
+      <legend className={styles.legend}>{label}</legend>
+    )}
     {children}
   </fieldset>
 );
 
 const ArrayWrapper = ({ label, children, onAddItem }: ArrayWrapperProps) => (
   <fieldset className={styles.array}>
-    <legend className={styles.legend}>{label}</legend>
+    {typeof label === "string" ? (
+      <Typography variant="subtitle2" as="legend" className={styles.legend}>
+        {label}
+      </Typography>
+    ) : (
+      <legend className={styles.legend}>{label}</legend>
+    )}
     {children}
-    <button type="button" className={styles.addButton} onClick={onAddItem}>
+    <Button type="button" className={styles.addButton} onClick={onAddItem}>
       Add
-    </button>
+    </Button>
   </fieldset>
 );
 
@@ -68,9 +96,9 @@ const ArrayElementWrapper = ({
 }: ArrayElementWrapperProps) => (
   <div className={styles.arrayItem}>
     {children}
-    <button type="button" className={styles.removeButton} onClick={onRemove}>
+    <Button type="button" className={styles.removeButton} onClick={onRemove}>
       Remove
-    </button>
+    </Button>
   </div>
 );
 
