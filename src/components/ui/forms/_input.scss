@@ -1,0 +1,46 @@
+// The field styling shared by every text-like control (text, number, select,
+// textarea), driven by the c.input component tokens.
+@mixin field {
+  box-sizing: border-box;
+  width: 100%;
+  padding-block: var(--c-input-padding-block);
+  padding-inline: var(--c-input-padding-inline);
+  border: var(--c-input-border-width) solid var(--c-input-border-color);
+  border-radius: var(--c-input-border-radius);
+  background-color: var(--c-input-background-color);
+  color: var(--c-input-font-color);
+  font-family: var(--c-input-typography-font-family);
+  font-weight: var(--c-input-typography-font-weight);
+  font-size: var(--c-input-typography-font-size);
+  line-height: var(--c-input-typography-line-height);
+  letter-spacing: var(--c-input-typography-letter-spacing);
+
+  &::placeholder {
+    color: var(--c-input-placeholder-font-color);
+  }
+
+  @include states;
+}
+
+// Border, focus, invalid and disabled states.
+@mixin states {
+  &:hover:not(:disabled) {
+    border-color: var(--c-input-border-color-hover);
+  }
+
+  &[aria-invalid="true"] {
+    border-color: var(--c-input-border-color-invalid);
+  }
+
+  &:focus-visible {
+    outline: var(--c-input-focus-ring-width) solid
+      var(--c-input-focus-ring-color);
+    outline-offset: var(--c-input-focus-ring-width);
+  }
+
+  &:disabled {
+    background-color: var(--c-input-disabled-background-color);
+    color: var(--c-input-disabled-font-color);
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,30 @@
+.root {
+  display: grid;
+  grid-template-areas:
+    "topbar topbar topbar topbar"
+    "side-bar breadcrumbs breadcrumbs edit"
+    "side-bar main main edit";
+  grid-template-rows: auto auto 1fr;
+  padding: var(--s-spacing-fluid-md);
+  border: var(--s-border-width-default) var(--s-color-neutral-border) solid;
+}
+
+.main {
+  grid-area: main;
+}
+
+.topBar {
+  grid-area: topbar;
+}
+
+.sideBar {
+  grid-area: side-bar;
+}
+
+.breadcrumbs {
+  grid-area: breadcrumbs;
+}
+
+.edit {
+  grid-area: edit;
+}

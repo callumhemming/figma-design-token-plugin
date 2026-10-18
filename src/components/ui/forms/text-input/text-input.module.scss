@@ -1,0 +1,5 @@
+@use "../input";
+
+.textInputRoot {
+  @include input.field;
+}

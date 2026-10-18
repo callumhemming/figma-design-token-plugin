@@ -35,12 +35,15 @@ src/tokens/
     primitives/typography.json            # weights, Utopia fluid font sizes, line heights, letter spacing
     primitives/font-family.web.json       # platform modifier: web font stack
     primitives/font-family.native.json    # platform modifier: native font stack
-    semantic/color.json                   # neutral (slate) roles, shared by every brand
+    semantic/color.json                   # neutral (slate) and danger (red) roles, shared by every brand
     semantic/spacing.json
     semantic/radius.json
     semantic/border-width.json
     semantic/typography.json              # one typography composite per variant, plus gutters
     component/button.json
+    component/form-input.json             # label/description/error shell
+    component/input.json                  # text, number, select, textarea, colour swatch
+    component/checkbox.json
   brands/
     acme/semantic/color.json              # brand modifier: primary/secondary/accent → indigo/teal/amber
     globex/semantic/color.json            # brand modifier: primary/secondary/accent → orange/purple/crimson

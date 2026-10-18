@@ -687,6 +687,104 @@
           }
         }
       },
+      "red": {
+        "1": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1.0, 0.9882, 0.9882],
+            "hex": "#fffcfc"
+          }
+        },
+        "2": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1.0, 0.9686, 0.9686],
+            "hex": "#fff7f7"
+          }
+        },
+        "3": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.9961, 0.9216, 0.9255],
+            "hex": "#feebec"
+          }
+        },
+        "4": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1.0, 0.8588, 0.8627],
+            "hex": "#ffdbdc"
+          }
+        },
+        "5": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1.0, 0.8039, 0.8078],
+            "hex": "#ffcdce"
+          }
+        },
+        "6": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.9922, 0.7412, 0.7451],
+            "hex": "#fdbdbe"
+          }
+        },
+        "7": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.9569, 0.6627, 0.6667],
+            "hex": "#f4a9aa"
+          }
+        },
+        "8": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.9216, 0.5569, 0.5647],
+            "hex": "#eb8e90"
+          }
+        },
+        "9": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.898, 0.2824, 0.302],
+            "hex": "#e5484d"
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.8627, 0.2431, 0.2588],
+            "hex": "#dc3e42"
+          }
+        },
+        "11": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.8078, 0.1725, 0.1922],
+            "hex": "#ce2c31"
+          }
+        },
+        "12": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.3922, 0.0902, 0.1373],
+            "hex": "#641723"
+          }
+        }
+      },
       "$description": "Radix Colors light scales (radix-ui.com/colors). Step n has the same job in every hue and theme: 1-2 backgrounds, 3-5 component surfaces, 6-8 borders, 9-10 solid fills, 11-12 text."
     }
   }

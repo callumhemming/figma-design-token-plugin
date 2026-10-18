@@ -2,9 +2,20 @@ import type { StorybookConfig } from '@storybook/react-vite';
 import react from '@vitejs/plugin-react';
 
 const config: StorybookConfig = {
+  // No story sets a `title` -- Storybook derives it from the file's path
+  // under each directory below, so the sidebar mirrors the folder structure
+  // (e.g. features/Layout/components/SideBar). titlePrefix keeps app/ stories
+  // in their own group alongside the src/components/ ones.
   "stories": [
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
+    {
+      "directory": "../src/components",
+      "files": "**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))"
+    },
+    {
+      "directory": "../src/app",
+      "titlePrefix": "app",
+      "files": "**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))"
+    }
   ],
   "addons": [
     "@chromatic-com/storybook",

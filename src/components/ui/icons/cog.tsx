@@ -1,12 +1,10 @@
-import clsx from "clsx";
-import type { IconComponentProps } from "./index";
-import styles from "./icons.module.scss";
+import type { SvgProps } from "./icons";
 
-export const Cog = ({ size = 4, className }: IconComponentProps) => {
+export const Cog = ({ className }: SvgProps) => {
   return (
     <svg
       aria-hidden="true"
-      className={clsx(styles.icons, styles[`size-${size}`], className)}
+      className={className}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

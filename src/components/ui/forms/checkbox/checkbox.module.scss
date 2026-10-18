@@ -1,0 +1,61 @@
+.checkboxRoot {
+  appearance: none;
+  display: grid;
+  place-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  inline-size: var(--c-checkbox-size);
+  block-size: var(--c-checkbox-size);
+  margin: 0;
+  border: var(--c-checkbox-border-width) solid var(--c-checkbox-border-color);
+  border-radius: var(--c-checkbox-border-radius);
+  background-color: var(--c-checkbox-background-color);
+  cursor: pointer;
+
+  // The tick: a clip-path drawn in the check colour, shown when checked.
+  &::after {
+    content: "";
+    inline-size: calc(var(--c-checkbox-size) * 0.6);
+    block-size: calc(var(--c-checkbox-size) * 0.6);
+    background-color: var(--c-checkbox-check-color);
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: scale(0);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--c-checkbox-border-color-hover);
+  }
+
+  &:checked {
+    border-color: transparent;
+    background-color: var(--c-checkbox-checked-background-color);
+
+    &::after {
+      transform: scale(1);
+    }
+
+    &:hover:not(:disabled) {
+      background-color: var(--c-checkbox-checked-background-color-hover);
+    }
+  }
+
+  &[aria-invalid="true"] {
+    border-color: var(--c-checkbox-border-color-invalid);
+  }
+
+  &:focus-visible {
+    outline: var(--c-checkbox-focus-ring-width) solid
+      var(--c-checkbox-focus-ring-color);
+    outline-offset: var(--c-checkbox-focus-ring-width);
+  }
+
+  &:disabled {
+    border-color: transparent;
+    background-color: var(--c-checkbox-disabled-background-color);
+    cursor: not-allowed;
+
+    &::after {
+      background-color: var(--c-checkbox-disabled-check-color);
+    }
+  }
+}

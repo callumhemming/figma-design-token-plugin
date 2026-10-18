@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: var(--s-spacing-3);
+  justify-content: space-between;
+  padding: var(--s-spacing-6) var(--s-spacing-1);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--s-spacing-2);
+}
+
+.controlsContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--s-spacing-2);
+}
+
+.chip {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-color: var(--s-color-primary-solid);
+  border: var(--s-color-border);
+}

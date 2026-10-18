@@ -1,0 +1,83 @@
+// Styled as a field like the other controls. The native input is the swatch
+// inside it, so states come from its descendants via :has().
+.colorInputRoot {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--c-input-gap);
+  width: 100%;
+  padding-block: var(--c-input-padding-block);
+  padding-inline: var(--c-input-padding-inline);
+  border: var(--c-input-border-width) solid var(--c-input-border-color);
+  border-radius: var(--c-input-border-radius);
+  background-color: var(--c-input-background-color);
+  color: var(--c-input-font-color);
+
+  &:hover:not([data-disabled]) {
+    border-color: var(--c-input-border-color-hover);
+  }
+
+  &:has([aria-invalid="true"]) {
+    border-color: var(--c-input-border-color-invalid);
+  }
+
+  &:has(.swatch:focus-visible) {
+    outline: var(--c-input-focus-ring-width) solid
+      var(--c-input-focus-ring-color);
+    outline-offset: var(--c-input-focus-ring-width);
+  }
+
+  &[data-disabled] {
+    background-color: var(--c-input-disabled-background-color);
+    color: var(--c-input-disabled-font-color);
+  }
+}
+
+.swatch {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  inline-size: var(--c-input-swatch-size);
+  block-size: var(--c-input-swatch-size);
+  padding: 0;
+  border: var(--c-input-border-width) solid var(--c-input-border-color);
+  border-radius: var(--c-input-border-radius);
+  background: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: var(--c-input-border-radius);
+  }
+
+  &::-moz-color-swatch {
+    border: none;
+    border-radius: var(--c-input-border-radius);
+  }
+}
+
+.value {
+  flex: 1;
+  font-family: var(--c-input-typography-font-family);
+  font-weight: var(--c-input-typography-font-weight);
+  font-size: var(--c-input-typography-font-size);
+  line-height: var(--c-input-typography-line-height);
+  letter-spacing: var(--c-input-typography-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+}
+
+.eyedropper {
+  flex-shrink: 0;
+}
