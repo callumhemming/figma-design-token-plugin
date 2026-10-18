@@ -1,0 +1,43 @@
+{
+  "c": {
+    "form-input": {
+      "gap": {
+        "$type": "dimension",
+        "$value": "{s.spacing.1}"
+      },
+      "inline-gap": {
+        "$type": "dimension",
+        "$value": "{s.spacing.2}"
+      },
+      "label-font-color": {
+        "$type": "color",
+        "$value": "{s.color.text}"
+      },
+      "label-typography": {
+        "$type": "typography",
+        "$value": "{s.typography.subtitle2}"
+      },
+      "required-font-color": {
+        "$type": "color",
+        "$value": "{s.color.danger.text}"
+      },
+      "description-font-color": {
+        "$type": "color",
+        "$value": "{s.color.text-muted}"
+      },
+      "description-typography": {
+        "$type": "typography",
+        "$value": "{s.typography.caption}"
+      },
+      "error-font-color": {
+        "$type": "color",
+        "$value": "{s.color.danger.text}"
+      },
+      "error-typography": {
+        "$type": "typography",
+        "$value": "{s.typography.caption}"
+      },
+      "$description": "The label/description/error shell around a control. The control itself is styled by c.input or c.checkbox."
+    }
+  }
+}

@@ -1,0 +1,5 @@
+@use "../input";
+
+.selectRoot {
+  @include input.field;
+}

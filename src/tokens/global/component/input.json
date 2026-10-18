@@ -1,0 +1,75 @@
+{
+  "c": {
+    "input": {
+      "background-color": {
+        "$type": "color",
+        "$value": "{s.color.background-app}"
+      },
+      "font-color": {
+        "$type": "color",
+        "$value": "{s.color.text}"
+      },
+      "placeholder-font-color": {
+        "$type": "color",
+        "$value": "{s.color.text-muted}"
+      },
+      "border-color": {
+        "$type": "color",
+        "$value": "{s.color.border}"
+      },
+      "border-color-hover": {
+        "$type": "color",
+        "$value": "{s.color.border-hover}"
+      },
+      "border-color-invalid": {
+        "$type": "color",
+        "$value": "{s.color.danger.border-hover}"
+      },
+      "border-width": {
+        "$type": "dimension",
+        "$value": "{s.border-width.default}"
+      },
+      "border-radius": {
+        "$type": "dimension",
+        "$value": "{s.radius.control}"
+      },
+      "focus-ring-color": {
+        "$type": "color",
+        "$value": "{s.color.focus-ring}"
+      },
+      "focus-ring-width": {
+        "$type": "dimension",
+        "$value": "{s.border-width.focus}"
+      },
+      "disabled-background-color": {
+        "$type": "color",
+        "$value": "{s.color.neutral.surface}"
+      },
+      "disabled-font-color": {
+        "$type": "color",
+        "$value": "{s.color.text-disabled}"
+      },
+      "padding-block": {
+        "$type": "dimension",
+        "$value": "{s.spacing.1}"
+      },
+      "padding-inline": {
+        "$type": "dimension",
+        "$value": "{s.spacing.2}"
+      },
+      "swatch-size": {
+        "$type": "dimension",
+        "$value": "{s.spacing.5}"
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": "{s.spacing.2}"
+      },
+      "typography": {
+        "$type": "typography",
+        "$value": "{s.typography.body2}"
+      },
+      "$description": "Shared by the text-like controls: text, number, select, textarea and the colour input field."
+    }
+  }
+}

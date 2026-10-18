@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Providers } from "../components/Providers/Providers";
+import { Providers } from "../components/providers";
 import { App } from "./App";
 
 const meta = {
-  title: "App",
   component: App,
   decorators: [
     (Story) => (

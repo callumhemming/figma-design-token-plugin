@@ -22,7 +22,12 @@
       ]
     },
     "component": {
-      "sources": [{ "$ref": "global/component/button.json" }]
+      "sources": [
+        { "$ref": "global/component/button.json" },
+        { "$ref": "global/component/form-input.json" },
+        { "$ref": "global/component/input.json" },
+        { "$ref": "global/component/checkbox.json" }
+      ]
     }
   },
   "modifiers": {

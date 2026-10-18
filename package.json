@@ -8,7 +8,7 @@
     "typecheck": "tsc -p tsconfig.main.json --noEmit && tsc -p tsconfig.json --noEmit",
     "build:main": "vite build --config vite.config.main.ts",
     "build:ui": "vite build --config vite.config.ui.mts",
-    "build:tokens": "tz build",
+    "build:tokens": "tz build && node scripts/build-token-preview.mjs",
     "build": "npm run clean && npm run build:tokens && npm run typecheck && npm run build:main && npm run build:ui",
     "watch:main": "vite build --config vite.config.main.ts --watch",
     "watch:ui": "vite build --config vite.config.ui.mts --watch",
@@ -50,6 +50,7 @@
     "stylelint-config-css-modules": "^4.6.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "stylelint-csstree-validator": "^4.0.0",
+    "stylelint-value-no-unknown-custom-properties": "^6.1.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.1",
     "vite": "^6.4.3",
@@ -59,12 +60,11 @@
   "dependencies": {
     "@autoform/react": "^5.0.0",
     "@autoform/zod": "^6.0.0",
-    "@hookform/resolvers": "^5.7.1",
+    "@hookform/resolvers": "^5.9.2",
     "clsx": "^2.1.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-hook-form": "^7.85.0",
-    "style-dictionary": "^5.5.1",
-    "zod": "^4.4.3"
+    "react-hook-form": "^7.90.0",
+    "zod": "^4.6.7"
   }
 }

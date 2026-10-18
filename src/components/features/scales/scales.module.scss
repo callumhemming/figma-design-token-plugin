@@ -1,0 +1,47 @@
+.scalesContainer {
+  padding: var(--s-spacing-6) var(--s-spacing-1);
+}
+
+.chip {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--s-spacing-1);
+
+  // Set inline per chip in scales.tsx.
+  // stylelint-disable-next-line csstools/value-no-unknown-custom-properties
+  background-color: var(--scale-chip-bg);
+  outline: 2px transparent solid;
+  outline-offset: 2px;
+}
+
+.chip:hover {
+  outline-color: var(--s-color-border-hover);
+}
+
+.scalesHeader {
+  display: flex;
+  gap: var(--s-spacing-4);
+  margin-bottom: var(--s-spacing-4);
+}
+
+.scaleList {
+  display: flex;
+  align-items: center;
+  gap: var(--s-spacing-8);
+  margin-bottom: var(--s-spacing-1);
+  padding-top: var(--s-spacing-4);
+}
+
+.scaleList:not(:last-child) {
+  border-bottom: 2px solid var(--s-color-border);
+  padding-bottom: var(--s-spacing-4);
+}
+
+.scaleDisplayContainer {
+  display: flex;
+  gap: var(--s-spacing-1);
+}
+
+.scaleLabel {
+  min-width: 60px;
+}

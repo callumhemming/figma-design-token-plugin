@@ -96,6 +96,57 @@
         },
         "$description": "Same step names as the brand roles, so components can swap role freely."
       },
+      "danger": {
+        "background-subtle": {
+          "$type": "color",
+          "$value": "{p.color.red.2}"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "{p.color.red.3}"
+        },
+        "surface-hover": {
+          "$type": "color",
+          "$value": "{p.color.red.4}"
+        },
+        "surface-active": {
+          "$type": "color",
+          "$value": "{p.color.red.5}"
+        },
+        "border-subtle": {
+          "$type": "color",
+          "$value": "{p.color.red.6}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{p.color.red.7}"
+        },
+        "border-hover": {
+          "$type": "color",
+          "$value": "{p.color.red.8}"
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{p.color.red.9}"
+        },
+        "solid-hover": {
+          "$type": "color",
+          "$value": "{p.color.red.10}"
+        },
+        "on-solid": {
+          "$type": "color",
+          "$value": "{p.color.white}"
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{p.color.red.11}"
+        },
+        "text-strong": {
+          "$type": "color",
+          "$value": "{p.color.red.12}"
+        },
+        "$description": "Errors and destructive actions. Shared by every brand, so it doesn't drift with brand hues."
+      },
       "transparent": {
         "$type": "color",
         "$value": "{p.color.transparent}"

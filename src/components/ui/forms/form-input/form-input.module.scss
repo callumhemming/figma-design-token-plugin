@@ -1,0 +1,64 @@
+// Stacked: label, description, control, error.
+.formInputRoot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "label"
+    "description"
+    "control"
+    "error";
+  gap: var(--c-form-input-gap);
+}
+
+// Inline (checkboxes): the control sits beside the label, and the
+// description and error line up under the label.
+.inline {
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "control label"
+    ". description"
+    ". error";
+  column-gap: var(--c-form-input-inline-gap);
+  align-items: center;
+}
+
+.label {
+  grid-area: label;
+  display: flex;
+  gap: var(--c-form-input-gap);
+  color: var(--c-form-input-label-font-color);
+  font-family: var(--c-form-input-label-typography-font-family);
+  font-weight: var(--c-form-input-label-typography-font-weight);
+  font-size: var(--c-form-input-label-typography-font-size);
+  line-height: var(--c-form-input-label-typography-line-height);
+  letter-spacing: var(--c-form-input-label-typography-letter-spacing);
+}
+
+.required {
+  color: var(--c-form-input-required-font-color);
+}
+
+.control {
+  grid-area: control;
+  display: flex;
+}
+
+.description {
+  grid-area: description;
+  color: var(--c-form-input-description-font-color);
+  font-family: var(--c-form-input-description-typography-font-family);
+  font-weight: var(--c-form-input-description-typography-font-weight);
+  font-size: var(--c-form-input-description-typography-font-size);
+  line-height: var(--c-form-input-description-typography-line-height);
+  letter-spacing: var(--c-form-input-description-typography-letter-spacing);
+}
+
+.error {
+  grid-area: error;
+  color: var(--c-form-input-error-font-color);
+  font-family: var(--c-form-input-error-typography-font-family);
+  font-weight: var(--c-form-input-error-typography-font-weight);
+  font-size: var(--c-form-input-error-typography-font-size);
+  line-height: var(--c-form-input-error-typography-line-height);
+  letter-spacing: var(--c-form-input-error-typography-letter-spacing);
+}

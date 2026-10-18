@@ -153,6 +153,11 @@
           "$value": "{p.spacing.cap.16}"
         },
         "$description": "Space below text, in cap heights of its own font (see p.spacing.cap). Measured baseline \u2192 next cap height, to match text-box trim."
+      },
+      "bold": {
+        "$type": "fontWeight",
+        "$value": "{p.font-weight.bold}",
+        "$description": "Weight for emphasised text in any variant (Typography's `bold` prop)."
       }
     }
   }

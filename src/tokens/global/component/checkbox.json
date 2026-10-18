@@ -1,0 +1,62 @@
+{
+  "c": {
+    "checkbox": {
+      "size": {
+        "$type": "dimension",
+        "$value": "{s.spacing.4}"
+      },
+      "background-color": {
+        "$type": "color",
+        "$value": "{s.color.background-app}"
+      },
+      "border-color": {
+        "$type": "color",
+        "$value": "{s.color.border}"
+      },
+      "border-color-hover": {
+        "$type": "color",
+        "$value": "{s.color.border-hover}"
+      },
+      "border-color-invalid": {
+        "$type": "color",
+        "$value": "{s.color.danger.border-hover}"
+      },
+      "border-width": {
+        "$type": "dimension",
+        "$value": "{s.border-width.default}"
+      },
+      "border-radius": {
+        "$type": "dimension",
+        "$value": "{s.radius.control}"
+      },
+      "checked-background-color": {
+        "$type": "color",
+        "$value": "{s.color.primary.solid}"
+      },
+      "checked-background-color-hover": {
+        "$type": "color",
+        "$value": "{s.color.primary.solid-hover}"
+      },
+      "check-color": {
+        "$type": "color",
+        "$value": "{s.color.primary.on-solid}"
+      },
+      "focus-ring-color": {
+        "$type": "color",
+        "$value": "{s.color.focus-ring}"
+      },
+      "focus-ring-width": {
+        "$type": "dimension",
+        "$value": "{s.border-width.focus}"
+      },
+      "disabled-background-color": {
+        "$type": "color",
+        "$value": "{s.color.neutral.surface}"
+      },
+      "disabled-check-color": {
+        "$type": "color",
+        "$value": "{s.color.text-disabled}"
+      }
+    }
+  }
+}

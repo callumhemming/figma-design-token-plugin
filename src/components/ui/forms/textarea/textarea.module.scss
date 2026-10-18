@@ -1,0 +1,8 @@
+@use "../input";
+
+.textareaRoot {
+  @include input.field;
+
+  min-height: calc(var(--c-input-typography-line-height) * 4em);
+  resize: vertical;
+}

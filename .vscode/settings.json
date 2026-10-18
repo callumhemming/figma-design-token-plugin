@@ -1,3 +1,4 @@
 {
-  "stylelint.validate": ["css", "scss"]
+  "stylelint.validate": ["css", "scss"],
+  "cssVariables.lookupFiles": [".vscode/tokens.preview.css"]
 }

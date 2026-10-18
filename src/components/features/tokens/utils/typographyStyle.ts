@@ -12,7 +12,7 @@ export type ResolvedTypographyParts = {
 // Builds a live CSSProperties object from a typography composite's already-
 // resolved sub-properties (each an already-resolveValue()'d primitive, not
 // a {reference} string) -- shared between TypographyTokenChip's preview
-// (TokenChip.tsx) and TypographyEdit's live-preview text, so the
+// (token-chip.tsx) and TypographyEdit's live-preview text, so the
 // fontFamily-array-join / formatResolvedValue plumbing lives in one place.
 // letterSpacing is optional so composites that don't declare one still
 // render.
