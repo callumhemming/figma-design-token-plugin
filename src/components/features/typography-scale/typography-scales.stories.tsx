@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { EditWindow } from "./edit-window";
+import { TypographyScale } from "./typography-scales";
 
 const meta = {
-  component: EditWindow,
-} satisfies Meta<typeof EditWindow>;
+  component: TypographyScale,
+} satisfies Meta<typeof TypographyScale>;
 
 export default meta;
 

@@ -9,17 +9,24 @@
   border-radius: var(--c-input-border-radius);
   background-color: var(--c-input-background-color);
   color: var(--c-input-font-color);
-  font-family: var(--c-input-typography-font-family);
-  font-weight: var(--c-input-typography-font-weight);
-  font-size: var(--c-input-typography-font-size);
-  line-height: var(--c-input-typography-line-height);
-  letter-spacing: var(--c-input-typography-letter-spacing);
+
+  @include typography;
 
   &::placeholder {
     color: var(--c-input-placeholder-font-color);
   }
 
   @include states;
+}
+
+// The c.input typography, for text that sits with a field (e.g. a
+// combobox's options).
+@mixin typography {
+  font-family: var(--c-input-typography-font-family);
+  font-weight: var(--c-input-typography-font-weight);
+  font-size: var(--c-input-typography-font-size);
+  line-height: var(--c-input-typography-line-height);
+  letter-spacing: var(--c-input-typography-letter-spacing);
 }
 
 // Border, focus, invalid and disabled states.

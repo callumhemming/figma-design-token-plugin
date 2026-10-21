@@ -1,0 +1,51 @@
+@use "../input";
+
+.comboboxRoot {
+  position: relative;
+}
+
+.input {
+  @include input.field;
+}
+
+// Sits on the field's surface and border, so the list reads as part of it.
+.listbox {
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  max-block-size: calc(var(--s-spacing-10) * 4);
+  margin: var(--s-spacing-1) 0 0;
+  padding: var(--s-spacing-1);
+  overflow-y: auto;
+  list-style: none;
+  border: var(--c-input-border-width) solid var(--c-input-border-color);
+  border-radius: var(--c-input-border-radius);
+  background-color: var(--c-input-background-color);
+}
+
+.option {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--c-input-gap);
+  padding-block: var(--c-input-padding-block);
+  padding-inline: var(--c-input-padding-inline);
+  border-radius: var(--c-input-border-radius);
+  color: var(--c-input-font-color);
+  cursor: pointer;
+
+  @include input.typography;
+
+  &:hover {
+    background-color: var(--s-color-surface-hover);
+  }
+}
+
+.active {
+  background-color: var(--s-color-surface-hover);
+}
+
+.meta {
+  color: var(--s-color-text-muted);
+}

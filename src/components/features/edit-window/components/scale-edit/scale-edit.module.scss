@@ -1,0 +1,5 @@
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--s-spacing-4) var(--s-spacing-3);
+}

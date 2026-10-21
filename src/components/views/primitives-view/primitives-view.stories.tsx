@@ -19,6 +19,14 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
+  // Picks the edit window's form until it follows the selected token.
+  args: { editWindowType: "color" },
+  argTypes: {
+    editWindowType: {
+      control: "inline-radio",
+      options: ["color", "scale", "typography"],
+    },
+  },
 } satisfies Meta<typeof PrimitivesView>;
 
 export default meta;

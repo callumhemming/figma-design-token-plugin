@@ -1,5 +1,7 @@
 export { Checkbox } from "./checkbox";
 export { ColorInput } from "./color-input";
+export { Combobox } from "./combobox";
+export type { ComboboxOption } from "./combobox";
 export { FormInput } from "./form-input";
 export type { FormInputControlProps } from "./form-input";
 export { NumberInput } from "./number-input";

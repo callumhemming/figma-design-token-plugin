@@ -1,12 +1,7 @@
 import clsx from "clsx";
-import {
-  ChangeEvent,
-  ComponentPropsWithRef,
-  Ref,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, ComponentPropsWithRef, useRef, useState } from "react";
 import { Button } from "../../button";
+import { assignRef, setNativeValue } from "../native-value";
 import styles from "./color-input.module.scss";
 
 // Not in TypeScript's DOM lib yet; Chromium-only (so it's there in Figma).
@@ -15,22 +10,6 @@ type EyeDropperConstructor = new () => {
 };
 const EyeDropper = (globalThis as { EyeDropper?: EyeDropperConstructor })
   .EyeDropper;
-
-// React tracks an input's last value, so assigning `.value` directly and
-// firing "input" wouldn't reach onChange. Going through the prototype's
-// setter does, which is how the eyedropper result reaches react-hook-form.
-const setNativeValue = (input: HTMLInputElement, value: string) => {
-  Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    "value",
-  )?.set?.call(input, value);
-  input.dispatchEvent(new Event("input", { bubbles: true }));
-};
-
-const assignRef = <T,>(ref: Ref<T> | undefined, value: T | null) => {
-  if (typeof ref === "function") ref(value);
-  else if (ref) ref.current = value;
-};
 
 // A native colour picker with its hex value and an eyedropper beside it.
 // The value is always a 7-digit lowercase hex string (#rrggbb). Props go to

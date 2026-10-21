@@ -1,11 +1,14 @@
+import { EditWindowType } from "../../features/edit-window";
 import { Layout } from "../../features/layout";
 import { Scales } from "../../features/scales";
 
-type PrimitivesViewProps = {};
+type PrimitivesViewProps = {
+  editWindowType?: EditWindowType;
+};
 
-export const PrimitivesView = ({}) => {
+export const PrimitivesView = ({ editWindowType }: PrimitivesViewProps) => {
   return (
-    <Layout>
+    <Layout editWindowType={editWindowType}>
       <Scales />
     </Layout>
   );

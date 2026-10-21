@@ -1,0 +1,36 @@
+// Columns are defined once here; each row borrows them through subgrid, so
+// every column is as wide as its widest cell across all rows.
+.scaleListContainer {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  column-gap: var(--s-spacing-8);
+}
+
+.scaleListItem {
+  display: grid;
+  position: relative;
+
+  // Span every column, then use the parent's columns instead of new ones.
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  padding: var(--s-spacing-4);
+
+  &:not(:last-child) {
+    border-bottom: 2px solid var(--s-color-border);
+  }
+}
+
+.scaleListItem:hover {
+  --scale-list-before-hover: var(--s-color-accent-solid-hover);
+
+  background-color: var(--s-color-accent-background-subtle);
+}
+
+.scaleListItem::before {
+  content: "";
+  position: absolute;
+  width: var(--s-spacing-1);
+  height: 100%;
+  background-color: var(--scale-list-before-hover, transparent);
+}

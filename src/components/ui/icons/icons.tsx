@@ -2,7 +2,9 @@ import clsx from "clsx";
 import { ComponentType } from "react";
 import { Arrow } from "./arrow";
 import { Cog } from "./cog";
+import { Cross } from "./cross";
 import { Eyedropper } from "./eyedropper";
+import { Plus } from "./plus";
 import styles from "./icons.module.scss";
 
 export type IconSize = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -19,7 +21,9 @@ export type SvgProps = { className?: string };
 const iconMap = {
   arrow: Arrow,
   cog: Cog,
+  cross: Cross,
   eyedropper: Eyedropper,
+  plus: Plus,
 } satisfies Record<string, ComponentType<SvgProps>>;
 
 export type Icons = keyof typeof iconMap;

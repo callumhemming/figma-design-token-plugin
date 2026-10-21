@@ -1,5 +1,12 @@
 .root {
   display: flex;
-  padding: var(--s-spacing-6) var(--s-spacing-1);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-spacing-5) var(--s-spacing-2);
   border: var(--s-border-width-default) var(--s-color-border) solid;
+}
+
+.textContainer {
+  display: flex;
+  align-items: center;
 }
