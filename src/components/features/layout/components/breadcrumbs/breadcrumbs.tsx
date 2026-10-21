@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { Button } from "../../../../ui/button";
 import { Typography } from "../../../../ui/typography";
 import styles from "./breadcrumbs.module.scss";
 
@@ -9,13 +10,18 @@ type BreadcrumbsProps = {
 export const Breadcrumbs = ({ className }: BreadcrumbsProps) => {
   return (
     <div className={clsx(className, styles.root)}>
-      <Typography variant="heading6" gutter="none">
-        Semantic/
-      </Typography>
+      <span className={styles.textContainer}>
+        <Typography variant="heading6" gutter="none">
+          Semantic/
+        </Typography>
 
-      <Typography bold variant="heading6" gutter="none">
-        {`typography`}
-      </Typography>
+        <Typography bold variant="heading6" gutter="none">
+          {`typography`}
+        </Typography>
+      </span>
+      <Button size={1} icon="plus">
+        New style
+      </Button>
     </div>
   );
 };
